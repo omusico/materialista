@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('admin/nuevo-anuncio', function() {
+    return view('nuevo_anuncio');
+});
+
+Route::get('admin/nuevo-anuncio/check-address', 'AdminController@checkAddress');
