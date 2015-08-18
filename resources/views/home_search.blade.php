@@ -15,10 +15,9 @@
             font-family: 'Dancing Script', cursive;
             font-size: 50px;
         }
-        h4 {
-            font-family: 'Dancing Script', cursive;
-            font-size:30px;
-        }
+    </style>
+    @endif
+    <style>
         .list-group {
             border: 1px solid #a5a5a5;
             height: 259px;
@@ -44,7 +43,6 @@
             height: 33px;
         }
     </style>
-    @endif
 
 @endsection
 
