@@ -63,12 +63,19 @@ class AdsTableSeeder extends Seeder
             $area_land = mt_rand(100,800);
             $area_constructed = (int) 0.6 * $area_land;
             $area_usable = (int) 0.8 * $area_constructed;
+            $is_new_development = mt_rand(0,1);
+            $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
             $newAd = App\Ad::create();
             $newRentHouse = \App\RentHouse::create([
                 'ad_id'                     => $newAd->id,
                 'price'                     => $price,
                 'deposit'                   => $deposit,
+                'is_bank_agency'            => mt_rand(0,1),
+                'is_state_subsidized'       => mt_rand(0,1),
+                'is_new_development'        => $is_new_development,
+                'is_new_development_finished' => $is_new_development_finished,
+                'is_rent_to_own'            => mt_rand(0,1),
                 'lat'                       => isset($location['lat']) ? $location['lat'] : '',
                 'lng'                       => isset($location['lng']) ? $location['lng'] : '',
                 'formatted_address'         => isset($location['formatted_address']) ? $location['formatted_address'] : '',
@@ -120,12 +127,19 @@ class AdsTableSeeder extends Seeder
             $area_land = mt_rand(100,800);
             $area_constructed = (int) 0.6 * $area_land;
             $area_usable = (int) 0.8 * $area_constructed;
+            $is_new_development = mt_rand(0,1);
+            $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
             $newAd = App\Ad::create();
             $newSellHouse = \App\SellHouse::create([
                 'ad_id'                     => $newAd->id,
                 'price'                     => $price,
                 'community_cost'            => $community_cost,
+                'is_bank_agency'            => mt_rand(0,1),
+                'is_state_subsidized'       => mt_rand(0,1),
+                'is_new_development'        => $is_new_development,
+                'is_new_development_finished' => $is_new_development_finished,
+                'is_rent_to_own'            => mt_rand(0,1),
                 'lat'                       => isset($location['lat']) ? $location['lat'] : '',
                 'lng'                       => isset($location['lng']) ? $location['lng'] : '',
                 'formatted_address'         => isset($location['formatted_address']) ? $location['formatted_address'] : '',
@@ -175,12 +189,19 @@ class AdsTableSeeder extends Seeder
             $area_land = mt_rand(300,2400);
             $area_constructed = (int) 0.6 * $area_land;
             $area_usable = (int) 0.8 * $area_constructed;
+            $is_new_development = mt_rand(0,1);
+            $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
             $newAd = App\Ad::create();
             $newSellCountryHouse = \App\SellCountryHouse::create([
                 'ad_id'                     => $newAd->id,
                 'price'                     => $price,
                 'community_cost'            => $community_cost,
+                'is_bank_agency'            => mt_rand(0,1),
+                'is_state_subsidized'       => mt_rand(0,1),
+                'is_new_development'        => $is_new_development,
+                'is_new_development_finished' => $is_new_development_finished,
+                'is_rent_to_own'            => mt_rand(0,1),
                 'lat'                       => isset($location['lat']) ? $location['lat'] : '',
                 'lng'                       => isset($location['lng']) ? $location['lng'] : '',
                 'formatted_address'         => isset($location['formatted_address']) ? $location['formatted_address'] : '',
@@ -230,12 +251,19 @@ class AdsTableSeeder extends Seeder
             $area_land = mt_rand(300,2400);
             $area_constructed = (int) 0.6 * $area_land;
             $area_usable = (int) 0.8 * $area_constructed;
+            $is_new_development = mt_rand(0,1);
+            $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
             $newAd = App\Ad::create();
             $newRentCountryHouse = \App\RentCountryHouse::create([
                 'ad_id'                     => $newAd->id,
                 'price'                     => $price,
                 'deposit'                   => $deposit,
+                'is_bank_agency'            => mt_rand(0,1),
+                'is_state_subsidized'       => mt_rand(0,1),
+                'is_new_development'        => $is_new_development,
+                'is_new_development_finished' => $is_new_development_finished,
+                'is_rent_to_own'            => mt_rand(0,1),
                 'lat'                       => isset($location['lat']) ? $location['lat'] : '',
                 'lng'                       => isset($location['lng']) ? $location['lng'] : '',
                 'formatted_address'         => isset($location['formatted_address']) ? $location['formatted_address'] : '',
@@ -728,12 +756,19 @@ class AdsTableSeeder extends Seeder
             $area_usable = (int) 0.8 * $area_constructed;
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
+            $is_new_development = mt_rand(0,1);
+            $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
             $newAd = App\Ad::create();
             $newRentApartment = \App\RentApartment::create([
                 'ad_id'                     => $newAd->id,
                 'price'                     => $price,
                 'deposit'                   => $deposit,
+                'is_bank_agency'            => mt_rand(0,1),
+                'is_state_subsidized'       => mt_rand(0,1),
+                'is_new_development'        => $is_new_development,
+                'is_new_development_finished' => $is_new_development_finished,
+                'is_rent_to_own'            => mt_rand(0,1),
                 'lat'                       => isset($location['lat']) ? $location['lat'] : '',
                 'lng'                       => isset($location['lng']) ? $location['lng'] : '',
                 'formatted_address'         => isset($location['formatted_address']) ? $location['formatted_address'] : '',
@@ -794,12 +829,19 @@ class AdsTableSeeder extends Seeder
             $area_usable = (int) 0.8 * $area_constructed;
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
+            $is_new_development = mt_rand(0,1);
+            $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
             $newAd = App\Ad::create();
             $newSellApartment = \App\SellApartment::create([
                 'ad_id'                     => $newAd->id,
                 'price'                     => $price,
                 'community_cost'            => $community_cost,
+                'is_bank_agency'            => mt_rand(0,1),
+                'is_state_subsidized'       => mt_rand(0,1),
+                'is_new_development'        => $is_new_development,
+                'is_new_development_finished' => $is_new_development_finished,
+                'is_rent_to_own'            => mt_rand(0,1),
                 'lat'                       => isset($location['lat']) ? $location['lat'] : '',
                 'lng'                       => isset($location['lng']) ? $location['lng'] : '',
                 'formatted_address'         => isset($location['formatted_address']) ? $location['formatted_address'] : '',
@@ -1056,5 +1098,15 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Room (id: '.$newRentRoom->id.')');
         }
 
+        foreach(\App\Ad::all() as $ad) {
+            $n_pics = mt_rand(0,12);
+            for($i=0;$i<$n_pics;++$i) {
+                \App\AdPic::create([
+                    'ad_id'     => $ad->id,
+                    'filename'  => 'http://lorempixel.com/640/480/city/',
+                ]);
+                $this->command->info('Seeded Picture for Ad (id: '.$ad->id.')');
+            }
+        }
     }
 }

@@ -6,13 +6,22 @@ class HomeLib
 {
     public static function getAdminLvl2List($operation, $typology)
     {
-        //todo: validation
         switch ($operation) {
             case 0: //buy
                 switch ($typology) {
                     case 0: //new development
-                        //todo: new development cross-table select
-                        return [];
+                        $list =  \DB::select(\DB::raw("
+                            SELECT admin_area_lvl2 FROM (
+                              SELECT admin_area_lvl2 FROM sell_house AS t1 WHERE t1.is_new_development = 1
+                              UNION
+                              SELECT admin_area_lvl2 FROM sell_country_house AS t2 WHERE t2.is_new_development = 1
+                              UNION
+                              SELECT admin_area_lvl2 FROM sell_apartment AS t3 WHERE t3.is_new_development = 1
+                            ) AS t4
+                            GROUP BY t4.admin_area_lvl2
+                            ORDER BY t4.admin_area_lvl2 ASC;
+                        "));
+                        return $list;
                         break;
                     case 1: //house or apartment
                         $list = \DB::table('sell_house')->select('admin_area_lvl2')
@@ -54,8 +63,18 @@ class HomeLib
             case 1: //rent
                 switch ($typology) {
                     case 0: //new development
-                        //todo: new development cross-table select
-                        return [];
+                        $list =  \DB::select(\DB::raw("
+                            SELECT admin_area_lvl2 FROM (
+                              SELECT admin_area_lvl2 FROM rent_house AS t1 WHERE t1.is_new_development = 1
+                              UNION
+                              SELECT admin_area_lvl2 FROM rent_country_house AS t2 WHERE t2.is_new_development = 1
+                              UNION
+                              SELECT admin_area_lvl2 FROM rent_apartment AS t3 WHERE t3.is_new_development = 1
+                            ) AS t4
+                            GROUP BY t4.admin_area_lvl2
+                            ORDER BY t4.admin_area_lvl2 ASC;
+                        "));
+                        return $list;
                         break;
                     case 1: //house or apartment
                         $list = \DB::table('rent_house')->select('admin_area_lvl2')
@@ -120,13 +139,22 @@ class HomeLib
 
     public static function getLocalityList($operation, $typology, $adminLvl2)
     {
-        //todo: validation
         switch ($operation) {
             case 0: //buy
                 switch ($typology) {
                     case 0: //new development
-                        //todo: new dev cross-table search
-                        return [];
+                        $list =  \DB::select(\DB::raw("
+                            SELECT locality, COUNT(*) as total FROM (
+                              SELECT locality FROM sell_house AS t1 WHERE t1.is_new_development = 1 AND t1.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM sell_country_house AS t2 WHERE t2.is_new_development = 1 AND t2.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM sell_apartment AS t3 WHERE t3.is_new_development = 1 AND t3.admin_area_lvl2 = ?
+                            ) AS t4
+                            GROUP BY t4.locality
+                            ORDER BY t4.locality ASC;
+                        "),[$adminLvl2,$adminLvl2,$adminLvl2]);
+                        return $list;
                         break;
                     case 1: //house or apartment
                         $list = \DB::table('sell_house')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -173,8 +201,18 @@ class HomeLib
             case 1: //rent
                 switch ($typology) {
                     case 0: //new development
-                        //todo: new dev cross-table search
-                        return [];
+                        $list =  \DB::select(\DB::raw("
+                            SELECT locality, COUNT(*) as total FROM (
+                              SELECT locality FROM rent_house AS t1 WHERE t1.is_new_development = 1 AND t1.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM rent_country_house AS t2 WHERE t2.is_new_development = 1 AND t2.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM rent_apartment AS t3 WHERE t3.is_new_development = 1 AND t3.admin_area_lvl2 = ?
+                            ) AS t4
+                            GROUP BY t4.locality
+                            ORDER BY t4.locality ASC;
+                        "),[$adminLvl2,$adminLvl2,$adminLvl2]);
+                        return $list;
                         break;
                     case 1: //house or apartment
                         $list = \DB::table('rent_house')->select('locality',\DB::raw('COUNT(*) as total'))

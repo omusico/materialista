@@ -25,6 +25,13 @@ class TableSellApartment extends Migration
             $table->integer('price',false,true);
             $table->integer('community_cost',false,true)->nullable();
 
+            //property info
+            $table->boolean('is_bank_agency',false,true);
+            $table->boolean('is_state_subsidized',false,true);
+            $table->boolean('is_new_development',false,true);
+            $table->boolean('is_new_development_finished',false,true);
+            $table->boolean('is_rent_to_own',false,true);
+
             //address
             $table->decimal('lat',9,7);
             $table->decimal('lng',9,7);
@@ -33,7 +40,7 @@ class TableSellApartment extends Migration
             $table->string('route');
             $table->string('locality');
             $table->string('admin_area_lvl2'); //Provincia
-            $table->string('admin_area_lvl1'); //Comunidad autónoma
+            $table->string('admin_area_lvl1'); //Comunidad autï¿½noma
             $table->string('country');
             $table->string('postal_code');
 

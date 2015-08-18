@@ -85,7 +85,7 @@
             </div>
             <div class="col-xs-3">
                 <ul class="list-group" id="list-typology">
-                    <a href="javascript:" data-value="0" class="list-group-item hidden">Obra nueva</a>
+                    <a href="javascript:" data-value="0" class="list-group-item">Obra nueva</a>
                     <a href="javascript:" data-value="1" class="list-group-item active">Viviendas</a>
                     <a href="javascript:" data-value="2" class="list-group-item disabled">Vacacional</a>
                     <a href="javascript:" data-value="3" class="list-group-item disabled">Habitación</a>
@@ -121,21 +121,22 @@
     <script>
         var updateInProgress = false;
         $('.list-group').on('click','a',function(){
-            if(updateInProgress)
-                return false;
-            if($(this).hasClass('disabled'))
+            if(updateInProgress || $(this).hasClass('disabled'))
                 return false;
             $(this).parent().find('a.active').removeClass('active');
             $(this).addClass('active');
-            if($(this).parent().attr('id') == 'list-operation') {
+            var listId = $(this).parent().attr('id');
+            if(listId == 'list-locality') {
+                return false;
+            } else if (listId == 'list-operation') {
                 var listTypology = $('#list-typology');
                 switch ($(this).attr('data-value')) {
                     case '0':
-                        listTypology.children().each(function(){
+                        listTypology.children().each(function () {
                             if ($(this).attr('data-value') != '2' && $(this).attr('data-value') != '3') {
                                 $(this).removeClass('disabled');
                             } else {
-                                if($(this).hasClass('active')) {
+                                if ($(this).hasClass('active')) {
                                     $(this).removeClass('active');
                                     $(this).siblings('a[data-value=1]').addClass('active');
                                 }
@@ -147,7 +148,7 @@
                         listTypology.children().removeClass('disabled');
                         break;
                     case '2':
-                        listTypology.children().each(function(){
+                        listTypology.children().each(function () {
                             if ($(this).attr('data-value') != '1') {
                                 $(this).removeClass('active').addClass('disabled');
                             } else {
@@ -156,10 +157,8 @@
                         });
                         break;
                 }
-            } else if($(this).parent().attr('id') == 'list-locality') {
-                return false;
             }
-            updateInProgress = true;
+            updateInProgress = true; //important to keep this AFTER the last else if !!!
             var operation = 0;
             var typology = 1;
             var adminLvl2 = '';
@@ -180,8 +179,7 @@
                         break;
                 }
             });
-            //console.log('Op: '+operation+' Ty: '+typology+' Ad: '+adminLvl2+' Lo: '+locality);
-            if($(this).parent().attr('id') == 'list-admin_lvl_2') {
+            if(listId == 'list-admin_lvl_2') {
                 $('#list-locality').empty();
                 $.post('updateLocalities', {
                     _token: $('input[name=_token]').val(),
@@ -195,16 +193,16 @@
                         else
                             $('#list-locality').append("<a href='javascript:' data-value='"+val.locality+"' class='list-group-item active'><span class='badge'>"+val.total+"</span>"+val.locality+"</a>");
                     });
+                }, 'json').always(function(){
                     updateInProgress = false;
-                }, 'json');
+                });
             } else {
                 $('#list-admin_lvl_2').empty();
                 $('#list-locality').empty();
                 $.post('updateAdminsAndLocalities', {
                     _token: $('input[name=_token]').val(),
                     operation: operation,
-                    typology: typology,
-                    adminLvl2: adminLvl2
+                    typology: typology
                 }, function(response) {
                     $.each(response.admins, function(i,val){
                         if(i!=0)
@@ -218,8 +216,9 @@
                         else
                             $('#list-locality').append("<a href='javascript:' data-value='"+val.locality+"' class='list-group-item active'><span class='badge'>"+val.total+"</span>"+val.locality+"</a>");
                     });
+                }, 'json').always(function(){
                     updateInProgress = false;
-                }, 'json');
+                });
             }
         });
     </script>

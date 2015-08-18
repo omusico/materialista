@@ -22,7 +22,8 @@ class HomeController extends Controller {
         $input = \Input::all();
         $response = [];
         $response['admins'] = HomeLib::getAdminLvl2List($input['operation'],$input['typology']);
-        $response['localities'] = HomeLib::getLocalityList($input['operation'],$input['typology'],$input['adminLvl2']);
+        $adminLvl = (isset($response['admins'][0]->admin_area_lvl2)) ? $response['admins'][0]->admin_area_lvl2 : '';
+        $response['localities'] = HomeLib::getLocalityList($input['operation'],$input['typology'],$adminLvl);
 
         return \Response::json($response,200);
     }

@@ -35,7 +35,7 @@
                 <a href="javascript:" class="btn btn-primary disabled">Ad profile</a>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="padding-bottom: 100px;">
             <div class="col-xs-offset-3 col-xs-6">
                 <h4>Base de datos, tablas:</h4>
                 <a href="{{ route('view.table','rent_room') }}" class="btn btn-default">Rent rooms</a>
