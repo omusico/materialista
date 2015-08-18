@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.bootstrap-touchspin.min.css') }}">
 @endsection
 
@@ -17,18 +16,11 @@
                 <div class="portlet box blue" id="form_wizard_1">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-gift"></i> Nuevo anuncio - <span class="step-title">
+                            <i class="fa fa-file-o"></i> Nuevo anuncio - <span class="step-title">
 								Paso 1 of 3 </span>
                         </div>
                         <div class="tools hidden-xs">
-                            <a href="javascript:" class="collapse">
-                            </a>
-                            {{--<a href="#portlet-config" data-toggle="modal" class="config">--}}
-                            {{--</a>--}}
-                            {{--<a href="javascript:" class="reload">--}}
-                            {{--</a>--}}
-                            {{--<a href="javascript:" class="remove">--}}
-                            {{--</a>--}}
+                            <a href="javascript:" class="collapse"></a>
                         </div>
                     </div>
                     <div class="portlet-body form">
@@ -526,19 +518,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="ubication" value="in_mall" data-title="En centro comercial"/>
+                                                            <input type="radio" name="location" value="in_mall" data-title="En centro comercial"/>
                                                             En centro comercial </label>
                                                         <label>
-                                                            <input type="radio" name="ubication" value="on_street" data-title="A pie de calle"/>
+                                                            <input type="radio" name="location" value="on_street" data-title="A pie de calle"/>
                                                             A pie de calle </label>
                                                         <label>
-                                                            <input type="radio" name="ubication" value="mezzanine" data-title="Entreplanta"/>
+                                                            <input type="radio" name="location" value="mezzanine" data-title="Entreplanta"/>
                                                             Entreplanta </label>
                                                          <label>
-                                                            <input type="radio" name="ubication" value="underground" data-title="Subterr&aacute;neo"/>
+                                                            <input type="radio" name="location" value="underground" data-title="Subterr&aacute;neo"/>
                                                              Subterr&aacute;neo </label>
                                                         <label>
-                                                            <input type="radio" name="ubication" value="other" data-title="Otros"/>
+                                                            <input type="radio" name="location" value="other" data-title="Otros"/>
                                                             Otros </label>
                                                     </div>
                                                 </div>

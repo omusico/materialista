@@ -7,6 +7,10 @@ class AdminController extends Controller {
         $this->middleware('guest');
     }
 
+    public function showNewAdForm() {
+        return view('new_ad_form');
+    }
+
     public function checkAddress()
     {
         $input = \Input::all();

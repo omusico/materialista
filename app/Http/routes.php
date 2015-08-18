@@ -11,12 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@showTesterIndex');
 
-Route::get('admin/nuevo-anuncio', function() {
-    return view('nuevo_anuncio');
-});
+//Home & Main search
+Route::get('/home', ['as'=>'home','uses'=>'HomeController@index']);
+Route::post('updateAdminsAndLocalities', ['as'=>'update.list.1','uses'=>'HomeController@postAdminsAndLocalities']);
+Route::post('updateLocalities', ['as'=>'update.list.2','uses'=>'HomeController@postLocalities']);
 
-Route::get('admin/nuevo-anuncio/check-address', 'AdminController@checkAddress');
+//New ad form
+Route::get('form_new', ['as'=>'form.new.ad','uses'=>'AdminController@showNewAdForm']);
+Route::get('check_address', 'AdminController@checkAddress');
+
+//Development: view tables
+Route::get('table/{table_name}', ['as'=>'view.table','uses'=>'DeveloperController@showTable']);
