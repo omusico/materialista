@@ -123,7 +123,6 @@
         $('.list-group').on('click','a',function(){
             if(updateInProgress)
                 return false;
-            updateInProgress = true;
             if($(this).hasClass('disabled'))
                 return false;
             $(this).parent().find('a.active').removeClass('active');
@@ -160,6 +159,7 @@
             } else if($(this).parent().attr('id') == 'list-locality') {
                 return false;
             }
+            updateInProgress = true;
             var operation = 0;
             var typology = 1;
             var adminLvl2 = '';
