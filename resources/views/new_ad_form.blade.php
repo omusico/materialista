@@ -735,7 +735,7 @@
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="n_bedrooms" />
                                                     </div>
-                                                    <div id="form_n_habitaciones_error">
+                                                    <div id="form_n_bedrooms_error">
                                                     </div>
                                                     <span class="help-block"></span>
                                                 </div>
@@ -750,7 +750,7 @@
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="n_bathrooms" />
                                                     </div>
-                                                    <div id="form_n_banos_error">
+                                                    <div id="form_n_bathrooms_error">
                                                     </div>
                                                     <span class="help-block"></span>
                                                 </div>
@@ -824,40 +824,41 @@
                                             </div>
                                             @endif
 
-
+                                            @if($typology=='8')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Los inquilinos actuales son
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="gender" value="mixed" data-title="Chico(s) y chica(s)"/>
+                                                            <input type="radio" name="currrent_tenants_gender_id" value="1" data-title="Chico(s) y chica(s)"/>
                                                             Chico(s) y chica(s) </label>
                                                         <label>
-                                                            <input type="radio" name="gender" value="boys" data-title="S&oacute;lo chico(s)"/>
+                                                            <input type="radio" name="currrent_tenants_gender_id" value="2" data-title="S&oacute;lo chico(s)"/>
                                                             S&oacute;lo chico(s) </label>
                                                         <label>
-                                                            <input type="radio" name="gender" value="girls" data-title="S&oacute;lo chica(s)"/>
+                                                            <input type="radio" name="currrent_tenants_gender_id" value="3" data-title="S&oacute;lo chica(s)"/>
                                                             S&oacute;lo chica(s) </label>
                                                     </div>
-                                                    <div id="form_tipo__error">
-                                                    </div>
+                                                    <div id="form_currrent_tenants_gender_id_error"></div>
                                                 </div>
                                             </div>
+                                            @endif
 
+                                            @if($typology=='7'||$typology=='8')
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">&iquest;Se puede fumar?
+                                                <label class="control-label col-md-3">&iquest;Se permite fumar?
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="smoking_allowed" value="yes" data-title="S&iacute;"/>
+                                                            <input type="radio" name="is_smoking_allowed" value="1" data-title="S&iacute;"/>
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="smoking_allowed" value="no" data-title="No"/>
+                                                            <input type="radio" name="is_smoking_allowed" value="0" data-title="No"/>
                                                             No </label>
                                                     </div>
-                                                    <div id="form_smoking_allowed__error">
+                                                    <div id="form_is_smoking_allowed_error">
                                                     </div>
                                                 </div>
                                             </div>
@@ -868,23 +869,24 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="pets_allowed" value="yes" data-title="S&iacute;"/>
+                                                            <input type="radio" name="is_pet_allowed" value="1" data-title="S&iacute;"/>
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="pets_allowed" value="no" data-title="No"/>
+                                                            <input type="radio" name="is_pet_allowed" value="0" data-title="No"/>
                                                             No </label>
                                                     </div>
-                                                    <div id="form_pets_allowed__error">
-                                                    </div>
+                                                    <div id="form_is_pet_allowed_error"></div>
                                                 </div>
                                             </div>
+                                            @endif
 
+                                            @if($typology=='8')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Edad del inquilino m&aacute;s joven
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="age_youngest"/>
+                                                        <input type="text" class="form-control" name="min_current_tenants_age"/>
                                                         <span class="input-group-addon">a&ntilde;os</span>
                                                         <span class="help-block"></span>
                                                     </div>
@@ -896,64 +898,109 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="age_oldest"/>
+                                                        <input type="text" class="form-control" name="max_current_tenants_age"/>
                                                         <span class="input-group-addon">a&ntilde;os</span>
                                                         <span class="help-block"></span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
+                                            @if($operation=='1'&&($typology=='0'||$typology=='1'||$typology=='2'))
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Equipamiento
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="has_equipped_kitchen" value="1" data-title="Cocina completamente equipada"/> Cocina completamente equipada</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_furniture" value="1" data-title="Vivienda amueblada"/> Vivienda amueblada</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='7'||$typology=='8')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Ascensor
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="elevator" value="yes" data-title="S&iacute;"/>
+                                                            <input type="radio" name="has_elevator" value="1" data-title="S&iacute;"/>
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="elevator" value="no" data-title="No"/>
+                                                            <input type="radio" name="has_elevator" value="0" data-title="No"/>
                                                             No </label>
                                                     </div>
-                                                    <div id="form_pets_allowed__error">
-                                                    </div>
+                                                    <div id="form_has_elevator_error"></div>
                                                 </div>
                                             </div>
+                                            @endif
 
+                                            @if($typology=='3')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">N&uacute;mero de ascensores
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="n_elevators" />
+                                                    </div>
+                                                    <div id="form_n_elevators_error">
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            @endif
 
+                                            @if($typology=='0'||$typology=='1'||$typology=='2'||$typology=='3'||$typology=='4')
                                             <div class="form-group" id="puerta">
                                                 <label class="control-label col-md-3">Certificaci&oacute;n energ&eacute;tica
                                                 </label>
                                                 <div class="col-md-4">
-                                                    <select name="puerta" class="form-control">
+                                                    <select name="energy_certification_id" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="no_disponible">A&uacute;n no dispone</option>
-                                                        <option value="A">A</option>
-                                                        <option value="B">B</option>
-                                                        <option value="C">C</option>
-                                                        <option value="D">D</option>
-                                                        <option value="E">E</option>
-                                                        <option value="F">F</option>
-                                                        <option value="G">G</option>
-                                                        <option value="exento">Inmueble exento</option>
-                                                        <option value="en_tramite">En tr&aacute;mite</option>
+                                                        <option value="1">A&uacute;n no dispone</option>
+                                                        <option value="2">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="4">C</option>
+                                                        <option value="5">D</option>
+                                                        <option value="6">E</option>
+                                                        <option value="7">F</option>
+                                                        <option value="8">G</option>
+                                                        <option value="9">Inmueble exento</option>
+                                                        <option value="10">En tr&aacute;mite</option>
                                                     </select>
                                                 </div>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Prestación energética
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="energy_performance" />
+                                                        <span class="input-group-addon">kWh/m&sup2;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='1'||$typology=='2')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Orientación
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="north" value="yes" data-title="Norte"/> Norte</label>
+                                                            <input type="checkbox" name="faces_north" value="1" data-title="Norte"/> Norte</label>
                                                         <label>
-                                                            <input type="checkbox" name="south" value="yes" data-title="Sur"/> Sur</label>
+                                                            <input type="checkbox" name="face_south" value="1" data-title="Sur"/> Sur</label>
                                                         <label>
-                                                            <input type="checkbox" name="east" value="yes" data-title="Este"/> Este</label>
+                                                            <input type="checkbox" name="face_east" value="1" data-title="Este"/> Este</label>
                                                         <label>
-                                                            <input type="checkbox" name="west" value="yes" data-title="Oeste"/> Oeste</label>
+                                                            <input type="checkbox" name="face_west" value="1" data-title="Oeste"/> Oeste</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -964,36 +1011,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_cupboard" value="yes" data-title="Armarios empotrados"/> Armarios empotrados</label>
+                                                            <input type="checkbox" name="has_builtin_closets" value="1" data-title="Armarios empotrados"/> Armarios empotrados</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="yes" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_terrace" value="yes" data-title="Terraza"/> Terraza</label>
+                                                            <input type="checkbox" name="has_terrace" value="1" data-title="Terraza"/> Terraza</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_boxroom" value="yes" data-title="Trastero"/> Trastero</label>
+                                                            <input type="checkbox" name="has_box_room" value="1" data-title="Trastero"/> Trastero</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_parking_space" value="yes" data-title="Plaza de garaje"/> Plaza de garaje</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Otras caracter&iacute;sticas de la casa r&uacute;stica o regional
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="checkbox-list">
+                                                            <input type="checkbox" name="has_parking_space" value="1" data-title="Plaza de garaje @if($operation=='0') incluida en el precio @endif "/> Plaza de garaje
+                                                            @if($operation=='0') incluida en el precio @endif
+                                                        </label>
                                                         <label>
-                                                            <input type="checkbox" name="has_cupboard" value="yes" data-title="Armarios empotrados"/> Armarios empotrados</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="yes" data-title="Aire acondicionado"/> Aire acondicionado</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_chimney" value="yes" data-title="Chimenea"/> Chimenea</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_terrace" value="yes" data-title="Terraza"/> Terraza</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_boxroom" value="yes" data-title="Trastero"/> Trastero</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_parking_space" value="yes" data-title="Plaza de garaje"/> Plaza de garaje incluida en el precio</label>
+                                                            <input type="checkbox" name="has_fireplace" value="1" data-title="Chimenea"/> Chimenea</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1004,117 +1034,25 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_swimming_pool" value="yes" data-title="Piscina"/> Piscina</label>
+                                                            <input type="checkbox" name="has_swimming_pool" value="1" data-title="Piscina"/> Piscina</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_garden" value="yes" data-title="Zona verde"/> Zona verde</label>
+                                                            <input type="checkbox" name="has_garden" value="1" data-title="Zona verde"/> Zona verde</label>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
 
+                                            @if($typology=='3')
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Caracter&iacute;sticas de la habitaci&oacute;n
+                                                <label class="control-label col-md-3">Plazas de aparcamiento incluidas en el precio
                                                 </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="checkbox-list">
-                                                        <label>
-                                                            <input type="checkbox" name="is_furnished" value="yes" data-title="Amueblada"/> Amueblada</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_cupboard" value="yes" data-title="Armario empotrado"/> Armario empotrado</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="n_parking_spaces" />
                                                     </div>
-                                                    <div id="form_ocultar_direccion_error">
+                                                    <div id="form_n_parking_error">
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Caracter&iacute;sticas del inmueble
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="checkbox-list">
-                                                        <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="yes" data-title="Aire acondicionado"/> Aire acondicionado</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_internet" value="yes" data-title="Conexi&oacute;n a internet"/> Conexi&oacute;n a internet</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_housekeeper" value="yes" data-title="Asistente/a del hogar"/> Asistente/a del hogar</label>
-                                                    </div>
-                                                    <div id="form_ocultar_direccion_error">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Sobre el inquilino que se busca
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:8px;">
-                                                    <div class="radio-list">
-                                                        <label>Chico/chica</label>
-                                                        <label>
-                                                            <input type="radio" name="new_gender" value="np" data-title="Da igual"/>
-                                                            Da igual </label>
-                                                        <label>
-                                                            <input type="radio" name="new_gender" value="boy" data-title="Chico"/>
-                                                            Chico </label>
-                                                        <label>
-                                                            <input type="radio" name="new_gender" value="girl" data-title="Chica"/>
-                                                            Chica </label>
-                                                    </div>
-                                                    <div class="radio-list">
-                                                        <label style="padding-top:5px;">Ocupaci&oacute;n</label>
-                                                        <label>
-                                                            <input type="radio" name="occupation" value="np" data-title="Da igual"/>
-                                                            S&iacute; </label>
-                                                        <label>
-                                                            <input type="radio" name="occupation" value="no" data-title="Estudiante"/>
-                                                            Estudiante </label>
-                                                        <label>
-                                                            <input type="radio" name="occupation" value="no" data-title="Con trabajo"/>
-                                                            Con trabajo </label>
-                                                    </div>
-                                                    <div class="radio-list">
-                                                        <label style="padding-top:5px;">Orientaci&oacute;n</label>
-                                                        <label>
-                                                            <input type="radio" name="occupation" value="np" data-title="Da igual"/>
-                                                            Da igual </label>
-                                                        <label>
-                                                            <input type="radio" name="occupation" value="gay" data-title="Gay friendly"/>
-                                                            Gay friendly </label>
-                                                    </div>
-                                                    <div class="radio-list">
-                                                        <label style="padding-top:5px;">Estancia m&iacute;nima</label>
-                                                        <label>
-                                                            <input type="radio" name="minimal_stay" value="1" data-title="1 mes"/>
-                                                            1 mes </label>
-                                                        @for($i = 2; $i < 6; ++$i)
-                                                        <label>
-                                                            <input type="radio" name="minimal_stay" value="{{ $i }}" data-title="{{ $i }} meses"/>
-                                                            {{ $i }} meses </label>
-                                                        @endfor
-                                                        <label>
-                                                            <input type="radio" name="minimal_stay" value="6" data-title="6 meses o m&aacute;s"/>
-                                                            6 meses o m&aacute;s </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group" id="int_ext">
-                                                <label class="control-label col-md-3">Aire acondicionado
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="radio-list">
-                                                        <label>
-                                                            <input type="radio" name="air_conditioning" value="not_available" data-title="No disponible"/>
-                                                            No disponible </label>
-                                                        <label>
-                                                            <input type="radio" name="air_conditioning" value="cold" data-title="Fr&iacute;o"/>
-                                                            Fr&iacute;o </label>
-                                                        <label>
-                                                            <input type="radio" name="air_conditioning" value="cold_heat" data-title="Fr&iacute;o/calor"/>
-                                                            Fr&iacute;o/calor </label>
-                                                        <label>
-                                                            <input type="radio" name="air_conditioning" value="preinstallation" data-title="Preinstalaci&oacute;n"/>
-                                                            Preinstalaci&oacute;n </label>
-                                                    </div>
+                                                    <span class="help-block"></span>
                                                 </div>
                                             </div>
 
@@ -1124,50 +1062,42 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_steel_door" value="yes" data-title="Puerta de seguridad"/> Puerta de seguridad</label>
+                                                            <input type="checkbox" name="has_steel_door" value="1" data-title="Puerta de seguridad"/> Puerta de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_security_system" value="yes" data-title="Sistema de alarma/circuito cerrado de seguridad"/> Sistema de alarma/circuito cerrado de seguridad</label>
+                                                            <input type="checkbox" name="has_security_system" value="1" data-title="Sistema de alarma/circuito cerrado de seguridad"/> Sistema de alarma/circuito cerrado de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_access_control" value="yes" data-title="Control de accesos"/> Control de accesos</label>
+                                                            <input type="checkbox" name="has_access_control" value="1" data-title="Control de accesos"/> Control de accesos</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fire_detectors" value="yes" data-title="Detectores de icendios"/> Detectores de icendios</label>
+                                                            <input type="checkbox" name="has_fire_detectors" value="1" data-title="Detectores de icendios"/> Detectores de icendios</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_extinguishers" value="yes" data-title="Extintores"/> Extintores</label>
+                                                            <input type="checkbox" name="has_fire_extinguishers" value="1" data-title="Extintores"/> Extintores</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_sprinklers" value="yes" data-title="Aspersores"/> Aspersores</label>
+                                                            <input type="checkbox" name="has_fire_sprinklers" value="1" data-title="Aspersores"/> Aspersores</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fire_resistant_door" value="yes" data-title="Puerta cortafuegos"/> Puerta cortafuegos</label>
+                                                            <input type="checkbox" name="has_fireproof_doors" value="1" data-title="Puerta cortafuegos"/> Puerta cortafuegos</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_emergency_lights" value="yes" data-title="Luces de salida de emergencia"/> Luces de salida de emergencia</label>
+                                                            <input type="checkbox" name="has_emergency_lights" value="1" data-title="Luces de salida de emergencia"/> Luces de salida de emergencia</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_doorman" value="yes" data-title="Conserje/portero/seguridad"/> Conserje/portero/seguridad</label>
+                                                            <input type="checkbox" name="has_doorman" value="1" data-title="Conserje/portero/seguridad"/> Conserje/portero/seguridad</label>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Caracter&iacute;sticas del local
+                                                <label class="control-label col-md-3">Climatización y agua caliente
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="checkbox-list">
-                                                        <label>
-                                                            <input type="checkbox" name="has_archive" value="yes" data-title="Almac&eacute;n"/> Almac&eacute;n</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_smoke_extractor" value="yes" data-title="Salida de humos"/> Salida de humos</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_kitchen" value="yes" data-title="Cocina completamente equipada"/> Cocina completamente equipada</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_steel_door" value="yes" data-title="Puerta de seguridad"/> Puerta de seguridad</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_alarm" value="yes" data-title="Sistema de alarma"/> Sistema de alarma</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="yes" data-title="Aire acondicionado"/> Aire acondicionado</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_heating" value="yes" data-title="Calefacci&oacute;n"/> Calefacci&oacute;n</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_security_camera" value="yes" data-title="Circuito cerrado de seguridad"/> Circuito cerrado de seguridad</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_corner_located" value="yes" data-title="Hace esquina"/> Hace esquina</label>
+                                                    <div class="col-md-4" style="padding-top:5px;">
+                                                        <div class="checkbox-list">
+                                                            <label>
+                                                                <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <label>
+                                                                <input type="checkbox" name="has_air_conditioning_pre-installation" value="1" data-title="Preinstalación de aire acondicionado"/> Preinstalación de aire acondicionado</label>
+                                                            <label>
+                                                                <input type="checkbox" name="has_heating" value="1" data-title="Calefacción"/> Calefacción</label>
+                                                            <label>
+                                                                <input type="checkbox" name="has_hot_water" value="1" data-title="Agua caliente"/> Agua caliente</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1178,19 +1108,15 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_hot_water" value="yes" data-title="Agua caliente"/> Agua caliente</label>
+                                                            <input type="checkbox" name="has_kitchen" value="1" data-title="Cocina/office"/> Cocina/office</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_heating" value="yes" data-title="Calefacci&oacute;n"/> Calefacci&oacute;n</label>
+                                                            <input type="checkbox" name="has_archive" value="1" data-title="Almac&eacute;n"/> Almac&eacute;n</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_kitchen" value="yes" data-title="Cocina/office"/> Cocina/office</label>
+                                                            <input type="checkbox" name="has_double_windows" value="1" data-title="Doble acristalamiento"/> Doble acristalamiento</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_archive" value="yes" data-title="Almac&eacute;n"/> Almac&eacute;n</label>
+                                                            <input type="checkbox" name="has_suspended_ceiling" value="1" data-title="Falso techo"/> Falso techo</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_double_windows" value="yes" data-title="Doble acristalamiento"/> Doble acristalamiento</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_suspended_ceiling" value="yes" data-title="Falso techo"/> Falso techo</label>
-                                                        <label>
-                                                            <input type="checkbox" name="has_suspended_floor" value="yes" data-title="Suelo t&eacute;cnico"/> Suelo t&eacute;cnico</label>
+                                                            <input type="checkbox" name="has_suspended_floor" value="1" data-title="Suelo t&eacute;cnico"/> Suelo t&eacute;cnico</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1201,7 +1127,170 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="handicapped_adapted" value="yes" data-title="Adaptado a personas con movilidad reducida"/> Adaptado a personas con movilidad reducida</label>
+                                                            <input type="checkbox" name="is_handicapped_adapted" value="yes" data-title="Adaptado a personas con movilidad reducida"/> Adaptado a personas con movilidad reducida</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='4')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Caracter&iacute;sticas del local
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="has_archive" value="1" data-title="Almac&eacute;n"/> Almac&eacute;n</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_smoke_extractor" value="1" data-title="Salida de humos"/> Salida de humos</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_fully_equipped_kitchen" value="1" data-title="Cocina completamente equipada"/> Cocina completamente equipada</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_steel_door" value="1" data-title="Puerta de seguridad"/> Puerta de seguridad</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_alarm" value="1" data-title="Sistema de alarma"/> Sistema de alarma</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_heating" value="1" data-title="Calefacci&oacute;n"/> Calefacci&oacute;n</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_security_camera" value="1" data-title="Circuito cerrado de seguridad"/> Circuito cerrado de seguridad</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_corner_located" value="1" data-title="Hace esquina"/> Hace esquina</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='5')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Caracter&iacute;sticas del garaje
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="is_covered" value="1" data-title="Cubierto"/> Cubierto</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_automic_door" value="1" data-title="Puerta automática"/> Puerta automática</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_lift" value="1" data-title="Ascensor"/> Ascensor</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_alarm" value="1" data-title="Sistema de alarma"/> Sistema de alarma</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_security_camera" value="1" data-title="Circuito cerrado de seguridad"/> Circuito cerrado de seguridad</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_security_guard" value="1" data-title="Vigilante/seguridad"/> Vigilante/seguridad</label>
+                                                   </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='6')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Calificación del terreno
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_residential_block" value="1" data-title="Residencial en altura (bloques)"/> Residencial en altura (bloques)</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_residential_house" value="1" data-title="Residencial unifamiliar (chalets)"/> Residencial unifamiliar (chalets)</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_office" value="1" data-title="Terciario oficinas"/> Terciario oficinas</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_commercial" value="1" data-title="Terciario comercial"/> Terciario comercial</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_hotel" value="1" data-title="Terciario hoteles"/> Terciario hoteles</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_industrial" value="1" data-title="Industrial"/> Industrial</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_public_service" value="1" data-title="Dotaciones (hospitales, escuelas, museos)"/> Dotaciones (hospitales, escuelas, museos)</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_classified_others" value="1" data-title="Otras"/> Otras</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Número máximo de plantas edificables
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="max_floors_allowed" />
+                                                    </div>
+                                                    <div id="form_max_floors_allowed_error">
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Acceso rodado
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="has_road_access" value="1" data-title="S&iacute;, tiene"/>
+                                                            S&iacute;,tiene</label>
+                                                        <label>
+                                                            <input type="radio" name="has_road_access" value="0" data-title="No disponible"/>
+                                                            No disponible</label>
+                                                    </div>
+                                                    <div id="form_has_road_access_error">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Distancia al municipio más cercano
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <select name="nearest_town_distance_id" class="form-control">
+                                                        <option value="">Seleccione</option>
+                                                        <option value="1">No lo sé</option>
+                                                        <option value="2">En núcleo urbano</option>
+                                                        <option value="3">Menos de 500 m</option>
+                                                        <option value="4">Entre 500 m y 1 km</option>
+                                                        <option value="5">De 1 a 2 km</option>
+                                                        <option value="6">De 2 a 5 km</option>
+                                                        <option value="7">De 5 a 10 km</option>
+                                                        <option value="8">Más de 10 km</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Otras características del terreno
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="has_water" value="1" data-title="Agua"/> Agua</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_electricity" value="1" data-title="Luz"/> Luz</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_sewer_system" value="1" data-title="Alcantarillado"/> Alcantarillado</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_natural_gas" value="1" data-title="Gas natural"/> Gas natural</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_street_lighting" value="1" data-title="Alumbrado público"/> Alumbrado público</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_sidewalks" value="1" data-title="Aceras"/> Aceras</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='8')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Caracter&iacute;sticas de la habitaci&oacute;n
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="has_furniture" value="1" data-title="Amueblada"/> Amueblada</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_builtin_closets" value="1" data-title="Armario empotrado"/> Armario empotrado</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1212,23 +1301,84 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="yes" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_internet" value="yes" data-title="Conexi&oacute;n a internet"/> Conexi&oacute;n a internet</label>
+                                                            <input type="checkbox" name="has_internet" value="1" data-title="Conexi&oacute;n a internet"/> Conexi&oacute;n a internet</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_housekeeper" value="yes" data-title="Asistente/a del hogar"/> Asistente/a del hogar</label>
-                                                    </div>
-                                                    <div id="form_ocultar_direccion_error">
+                                                            <input type="checkbox" name="has_house_keeper" value="1" data-title="Asistente/a del hogar"/> Asistente/a del hogar</label>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Otros detalles (tipo de suelos, calefacci&oacute;n...)</label>
+                                                <label class="control-label col-md-3">Nuevo inquilino
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:8px;">
+                                                    <div class="radio-list">
+                                                        <label>Chico/chica</label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_gender_id" value="1" data-title="Da igual"/>
+                                                            Da igual </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_gender_id" value="2" data-title="Chico"/>
+                                                            Chico </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_gender_id" value="3" data-title="Chica"/>
+                                                            Chica </label>
+                                                    </div>
+                                                    <div class="radio-list">
+                                                        <label style="padding-top:5px;">Ocupaci&oacute;n</label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_occupation_id" value="1" data-title="Da igual"/>
+                                                            Da igual </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_occupation_id" value="2" data-title="Estudiante"/>
+                                                            Estudiante </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_occupation_id" value="3" data-title="Con trabajo"/>
+                                                            Con trabajo </label>
+                                                    </div>
+                                                    <div class="radio-list">
+                                                        <label style="padding-top:5px;">Orientaci&oacute;n</label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_sexual_orientation_id" value="1" data-title="Da igual"/>
+                                                            Da igual </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_sexual_orientation_id" value="2" data-title="Gay friendly"/>
+                                                            Gay friendly </label>
+                                                    </div>
+                                                    <div class="radio-list">
+                                                        <label style="padding-top:5px;">Estancia m&iacute;nima</label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_min_stay_id" value="1" data-title="1 mes"/>
+                                                            1 mes </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_min_stay_id" value="2" data-title="2 meses"/>
+                                                            2 meses </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_min_stay_id" value="3" data-title="3 meses"/>
+                                                            3 meses </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_min_stay_id" value="4" data-title="4 meses"/>
+                                                            4 meses </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_min_stay_id" value="5" data-title="5 meses"/>
+                                                            5 meses </label>
+                                                        <label>
+                                                            <input type="radio" name="tenant_min_stay_id" value="6" data-title="6 o más meses"/>
+                                                            6 o más meses </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Descripción y otros detalles</label>
                                                 <div class="col-md-4">
                                                     <textarea class="form-control" rows="4" name="remarks"></textarea>
                                                 </div>
                                             </div>
+
                                         </div>
                                         {{--END STEP 2--}}
 
