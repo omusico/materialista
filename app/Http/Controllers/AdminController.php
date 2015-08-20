@@ -8,7 +8,11 @@ class AdminController extends Controller {
     }
 
     public function showNewAdForm() {
-        return view('new_ad_form');
+        $input = \Input::all();
+        $operation = (isset($input['operation'])) ? $input['operation'] : '0';
+        $typology = (isset($input['typology'])) ? $input['typology'] : '0';
+
+        return view('new_ad_form', compact('operation','typology'));
     }
 
     public function checkAddress()

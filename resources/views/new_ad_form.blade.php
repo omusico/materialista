@@ -7,56 +7,65 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.bootstrap-touchspin.min.css') }}">
+    <style>
+        .form-wizard > .form-body {
+            padding:0;
+        }
+        .portlet {
+            margin-bottom: 0;
+        }
+        .form .form-actions {
+            padding: 20px 15px;
+        }
+    </style>
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
-                <div class="portlet box blue" id="form_wizard_1">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-file-o"></i> Nuevo anuncio - <span class="step-title">
-								Paso 1 of 3 </span>
-                        </div>
-                        <div class="tools hidden-xs">
-                            <a href="javascript:" class="collapse"></a>
-                        </div>
-                    </div>
+                <div class="portlet" id="form_wizard_1">
+                    {{-- FORM --}}
                     <div class="portlet-body form">
                         <form action="#" class="form-horizontal" id="submit_form" method="POST">
                             <div class="form-wizard">
                                 <div class="form-body">
-                                    <ul class="nav nav-pills nav-justified steps">
-                                        <li>
-                                            <a href="#tab1" data-toggle="tab" class="step">
-												<span class="number">
-												1 </span>
-												<span class="desc">
-												<i class="fa fa-check"></i> Datos b&aacute;sicos </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#tab2" data-toggle="tab" class="step">
-												<span class="number">
-												2 </span>
-												<span class="desc">
-												<i class="fa fa-check"></i> Detalles </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#tab3" data-toggle="tab" class="step active">
-												<span class="number">
-												3 </span>
-												<span class="desc">
-												<i class="fa fa-check"></i> Fotos </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div id="bar" class="progress progress-striped" role="progressbar">
-                                        <div class="progress-bar progress-bar-success">
+
+                                    {{-- STEPS NAVBAR AND PROGRESS BAR --}}
+                                    <div style="margin-right: -15px;margin-left: -15px;">
+                                        <ul class="nav nav-pills nav-justified steps">
+                                            <li>
+                                                <a href="#tab1" data-toggle="tab" class="step">
+                                                    <span class="number">
+                                                    1 </span>
+                                                    <span class="desc">
+                                                    <i class="fa fa-check"></i> Datos b&aacute;sicos </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab2" data-toggle="tab" class="step">
+                                                    <span class="number">
+                                                    2 </span>
+                                                    <span class="desc">
+                                                    <i class="fa fa-check"></i> Detalles </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab3" data-toggle="tab" class="step active">
+                                                    <span class="number">
+                                                    3 </span>
+                                                    <span class="desc">
+                                                    <i class="fa fa-check"></i> Fotos </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div id="bar" class="progress progress-striped" role="progressbar">
+                                            <div class="progress-bar progress-bar-success">
+                                            </div>
                                         </div>
                                     </div>
+
+                                    {{--COMMON TABS CONTENT--}}
                                     <div class="tab-content">
                                         <div class="alert alert-danger common-danger display-none">
                                             <button class="close" data-dismiss="alert"></button>
@@ -64,69 +73,81 @@
                                         </div>
                                         <div class="alert alert-success common-success display-none">
                                             <button class="close" data-dismiss="alert"></button>
-                                            �Formulario validado satisfactoriamente!
+                                            ¡Formulario validado satisfactoriamente!
                                         </div>
+
+                                        {{--STEP 1--}}
                                         <div class="tab-pane active" id="tab1">
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Tipo de inmueble <span class="required">
 													* </span>
                                                 </label>
                                                 <div class="col-md-4">
-                                                    <select name="tipo" class="form-control">
+                                                    <select name="typology" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="habitacion">Habitaci&oacute;n en vivienda compartida</option>
-                                                        <option value="vacacional">Alquiler vacacional</option>
-                                                        <option value="piso">Piso</option>
-                                                        <option value="rustica">Casa r&uacute;stica o regional</option>
-                                                        <option value="casa">Casa o chalet</option>
-                                                        <option value="oficina">Oficina</option>
-                                                        <option value="local">Local o nave</option>
-                                                        <option value="garaje">Plaza de garaje</option>
-                                                        <option value="terreno">Terreno</option>
+                                                        <option value="0" @if($typology=='0') selected="selected" @endif >Piso</option>
+                                                        <option value="1" @if($typology=='1') selected="selected" @endif >Casa o chalet</option>
+                                                        <option value="2" @if($typology=='2') selected="selected" @endif >Casa r&uacute;stica o regional</option>
+                                                        <option value="3" @if($typology=='3') selected="selected" @endif >Oficina</option>
+                                                        <option value="4" @if($typology=='4') selected="selected" @endif >Local o nave</option>
+                                                        <option value="5" @if($typology=='5') selected="selected" @endif >Plaza de garaje</option>
+                                                        <option value="6" @if($typology=='6') selected="selected" @endif >Terreno</option>
+                                                        <option value="7" @if($typology=='7') selected="selected" @endif >Alquiler vacacional</option>
+                                                        <option value="8" @if($typology=='8') selected="selected" @endif >Habitaci&oacute;n en vivienda compartida</option>
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Operaci&oacute;n <span class="required">* </span>
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="operacion" value="venta" data-title="Venta"/>
+                                                            <input type="radio" name="operation" value="0" data-title="Venta" @if($operation=='0') checked="checked" @endif />
                                                             Venta </label>
                                                         <label>
-                                                            <input type="radio" name="operacion" value="alquiler" data-title="Alquiler"/>
+                                                            <input type="radio" name="operation" value="1" data-title="Alquiler" @if($operation=='1') checked="checked" @endif />
                                                             Alquiler </label>
                                                     </div>
-                                                    <div id="form_operacion_error">
-                                                    </div>
+                                                    <div id="form_operation_error"></div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Precio <span class="required">* </span>
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="precio"/>
-                                                        <span class="input-group-addon">&euro;</span>
+                                                        <input type="text" class="form-control" name="price"/>
+                                                        @if($operation=='0')
+                                                            <span class="input-group-addon">&euro;</span>
+                                                        @elseif($operation=='1')
+                                                            <span class="input-group-addon">&euro;/mes</span>
+                                                        @endif
                                                     </div>
-                                                    <div id="form_precio_error">
-                                                    </div>
+                                                    <div id="form_price_error"></div>
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+
+                                            @if($operation=='1'&&$typology=='4')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">&iquest;Es un traspaso?
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_transfer" value="yes" data-title="Es un traspaso"/> Es un traspaso</label>
+                                                            <input type="checkbox" name="is_transfer" value="1" data-title="Es un traspaso"/> Es un traspaso</label>
                                                     </div>
-                                                    <div id="form_ocultar_direccion_error">
+                                                    <div id="form_is_transfer_error">
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($operation=='0'&&$typology!='6')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Gastos de comunidad
                                                 </label>
@@ -140,6 +161,9 @@
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($operation=='1'&&$typology!='7')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Fianza
                                                 </label>
@@ -156,6 +180,29 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='1'||$typology=='2')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Detalles de la propiedad
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="is_bank_agency" value="1" data-title="Es de un banco o caja"/> Es de un banco o caja</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_state_subsidized" value="1" data-title="Es vivienda de protección oficial"/> Es vivienda de protección oficial</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_new_development" value="1" data-title="Es nueva promoción"/> Es nueva promoción</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_new_development_finished" value="1" data-title="Es nueva promoción terminada"/> Es nueva promoción terminada</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_rent_to_own" value="1" data-title="Es alquiler con opción a compra"/> Es alquiler con opción a compra</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Localizaci&oacute;n del inmueble <span class="required">
 													* </span>
@@ -165,7 +212,7 @@
                                                     <input type="text" class="form-control" name="municipio"/>
                                                     <label class="control-label">Nombre de la v&iacute;a</label>
                                                     <input type="text" class="form-control" name="via"/>
-                                                    <label class="control-label">N&uacute;mero de la v&iacute;a</label>
+                                                    <label class="control-label">N&uacute;mero de la v&iacute;a @if($typology=='6') o Km @endif</label>
                                                     <input type="text" class="form-control" name="n_via"/>
                                                     <input type="hidden" class="form-control" name="address_confirmed" value="no"/>
                                                     <input type="hidden" class="form-control" name="lat" value=""/>
@@ -199,6 +246,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Esconder direcci&oacute;n del inmueble
                                                 </label>
@@ -211,6 +259,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            @if($typology=='0'||$typology=='3'||$typology=='4'||$typology=='7'||$typology=='8')
                                             <div class="form-group" id="planta">
                                                 <label class="control-label col-md-3">Planta
                                                 </label>
@@ -227,14 +277,17 @@
                                                         <option value="{{ $i }}">Planta {{ $i }}&ordm;</option>
                                                     @endfor
                                                     </select>
+                                                    @if($typology!='3'&&$typology!='4')
                                                     <div class="checkbox-list" style="padding-top:4px;">
                                                         <label>
                                                             <input type="checkbox" name="ultima_planta" value="yes" data-title="Es la &uacute;ltima planta del bloque"/>Es la &uacute;ltima planta del bloque</label>
                                                     </div>
+                                                    @endif
                                                     <div id="form_ocultar_direccion_error">
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group" id="puerta">
                                                 <label class="control-label col-md-3">Puerta
                                                 </label>
@@ -270,6 +323,7 @@
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">&iquest;Hay m&aacute;s de un bloque/portal?
                                                 </label>
@@ -287,8 +341,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
+
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Urbanizaci&oacute;n
+                                                <label class="control-label col-md-3">Urbanizaci&oacute;n @if($typology=='6') o zona industrial @endif
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -299,286 +355,354 @@
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+
                                         </div>
+                                        {{--END STEP 1--}}
+
+                                        {{--STEP 2--}}
                                         <div class="tab-pane" id="tab2">
-                                            <div class="form-group" id="tipo_habitacion">
-                                                <label class="control-label col-md-3">Tipo <span class="required">* </span>
+
+                                            @if($typology=='0')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de apartamento
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="radio-list">
+                                                    <div class="checkbox-list">
                                                         <label>
-                                                            <input type="radio" name="tipo_habitacion" value="piso" data-title=""/>
-                                                            Piso compartido </label>
+                                                            <input type="checkbox" name="is_regular" value="1" data-title="Piso"/> Piso</label>
                                                         <label>
-                                                            <input type="radio" name="tipo_habitacion" value="chalet" data-title=""/>
-                                                            Chalet compartido </label>
-                                                    </div>
-                                                    <div id="form_tipo__error">
+                                                            <input type="checkbox" name="is_penthouse" value="1" data-title="&Aacute;tico"/> &Aacute;tico</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_duplex" value="1" data-title="D&uacute;plex"/> D&uacute;plex</label>
+                                                        <label>
+                                                            <input type="checkbox" name="is_studio" value="1" data-title="Estudio/loft"/> Estudio/loft</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="tipo_casa">
-                                                <label class="control-label col-md-3">Tipo de casa/chalet<span class="required">* </span>
+                                            @endif
+
+                                            @if($typology=='1')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de casa/chalet <span class="required">* </span>
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="tipo_casa" value="independiente" data-title=""/>
+                                                            <input type="radio" name="category_house_id" value="1" data-title="Casa o chalet independiente"/>
                                                             Casa o chalet independiente </label>
                                                         <label>
-                                                            <input type="radio" name="tipo_casa" value="chalet_pareado" data-title=""/>
+                                                            <input type="radio" name="category_house_id" value="2" data-title="Chalet pareado"/>
                                                             Chalet pareado </label>
                                                         <label>
-                                                            <input type="radio" name="tipo_casa" value="chalet_adosado" data-title=""/>
+                                                            <input type="radio" name="category_house_id" value="3" data-title="Chalet adosado"/>
                                                             Chalet adosado </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="tipo_piso">
-                                                <label class="control-label col-md-3">Tipo de piso
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="checkbox-list">
-                                                        <label>
-                                                            <input type="checkbox" name="tipo_piso_piso" value="yes" data-title="Piso"/> Piso</label>
-                                                        <label>
-                                                            <input type="checkbox" name="tipo_piso_atico" value="yes" data-title="&Aacute;tico"/> &Aacute;tico</label>
-                                                        <label>
-                                                            <input type="checkbox" name="tipo_piso_duplex" value="yes" data-title="D&uacute;plex"/> D&uacute;plex</label>
-                                                        <label>
-                                                            <input type="checkbox" name="tipo_piso_estudio" value="yes" data-title="Estudio/loft"/> Estudio/loft</label>
-                                                    </div>
-                                                    <div id="form_ocultar_direccion_error">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" id="tipo_piso">
-                                                <label class="control-label col-md-3">Tipo de inmueble
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="checkbox-list">
-                                                        <label>
-                                                            <input type="checkbox" name="tipo_local_comercial" value="yes" data-title="Local comercial"/> Local comercial</label>
-                                                        <label>
-                                                            <input type="checkbox" name="tipo_local_nave" value="yes" data-title="Nave industrial"/> Nave industrial</label>
-                                                    </div>
-                                                    <div id="form_ocultar_direccion_error">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" id="tipo_casa_rustica">
-                                                <label class="control-label col-md-3">Tipo de casa r&uacute;stica o regional
+                                            @endif
+
+                                            @if($typology=='2')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de casa r&uacute;stica
                                                 </label>
                                                 <div class="col-md-4">
-                                                    <select name="tipo_casa_rustica" class="form-control">
+                                                    <select name="category_country_house_id" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="finca_rustica">Finca r&uacute;stica</option>
-                                                        <option value="castillo">Castillo</option>
-                                                        <option value="palacio">Palacio</option>
-                                                        <option value="masia">Mas&iacute;a</option>
-                                                        <option value="cortijo">Cortijo</option>
-                                                        <option value="casa_rural">Casa rural</option>
-                                                        <option value="casa_pueblo">Casa de pueblo</option>
-                                                        <option value="casa_terrera">Casa terrera</option>
-                                                        <option value="torre">Torre</option>
-                                                        <option value="caseron">Caser&oacute;n</option>
+                                                        <option value="1">Finca r&uacute;stica</option>
+                                                        <option value="2">Castillo</option>
+                                                        <option value="3">Palacio</option>
+                                                        <option value="4">Mas&iacute;a</option>
+                                                        <option value="5">Cortijo</option>
+                                                        <option value="6">Casa rural</option>
+                                                        <option value="7">Casa de pueblo</option>
+                                                        <option value="8">Casa terrera</option>
+                                                        <option value="9">Torre</option>
+                                                        <option value="10">Caser&oacute;n</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="estado">
-                                                <label class="control-label col-md-3">Estado
+                                            @endif
+
+                                            @if($typology=='4')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de inmueble
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="estado" value="to_be_restored" data-title="A reformar"/>
-                                                            A reformar </label>
+                                                            <input type="radio" name="category_business_id" value="1" data-title="Local comercial"/>
+                                                            Local comercial </label>
                                                         <label>
-                                                            <input type="radio" name="estado" value="good" data-title="Buen estado"/>
-                                                            Buen estado </label>
+                                                            <input type="radio" name="category_business_id" value="2" data-title="Nave industrial"/>
+                                                            Nave industrial </label>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($typology=='5')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Capacidad
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="garage_capacity_id" value="1" data-title="Coche pequeño"/>
+                                                            Coche pequeño </label>
+                                                        <label>
+                                                            <input type="radio" name="garage_capacity_id" value="2" data-title="Coche grande"/>
+                                                            Coche grande </label>
+                                                        <label>
+                                                            <input type="radio" name="garage_capacity_id" value="3" data-title="Moto"/>
+                                                            Moto </label>
+                                                        <label>
+                                                            <input type="radio" name="garage_capacity_id" value="4" data-title="Coche y moto"/>
+                                                            Coche y moto </label>
+                                                        <label>
+                                                            <input type="radio" name="garage_capacity_id" value="5" data-title="Dos coches o más"/>
+                                                            Dos coches o más </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='6')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de terreno
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="category_land_id" value="1" data-title="Urbano"/>
+                                                            Urbano </label>
+                                                        <label>
+                                                            <input type="radio" name="category_land_id" value="2" data-title="Urbanizable"/>
+                                                            Urbanizable </label>
+                                                        <label>
+                                                            <input type="radio" name="category_land_id" value="3" data-title="No urbanizable"/>
+                                                            No urbanizable </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='8')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tipo de vivienda <span class="required">* </span>
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="category_room_id" value="piso" data-title=""/>
+                                                            Piso compartido </label>
+                                                        <label>
+                                                            <input type="radio" name="category_room_id" value="chalet" data-title=""/>
+                                                            Chalet compartido </label>
+                                                    </div>
+                                                    <div id="form_category_room_id_error">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">M&sup2; de la habitación <span class="required">* </span>
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="area_room" />
+                                                        <span class="input-group-addon">m&sup2;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Total de personas (incluyendo nuevo inquilino)
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="n_people" />
+                                                    </div>
+                                                    <div id="form_n_people_error">
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='1'||$typology=='2'||$typology=='3'||$typology=='4')
+                                            <div class="form-group" id="estado">
+                                                <label class="control-label col-md-3">Estado
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="needs_restoration" value="1" data-title="Necesita reformas"/> Necesita reformas</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">M&sup2; construidos <span class="required"> *
                                                 </span>
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="m2_build" />
+                                                        <input type="text" class="form-control" name="area_constructed" />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">M&sup2; &uacute;tiles
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="m2_usable" />
+                                                        <input type="text" class="form-control" name="area_usable" />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">M&sup2; de superficie m&iacute;nima que se vende o alquila
-                                                </label>
-                                                <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" name="m2_min_surface_to_rent" />
-                                                        <span class="input-group-addon">m&sup2;</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endif
+
+                                            @if($typology=='1'||$typology=='2')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">M&sup2; parcela
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="m2_plot_of_land" />
+                                                        <input type="text" class="form-control" name="area_land" />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="int_ext">
-                                                <label class="control-label col-md-3">Exterior/interior
+                                            @endif
+
+                                            @if($typology=='6')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">M&sup2; totales
                                                 </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="radio-list">
-                                                        <label>
-                                                            <input type="radio" name="int_ext" value="ext" data-title="Exterior"/>
-                                                            Exterior </label>
-                                                        <label>
-                                                            <input type="radio" name="int_ext" value="int" data-title="Interior"/>
-                                                            Interior </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="area_total" />
+                                                        <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">M&sup2; edificables
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="area_building_land" />
+                                                        <span class="input-group-addon">m&sup2;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='3'||$typology=='6')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">M&sup2; de superficie m&iacute;nima que se vende o alquila
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="area_min_for_sale" />
+                                                        <span class="input-group-addon">m&sup2;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='4')
                                             <div class="form-group" id="estancias">
                                                 <label class="control-label col-md-3">Estancias
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="estancias" value="open_plan" data-title="Di&aacute;fana"/>
+                                                            <input type="radio" name="business_distribution_id" value="1" data-title="Di&aacute;fana"/>
                                                             Di&aacute;fana </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="one_two" data-title="1-2 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="2" data-title="1-2 estancias"/>
                                                             1-2 estancias </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="three_four" data-title="3-5 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="3" data-title="3-5 estancias"/>
                                                             3-5 estancias </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="five_ten" data-title="5-10 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="4" data-title="5-10 estancias"/>
                                                             5-10 estancias </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="ten_or_more" data-title="M&aacute; de 10 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="5" data-title="M&aacute; de 10 estancias"/>
                                                             M&aacute;s de 10 estancias </label>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group" id="m2_fachada">
                                                 <label class="control-label col-md-3">M&sup2; de fachada
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="estancias" value="none" data-title="Sin fachada"/>
+                                                            <input type="radio" name="business_facade_id" value="1" data-title="Sin fachada"/>
                                                             Sin fachada </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="one_four" data-title="1 a 4 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="2" data-title="1 a 4 metros"/>
                                                             1 a 4 metros </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="five_eight" data-title="5 a 8 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="3" data-title="5 a 8 metros"/>
                                                             5 a 8 metros </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="nine_twelve" data-title="9 a 12 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="4" data-title="9 a 12 metros"/>
                                                             9 a 12 metros </label>
                                                         <label>
-                                                            <input type="radio" name="estancias" value="twelve_or_more" data-title="M&aacute; de 12 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="5" data-title="M&aacute; de 12 metros"/>
                                                             M&aacute; de 12 metros </label>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">N&uacute;mero de escaparates
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_escaparates" value="" />
+                                                        <input type="text" class="form-control" name="n_shop_windows" value="" />
                                                     </div>
-                                                    <div id="form_n_escaparates_error">
+                                                    <div id="form_n_shop_windows">
                                                     </div>
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+
                                             <div class="form-group" id="int_ext">
                                                 <label class="control-label col-md-3">Ubicaci&oacute;n
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="location" value="in_mall" data-title="En centro comercial"/>
+                                                            <input type="radio" name="business_location_id" value="1" data-title="En centro comercial"/>
                                                             En centro comercial </label>
                                                         <label>
-                                                            <input type="radio" name="location" value="on_street" data-title="A pie de calle"/>
+                                                            <input type="radio" name="business_location_id" value="2" data-title="A pie de calle"/>
                                                             A pie de calle </label>
                                                         <label>
-                                                            <input type="radio" name="location" value="mezzanine" data-title="Entreplanta"/>
+                                                            <input type="radio" name="business_location_id" value="3" data-title="Entreplanta"/>
                                                             Entreplanta </label>
                                                          <label>
-                                                            <input type="radio" name="location" value="underground" data-title="Subterr&aacute;neo"/>
+                                                            <input type="radio" name="business_location_id" value="4" data-title="Subterr&aacute;neo"/>
                                                              Subterr&aacute;neo </label>
                                                         <label>
-                                                            <input type="radio" name="location" value="other" data-title="Otros"/>
+                                                            <input type="radio" name="business_location_id" value="5" data-title="Otros"/>
                                                             Otros </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="int_ext">
-                                                <label class="control-label col-md-3">Distribuci&oacute;n
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="radio-list">
-                                                        <label>
-                                                            <input type="radio" name="distribution" value="open_plan" data-title="Di&aacute;fana"/>
-                                                            Di&aacute;fana </label>
-                                                        <label>
-                                                            <input type="radio" name="distribution" value="splitted_w_screens" data-title="Dividida con mamparas"/>
-                                                            Dividida con mamparas </label>
-                                                        <label>
-                                                            <input type="radio" name="distribution" value="splitted_w_walls" data-title="Dividida con tabiques"/>
-                                                            Dividida con tabiques </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">M&sup2; de la casa
-                                                </label>
-                                                <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" name="m2" />
-                                                        <span class="input-group-addon">m&sup2;</span>
-                                                    </div>
-                                                    <div id="form_m2_error">
-                                                    </div>
-                                                    <span class="help-block"></span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Plantas
-                                                </label>
-                                                <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_plantas" value="" />
-                                                    </div>
-                                                    <div id="form_n_plantas_error">
-                                                    </div>
-                                                    <span class="help-block"></span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">�ltima actividad comercial
+                                                <label class="control-label col-md-3">Última actividad comercial
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -587,32 +711,23 @@
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="int_ext">
-                                                <label class="control-label col-md-3">Uso exclusivo oficinas
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="radio-list">
-                                                        <label>
-                                                            <input type="radio" name="only_offices_building" value="yes" data-title="S&iacute;"/>
-                                                            S&iacute; </label>
-                                                        <label>
-                                                            <input type="radio" name="only_offices_building" value="no" data-title="No"/>
-                                                            No </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endif
+
+                                            @if($typology=='1'||$typology=='2'||$typology=='3'||$typology=='4')
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Total de personas (incluyendo nuevo inquilino)
+                                                <label class="control-label col-md-3">Plantas
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_personas" />
+                                                        <input type="text" class="form-control" name="n_floors" value="" />
                                                     </div>
-                                                    <div id="form_n_personas_error">
-                                                    </div>
+                                                    <div id="form_n_floors_error"></div>
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='1'||$typology=='2'||$typology=='8')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">N&uacute;mero de habitaciones
                                                 </label>
@@ -625,6 +740,9 @@
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='1'||$typology=='2'||$typology=='3'||$typology=='4'||$typology=='8')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">N&uacute;mero de ba&ntilde;os y aseos
                                                 </label>
@@ -637,8 +755,78 @@
                                                     <span class="help-block"></span>
                                                 </div>
                                             </div>
+                                            @endif
+
+                                            @if($typology=='3')
+                                            <div class="form-group" id="int_ext">
+                                                <label class="control-label col-md-3">Características de los aseos
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="has_bathrooms" value="1" data-title="Disponen de baño"/> Disponen de baño</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_bathrooms_inside" value="1" data-title="Están dentro de las oficinas"/> Están dentro de las oficinas</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='0'||$typology=='3')
+                                            <div class="form-group" id="int_ext">
+                                                <label class="control-label col-md-3">Exterior/interior
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="is_exterior" value="0" data-title="Exterior"/>
+                                                            Exterior </label>
+                                                        <label>
+                                                            <input type="radio" name="is_exterior" value="1" data-title="Interior"/>
+                                                            Interior </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='3')
+                                            <div class="form-group" id="int_ext">
+                                                <label class="control-label col-md-3">Distribuci&oacute;n
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="office_distribution_id" value="1" data-title="Di&aacute;fana"/>
+                                                            Di&aacute;fana </label>
+                                                        <label>
+                                                            <input type="radio" name="office_distribution_id" value="2" data-title="Dividida con mamparas"/>
+                                                            Dividida con mamparas </label>
+                                                        <label>
+                                                            <input type="radio" name="office_distribution_id" value="3" data-title="Dividida con tabiques"/>
+                                                            Dividida con tabiques </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="int_ext">
+                                                <label class="control-label col-md-3">Uso exclusivo oficinas
+                                                </label>
+                                                <div class="col-md-4" style="padding-top:5px;">
+                                                    <div class="radio-list">
+                                                        <label>
+                                                            <input type="radio" name="has_offices_only" value="0" data-title="S&iacute;"/>
+                                                            S&iacute; </label>
+                                                        <label>
+                                                            <input type="radio" name="has_offices_only" value="1" data-title="No"/>
+                                                            No </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
+
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Ahora son
+                                                <label class="control-label col-md-3">Los inquilinos actuales son
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
@@ -656,6 +844,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">&iquest;Se puede fumar?
                                                 </label>
@@ -672,6 +861,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">&iquest;Se admiten mascotas?
                                                 </label>
@@ -688,8 +878,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Edad de la persona m&aacute;s joven
+                                                <label class="control-label col-md-3">Edad del inquilino m&aacute;s joven
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -699,8 +890,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Edad de la persona m&aacute;s mayor
+                                                <label class="control-label col-md-3">Edad del inquilino m&aacute;s mayor
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -710,25 +902,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Equipamiento
-                                                </label>
-                                                <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="radio-list">
-                                                        <label>
-                                                            <input type="radio" name="equipamiento" value="none" data-title="S&iacute;"/>
-                                                            S&iacute; </label>
-                                                        <label>
-                                                            <input type="radio" name="equipamiento" value="cocina" data-title="S&iacute;"/>
-                                                            S&iacute; </label>
-                                                        <label>
-                                                            <input type="radio" name="equipamiento" value="amueblada_cocina" data-title="S&iacute;"/>
-                                                            S&iacute; </label>
-                                                    </div>
-                                                    <div id="form_pets_allowed__error">
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Ascensor
                                                 </label>
@@ -745,6 +919,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                             <div class="form-group" id="puerta">
                                                 <label class="control-label col-md-3">Certificaci&oacute;n energ&eacute;tica
                                                 </label>
@@ -764,8 +940,9 @@
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Orientaci&oacue;n
+                                                <label class="control-label col-md-3">Orientación
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
@@ -780,6 +957,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Otras caracter&iacute;sticas de la vivienda
                                                 </label>
@@ -798,6 +976,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Otras caracter&iacute;sticas de la casa r&uacute;stica o regional
                                                 </label>
@@ -818,6 +997,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Otras caracter&iacute;sticas del edificio
                                                 </label>
@@ -830,6 +1010,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Caracter&iacute;sticas de la habitaci&oacute;n
                                                 </label>
@@ -844,6 +1025,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Caracter&iacute;sticas del inmueble
                                                 </label>
@@ -860,6 +1042,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Sobre el inquilino que se busca
                                                 </label>
@@ -902,17 +1085,18 @@
                                                         <label>
                                                             <input type="radio" name="minimal_stay" value="1" data-title="1 mes"/>
                                                             1 mes </label>
-                                                    @for($i = 2; $i < 6; ++$i)
+                                                        @for($i = 2; $i < 6; ++$i)
                                                         <label>
                                                             <input type="radio" name="minimal_stay" value="{{ $i }}" data-title="{{ $i }} meses"/>
                                                             {{ $i }} meses </label>
-                                                    @endfor
+                                                        @endfor
                                                         <label>
                                                             <input type="radio" name="minimal_stay" value="6" data-title="6 meses o m&aacute;s"/>
                                                             6 meses o m&aacute;s </label>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group" id="int_ext">
                                                 <label class="control-label col-md-3">Aire acondicionado
                                                 </label>
@@ -933,6 +1117,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Seguridad de la oficina
                                                 </label>
@@ -959,6 +1144,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Caracter&iacute;sticas del local
                                                 </label>
@@ -985,6 +1171,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Caracter&iacute;sticas de la oficina
                                                 </label>
@@ -1007,6 +1194,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Caracter&iacute;sticas del edificio
                                                 </label>
@@ -1017,6 +1205,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Caracter&iacute;sticas del inmueble
                                                 </label>
@@ -1033,6 +1222,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Otros detalles (tipo de suelos, calefacci&oacute;n...)</label>
                                                 <div class="col-md-4">
@@ -1040,25 +1230,33 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {{--END STEP 2--}}
+
+                                        {{--STEP 3--}}
                                         <div class="tab-pane" id="tab3">
 
                                         </div>
+                                        {{--END STEP 3--}}
                                     </div>
                                 </div>
-                                <div class="form-actions">
-                                    <div class="row">
-                                        <div class="col-md-offset-3 col-md-9">
-                                            <a href="javascript:" class="btn default button-previous">
-                                                <i class="m-icon-swapleft"></i> Atr&aacute;s </a>
-                                            <a href="javascript:" class="btn blue button-next">
-                                                Siguiente <i class="m-icon-swapright m-icon-white"></i>
-                                            </a>
-                                            <a href="javascript:" class="btn green button-submit">
-                                                Enviar <i class="m-icon-swapright m-icon-white"></i>
-                                            </a>
+
+                                <div style="margin-right: -15px;margin-left: -15px;">
+                                    <div class="form-actions">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-8">
+                                                <a href="javascript:" class="btn default button-previous">
+                                                    <i class="m-icon-swapleft"></i> Atr&aacute;s </a>
+                                                <a href="javascript:" class="btn blue button-next">
+                                                    Siguiente <i class="m-icon-swapright m-icon-white"></i>
+                                                </a>
+                                                <a href="javascript:" class="btn green button-submit">
+                                                    Enviar <i class="m-icon-swapright m-icon-white"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -1081,18 +1279,30 @@
         $(document).ready(function() {
             Metronic.init(); // init metronic core components >> uniform checkboxes
 
-            function getAddress(){
-                var address = $('input[name=via]').val() + ', ' + $('input[name=n_via]').val() + ', ' + $('input[name=municipio]').val();
-                return address;
+            var tab1 = $('#tab1');
+            tab1.on('change','input[name=operation]',function(){
+                var operation = $(this).val();
+                var typology = $(this).closest('#tab1').find('select[name=typology]').val();
+                reloadCustomForm(operation,typology);
+            });
+            tab1.on('change','select[name=typology]',function(){
+                var typology = $(this).val();
+                var operation = $(this).closest('#tab1').find('input[name=operation]:checked').val();
+                reloadCustomForm(operation,typology);
+            });
+            function reloadCustomForm(op,typ) {
+                if(!op || !typ)
+                    return false;
+                window.location.href = window.location.href.replace(/[\?#].*|$/, "?operation="+op+"&typology="+typ);
             }
 
             $('#check-address').click(function(){
+                var address = $('input[name=via]').val() + ', ' + $('input[name=n_via]').val() + ', ' + $('input[name=municipio]').val();
                 $('#check-in-progress').removeClass('hidden');
                 $('[id^="check-address-"]').addClass('hidden');
                 $.get('/admin/nuevo-anuncio/check-address', {
-                    address: getAddress
+                    address: address
                 }, function(data){
-                    console.log(data['address_components']);
                     $('#check-in-progress').addClass('hidden');
                     $('#check-address').addClass('hidden');
                     $('.formated-address').text(data['formatted_address']);
@@ -1106,7 +1316,7 @@
                     $('input[name=route]').val(data['address_components'][1]['long_name']);
                     $('input[name=locality]').val(data['address_components'][2]['long_name']);
                     $('input[name=administrative_area_level_2]').val(data['address_components'][3]['long_name']); //Provincia
-                    $('input[name=administrative_area_level_1]').val(data['address_components'][4]['long_name']); //Comunidad aut�noma
+                    $('input[name=administrative_area_level_1]').val(data['address_components'][4]['long_name']); //Comunidad aut�noma
                     $('input[name=country]').val(data['address_components'][5]['long_name']);
                     $('input[name=postal_code]').val(data['address_components'][6]['long_name']);
                     $('#check-address-warning').removeClass('hidden');
@@ -1164,7 +1374,7 @@
                 errorClass: 'help-block help-block-error', // default input error message class
                 focusInvalid: false, // do not focus the last invalid input
                 rules: {
-                    // datos b�sicos
+                    // datos b�sicos
                     tipo: { required: true },
                     operacion: { required: true },
                     precio: { digits: true, required: true },
@@ -1220,8 +1430,8 @@
 
                 messages: { // custom messages for radio buttons and checkboxes
                     'payment[]': {
-                        required: "Elija una opci�n",
-                        minlength: jQuery.validator.format("Elija una opci�n")
+                        required: "Elija una opci�n",
+                        minlength: jQuery.validator.format("Elija una opci�n")
                     }
                 },
 
