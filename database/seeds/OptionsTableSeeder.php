@@ -54,9 +54,9 @@ class OptionsTableSeeder extends Seeder
         App\OptionOfficeDistribution::create(['name'=>'Dividida con tabiques']);
 
         \App\OptionPaymentDay::create(['name'=>'A la entrega de las llaves']);
-        \App\OptionPaymentDay::create(['name'=>'Días antes']);
+        \App\OptionPaymentDay::create(['name'=>'Días antes de la entrada']);
         \App\OptionPaymentDay::create(['name'=>'El día de entrada']);
-        \App\OptionPaymentDay::create(['name'=>'El día de saluda']);
+        \App\OptionPaymentDay::create(['name'=>'El día de salida']);
 
         \App\OptionSurroundings::create(['name'=>'Entorno de playa']);
         \App\OptionSurroundings::create(['name'=>'Entorno de esquí']);

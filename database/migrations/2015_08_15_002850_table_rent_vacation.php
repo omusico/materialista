@@ -29,7 +29,7 @@ class TableRentVacation extends Migration
             $table->string('route');
             $table->string('locality');
             $table->string('admin_area_lvl2'); //Provincia
-            $table->string('admin_area_lvl1'); //Comunidad autónoma
+            $table->string('admin_area_lvl1'); //Comunidad autï¿½noma
             $table->string('country');
             $table->string('postal_code');
 
@@ -57,6 +57,14 @@ class TableRentVacation extends Migration
 
             //multiple lodgings in the same address?
             $table->boolean('has_multiple_lodgings');
+
+            //lodge size
+            $table->integer('area_total',false,true)->nullable();;
+            $table->integer('area_garden',false,true)->nullable();;
+            $table->integer('area_terrace',false,true)->nullable();
+
+            //kitchen typology
+            $table->boolean('is_american_kitchen');
 
             //distances to common services
             $table->integer('distance_to_beach',false,true)->nullable();
@@ -92,12 +100,15 @@ class TableRentVacation extends Migration
             $table->integer('min_capacity',false,true);
             $table->integer('max_capacity',false,true);
 
-            //pricing information
-            $table->integer('n_days_before',false,true)->nullable();
+            //pricing information and price-included commodities
+            $table->boolean('has_booking');
+            $table->integer('booking',false,true)->nullable();
+            $table->boolean('has_deposit');
+            $table->string('deposit')->nullable();
             $table->integer('payment_day_id',false,true);
             $table->foreign('payment_day_id')->references('id')->on('payment_day')->onDelete('restrict')->onUpdate('cascade');
-            $table->integer('booking',false,true)->nullable();
-            $table->integer('deposit',false,true)->nullable();
+            $table->integer('n_days_before',false,true)->nullable();
+            $table->boolean('is_cleaning_included');
             $table->integer('cleaning',false,true)->nullable();
             $table->boolean('has_included_towels');
             $table->boolean('has_included_expenses');

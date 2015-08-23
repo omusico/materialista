@@ -23,7 +23,7 @@ class TableRentApartment extends Migration
 
             //basic info
             $table->integer('price',false,true);
-            $table->integer('deposit',false,true)->nullable();
+            $table->string('deposit')->nullable();
 
             //property info
             $table->boolean('is_bank_agency',false,true);

@@ -21,6 +21,8 @@ Route::post('updateLocalities', ['as'=>'update.list.2','uses'=>'HomeController@p
 //New ad form
 Route::get('form_new', ['as'=>'form.new.ad','uses'=>'AdminController@showNewAdForm']);
 Route::get('check_address', 'AdminController@checkAddress');
+Route::post('new_ad', ['as'=>'new.ad','uses'=>'AdminController@doNewAd']);
+Route::post('upload_img',['as'=>'upload.img','uses'=>'AdminController@uploadImage']);
 
 //Development: view tables
 Route::get('table/{table_name}', ['as'=>'view.table','uses'=>'DeveloperController@showTable']);

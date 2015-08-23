@@ -24,7 +24,7 @@ class TableRentBusiness extends Migration
             //basic info
             $table->integer('price',false,true);
             $table->boolean('is_transfer');
-            $table->integer('deposit',false,true)->nullable();
+            $table->string('deposit')->nullable();
 
             //address
             $table->decimal('lat',9,7);
@@ -34,7 +34,7 @@ class TableRentBusiness extends Migration
             $table->string('route');
             $table->string('locality');
             $table->string('admin_area_lvl2'); //Provincia
-            $table->string('admin_area_lvl1'); //Comunidad autónoma
+            $table->string('admin_area_lvl1'); //Comunidad autï¿½noma
             $table->string('country');
             $table->string('postal_code');
 

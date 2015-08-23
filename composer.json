@@ -10,7 +10,8 @@
         "twbs/bootstrap": "v3.3.5",
         "chd7well/bootstrap-wizard": "v0.0.3",
         "components/jquery": "2.1.4",
-        "barryvdh/laravel-ide-helper": "v2.0.6"
+        "barryvdh/laravel-ide-helper": "v2.0.6",
+        "intervention/image": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
