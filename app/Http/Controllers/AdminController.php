@@ -1,5 +1,24 @@
 <?php namespace App\Http\Controllers;
 
+use App\Ad;
+use App\AdPic;
+use App\Lodging;
+use App\RentApartment;
+use App\RentBusiness;
+use App\RentCountryHouse;
+use App\RentGarage;
+use App\RentHouse;
+use App\RentLand;
+use App\RentOffice;
+use App\Room;
+use App\SellApartment;
+use App\SellBusiness;
+use App\SellCountryHouse;
+use App\SellGarage;
+use App\SellHouse;
+use App\SellLand;
+use App\SellOffice;
+
 class AdminController extends Controller {
 
     public function __construct()
@@ -39,7 +58,100 @@ class AdminController extends Controller {
 
     public function doNewAd()
     {
-        return \Response::json(['done'=>'done'],200);
+        $input = \Input::all();
+
+        //input 'corrections'
+        if(isset($input['door'])) {
+            if ($input['door'] == '0') {
+                $input['door'] = $input['door_letter'];
+            } else if ($input['door'] == '1') {
+                $input['door'] = $input['door_number'];
+            }
+        }
+
+        //create new Ad ID
+        $newAd = Ad::create();
+        $input['ad_id'] = $newAd->id;
+
+        //associate pictures to the new Ad ID
+        foreach($input as $key => $value) {
+            $exp_key = explode('_', $key);
+            if($exp_key[0] == 'pictures'){
+                $pictures[] = ['filename'=>$value];
+            }
+        }
+        if(isset($pictures)){
+            foreach($pictures as $picture)
+                AdPic::create([
+                    'filename' => $picture['filename'],
+                    'ad_id'    => $input['ad_id']
+                ]);
+        }
+
+        //save all the details of the ad in its specific table
+        switch ($input['operation']) {
+            case '0': //sell
+                switch ($input['typology']) {
+                    case '0': //apartment
+                        $new = SellApartment::create($input);
+                        break;
+                    case '1': //house
+                        $new = SellHouse::create($input);
+                        break;
+                    case '2': //country house
+                        $new = SellCountryHouse::create($input);
+                        break;
+                    case '3': //office
+                        $new = SellOffice::create($input);
+                        break;
+                    case '4': //business
+                        $new = SellBusiness::create($input);
+                        break;
+                    case '5': //garage
+                        $new = SellGarage::create($input);
+                        break;
+                    case '6': //land
+                        $new = SellLand::create($input);
+                        break;
+                }
+                break;
+            case '1': //rent
+                switch ($input['typology']) {
+                    case '0': //apartment
+                        $new = RentApartment::create($input);
+                        break;
+                    case '1': //house
+                        $new = RentHouse::create($input);
+                        break;
+                    case '2': //country house
+                        $new = RentCountryHouse::create($input);
+                        break;
+                    case '3': //office
+                        $new = RentOffice::create($input);
+                        break;
+                    case '4': //business
+                        $new = RentBusiness::create($input);
+                        break;
+                    case '5': //garage
+                        $new = RentGarage::create($input);
+                        break;
+                    case '6': //land
+                        $new = RentLand::create($input);
+                        break;
+                    case '7': //vacation (lodging)
+                        $new = Lodging::create($input);
+                        break;
+                    case '8': //room
+                        $new = Room::create($input);
+                        break;
+                }
+                break;
+        }
+
+        //todo: return success to admin dashboard
+        if(isset($new))
+            exit($new->toJson());
+        exit('Did not do');
     }
 
     public function uploadImage()

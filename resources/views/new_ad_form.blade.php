@@ -47,7 +47,7 @@
                 <div class="portlet" id="form_wizard_1">
                     {{-- FORM --}}
                     <div class="portlet-body form">
-                        <form action="{{ route('new.ad') }}" class="form-horizontal" id="submit_form" method="POST">
+                        <form action="{{ route('new.ad') }}" class="form-horizontal" id="submit_form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ \Session::token() }}">
                             <div class="form-wizard">
                                 <div class="form-body">
@@ -237,15 +237,15 @@
                                                     <input type="text" class="form-control" name="via" value=""/>
                                                     <label class="control-label">N&uacute;mero de la v&iacute;a @if($typology=='6') o Km @endif</label>
                                                     <input type="text" class="form-control" name="via_num" value=""/>
-                                                    <input type="hidden" class="form-control" name="address_confirmed" value="no"/>
+                                                    <input type="hidden" class="form-control" name="address_confirmed" value="0"/>
                                                     <input type="hidden" class="form-control" name="lat" value=""/>
                                                     <input type="hidden" class="form-control" name="lng" value=""/>
-                                                    <input type="hidden" class="form-control" name="formated_address" value=""/>
+                                                    <input type="hidden" class="form-control" name="formatted_address" value=""/>
                                                     <input type="hidden" class="form-control" name="street_number" value=""/>
                                                     <input type="hidden" class="form-control" name="route" value=""/>
                                                     <input type="hidden" class="form-control" name="locality" value=""/>
-                                                    <input type="hidden" class="form-control" name="administrative_area_level_2" value=""/>
-                                                    <input type="hidden" class="form-control" name="administrative_area_level_1" value=""/>
+                                                    <input type="hidden" class="form-control" name="admin_area_lvl2" value=""/>
+                                                    <input type="hidden" class="form-control" name="admin_area_lvl1" value=""/>
                                                     <input type="hidden" class="form-control" name="postal_code" value=""/>
                                                     <input type="hidden" class="form-control" name="country" value=""/>
                                                     <a href="javascript:" id="check-address" class="btn btn-primary" style="margin-top:10px">Comprobar direcci&oacute;n</a>
@@ -303,7 +303,7 @@
                                                     @if($typology!='3'&&$typology!='4')
                                                     <div class="checkbox-list" style="padding-top:4px;">
                                                         <label>
-                                                            <input type="checkbox" name="is_last_floor" value="yes" data-title="Es la &uacute;ltima planta del bloque"/>Es la &uacute;ltima planta del bloque</label>
+                                                            <input type="checkbox" name="is_last_floor" value="1" data-title="Es la &uacute;ltima planta del bloque"/>Es la &uacute;ltima planta del bloque</label>
                                                     </div>
                                                     @endif
                                                     <div id="form_floor_number_error">
@@ -799,10 +799,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="is_exterior" value="0" data-title="Exterior"/>
+                                                            <input type="radio" name="is_exterior" value="1" data-title="Exterior"/>
                                                             Exterior </label>
                                                         <label>
-                                                            <input type="radio" name="is_exterior" value="1" data-title="Interior"/>
+                                                            <input type="radio" name="is_exterior" value="0" data-title="Interior"/>
                                                             Interior </label>
                                                     </div>
                                                 </div>
@@ -1016,11 +1016,11 @@
                                                         <label>
                                                             <input type="checkbox" name="faces_north" value="1" data-title="Norte"/> Norte</label>
                                                         <label>
-                                                            <input type="checkbox" name="face_south" value="1" data-title="Sur"/> Sur</label>
+                                                            <input type="checkbox" name="faces_south" value="1" data-title="Sur"/> Sur</label>
                                                         <label>
-                                                            <input type="checkbox" name="face_east" value="1" data-title="Este"/> Este</label>
+                                                            <input type="checkbox" name="faces_east" value="1" data-title="Este"/> Este</label>
                                                         <label>
-                                                            <input type="checkbox" name="face_west" value="1" data-title="Oeste"/> Oeste</label>
+                                                            <input type="checkbox" name="faces_west" value="1" data-title="Oeste"/> Oeste</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2332,29 +2332,27 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Descripción y otros detalles</label>
                                                 <div class="col-md-4">
-                                                    <textarea class="form-control" rows="4" name="remarks"></textarea>
+                                                    <textarea class="form-control" rows="4" name="description"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         {{--END STEP 2--}}
                                         <div id="uploaded_images" class="hidden"></div>
-                        </form>
+
                                         {{--STEP 3--}}
                                         <div class="tab-pane" id="tab3">
 
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <form action="{{ route('upload.img') }}" class="form-horizontal" id="fileupload" method="POST" enctype="multipart/form-data">
-                                                        <input type="hidden" name="_token" value="{{ \Session::token() }}">
-                                                        <span class="btn btn-primary btn-block fileinput-button">
-                                                            <i class="glyphicon glyphicon-plus"></i>
-                                                            <span>Seleccione imágenes...</span>
-                                                            <input id="fileupload" type="file" name="files[]" multiple>
-                                                        </span>
-                                                        <div id="uploading-bar" class="progress">
-                                                            <div class="progress-bar progress-bar-success"></div>
-                                                        </div>
-                                                    </form>
+                                                    <input type="hidden" name="_token" value="{{ \Session::token() }}">
+                                                    <span class="btn btn-primary btn-block fileinput-button">
+                                                        <i class="glyphicon glyphicon-plus"></i>
+                                                        <span>Seleccione imágenes...</span>
+                                                        <input id="fileupload" type="file" name="files[]" multiple>
+                                                    </span>
+                                                    <div id="uploading-bar" class="progress">
+                                                        <div class="progress-bar progress-bar-success"></div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-9">
                                                     <table class="table table-striped table-hover table-bordered" id="slides-table">
@@ -2388,16 +2386,16 @@
                                                 <a href="javascript:" class="btn blue button-next">
                                                     Siguiente <i class="m-icon-swapright m-icon-white"></i>
                                                 </a>
-                                                <a href="javascript:" class="btn green button-submit">
+                                                <button type="submit" class="btn green button-submit">
                                                     Enviar <i class="m-icon-swapright m-icon-white"></i>
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                        {{--form end--}}
+                        </form>
                     </div>
                 </div>
             </div>
@@ -2422,11 +2420,12 @@
     <script src="{{ asset('js/jquery.iframe-transport.js') }}"></script>
     <script src="{{ asset('js/jquery.fileupload.js') }}"></script>
     <script>
-        $(function () {
+        $(function() {
             $('#fileupload').fileupload({
                 dataType: 'json',
-                done: function (e, data) {
-                    $.each(data.result.files, function (index, file) {
+                url: '/upload_img',
+                done: function(e, data) {
+                    $.each(data.result.files, function(index, file) {
                         $('#tbody_images').append($('' +
                             '<tr>' +
                             '<td><img width="100" src="/ads/thumbnails/' + file.thumbnail + '"></td>' +
@@ -2441,10 +2440,10 @@
                             '<input type="hidden" name="pictures_' + file.name + '" value="' + file.name + '"/>' +
                         '');
                     });
-                }, progressall: function (e, data) {
+                }, progressall: function(e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
                     $('#uploading-bar .progress-bar').css('width', progress + '%');
-                }, fail: function (ev, data) {
+                }, fail: function(ev, data) {
                     alert('Error al tratar de subir la imagen al servidor. Asegúrese de que el formato imagen es adecuado (jpg, png...).');
                 }
             });
@@ -2631,12 +2630,12 @@
                     $('input[name=via_num]').prop('disabled',true);
                     $('input[name=lat]').val(data['lat']);
                     $('input[name=lng]').val(data['lng']);
-                    $('input[name=formated_address]').val(data['formatted_address']);
+                    $('input[name=formatted_address]').val(data['formatted_address']);
                     $('input[name=street_number]').val(data['address_components'][0]['long_name']);
                     $('input[name=route]').val(data['address_components'][1]['long_name']);
                     $('input[name=locality]').val(data['address_components'][2]['long_name']);
-                    $('input[name=administrative_area_level_2]').val(data['address_components'][3]['long_name']); //Provincia
-                    $('input[name=administrative_area_level_1]').val(data['address_components'][4]['long_name']); //Comunidad aut�noma
+                    $('input[name=admin_area_lvl2]').val(data['address_components'][3]['long_name']); //Provincia
+                    $('input[name=admin_area_lvl1]').val(data['address_components'][4]['long_name']); //Comunidad autónoma
                     $('input[name=country]').val(data['address_components'][5]['long_name']);
                     $('input[name=postal_code]').val(data['address_components'][6]['long_name']);
                     $('#check-address-warning').removeClass('hidden');
@@ -2647,7 +2646,7 @@
             });
 
             $('#confirm-address').click(function(){
-                $('input[name=address_confirmed]').val('yes');
+                $('input[name=address_confirmed]').val('1');
                 $('#check-address-warning').addClass('hidden');
                 $('#check-address-success').removeClass('hidden');
             });
@@ -2664,7 +2663,7 @@
                 $('input[name=municipio]').prop('disabled',false);
                 $('input[name=via]').prop('disabled',false);
                 $('input[name=via_num]').prop('disabled',false);
-                $('input[name=address_confirmed]').val('no');
+                $('input[name=address_confirmed]').val('0');
                 $('#check-address').removeClass('hidden');
                 $('#check-address-success').addClass('hidden');
             });
@@ -2678,7 +2677,7 @@
             $("select").select2({
                 placeholder: "Seleccione",
                 allowClear: true,
-                escapeMarkup: function (m) {
+                escapeMarkup: function(m) {
                     return m;
                 }
             });
@@ -2694,68 +2693,68 @@
                 errorClass: 'help-block help-block-error', // default input error message class
                 focusInvalid: false, // do not focus the last invalid input
                 rules: {
-                    // datos básicos
-                    tipo: { required: true },
-                    operacion: { required: true },
-                    precio: { digits: true, required: true },
-                    comunidad: { digits: true },
-                    fianza: { digits: true },
-                    // detalles
-                    fullname: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                        // equalTo: "#submit_form_password"
-                    },
-                    phone: {
-                        required: true
-                    },
-                    gender: {
-                        required: true
-                    },
-                    address: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    //payment
-                    card_name: {
-                        required: true
-                    },
-                    card_number: {
-                        minlength: 16,
-                        maxlength: 16,
-                        required: true
-                    },
-                    card_cvc: {
-                        digits: true,
-                        required: true,
-                        minlength: 3,
-                        maxlength: 4
-                    },
-                    card_expiry_date: {
-                        required: true
-                    },
-                    'payment[]': {
-                        required: true,
-                        minlength: 1
-                    }
+//                    // datos básicos
+//                    tipo: { required: true },
+//                    operacion: { required: true },
+//                    precio: { digits: true, required: true },
+//                    comunidad: { digits: true },
+//                    fianza: { digits: true },
+//                    // detalles
+//                    fullname: {
+//                        required: true
+//                    },
+//                    email: {
+//                        required: true,
+//                        email: true
+//                        // equalTo: "#submit_form_password"
+//                    },
+//                    phone: {
+//                        required: true
+//                    },
+//                    gender: {
+//                        required: true
+//                    },
+//                    address: {
+//                        required: true
+//                    },
+//                    city: {
+//                        required: true
+//                    },
+//                    country: {
+//                        required: true
+//                    },
+//                    //payment
+//                    card_name: {
+//                        required: true
+//                    },
+//                    card_number: {
+//                        minlength: 16,
+//                        maxlength: 16,
+//                        required: true
+//                    },
+//                    card_cvc: {
+//                        digits: true,
+//                        required: true,
+//                        minlength: 3,
+//                        maxlength: 4
+//                    },
+//                    card_expiry_date: {
+//                        required: true
+//                    },
+//                    'payment[]': {
+//                        required: true,
+//                        minlength: 1
+//                    }
                 },
 
                 messages: { // custom messages for radio buttons and checkboxes
-                    'payment[]': {
-                        required: "Elija una opción",
-                        minlength: jQuery.validator.format("Elija una opción")
-                    }
+//                    'payment[]': {
+//                        required: "Elija una opción",
+//                        minlength: jQuery.validator.format("Elija una opción")
+//                    }
                 },
 
-                errorPlacement: function (error, element) { // render error placement for each input type
+                errorPlacement: function(error, element) { // render error placement for each input type
                     if (element.attr("name") == "operacion") { // for uniform radio buttons, insert the after the given container
                         error.insertAfter("#form_operacion_error");
                     } else if (element.attr("name") == "precio") {
@@ -2769,21 +2768,21 @@
                     }
                 },
 
-                invalidHandler: function (event, validator) { //display error alert on form submit
+                invalidHandler: function(event, validator) { //display error alert on form submit
                     success.hide();
                     error.show();
                     Metronic.scrollTo(error, -200);
                 },
 
-                highlight: function (element) { // highlight error inputs
+                highlight: function(element) { // highlight error inputs
                     $(element).closest('.form-group').removeClass('has-success').addClass('has-error'); // set error class to the control group
                 },
 
-                unhighlight: function (element) { // revert the change done by hightlight
+                unhighlight: function(element) { // revert the change done by hightlight
                     $(element).closest('.form-group').removeClass('has-error'); // set error class to the control group
                 },
 
-                success: function (label) {
+                success: function(label) {
                     if (label.attr("for") == "gender" || label.attr("for") == "payment[]") { // for checkboxes and radio buttons, no need to show OK icon
                         label.closest('.form-group').removeClass('has-error').addClass('has-success');
                         label.remove(); // remove error label here
@@ -2793,10 +2792,10 @@
                     }
                 },
 
-                submitHandler: function (form) {
+                submitHandler: function(form) {
                     success.show();
                     error.hide();
-                    //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+                    form.submit();
                 }
             });
 
@@ -2855,10 +2854,10 @@
             formWizard.bootstrapWizard({
                 'nextSelector': '.button-next',
                 'previousSelector': '.button-previous',
-                onTabClick: function (tab, navigation, index, clickedIndex) {
+                onTabClick: function(tab, navigation, index, clickedIndex) {
                     return false; // navigation on nav pills click disabled
                 },
-                onNext: function (tab, navigation, index) {
+                onNext: function(tab, navigation, index) {
                     success.hide();
                     error.hide();
                     if (form.valid() == false) {
@@ -2866,26 +2865,27 @@
                     }
                     handleTitle(tab, navigation, index);
                 },
-                onPrevious: function (tab, navigation, index) {
+                onPrevious: function(tab, navigation, index) {
                     success.hide();
                     error.hide();
 
                     handleTitle(tab, navigation, index);
                 },
-                onTabShow: function (tab, navigation, index) {
+                onTabShow: function(tab, navigation, index) {
                     var total = navigation.find('li').length;
                     var current = index + 1;
                     var $percent = (current / total) * 100;
                     formWizard.find('.progress-bar').css({
                         width: $percent + '%'
                     });
+                },
+                onFinish: function(tab, navigation, index) {
+                    form.submit();
                 }
             });
 
             formWizard.find('.button-previous').hide();
-            formWizard.find('.button-submit').click(function () {
-                formWizard.submit();
-            }).hide();
+            formWizard.find('.button-submit').hide();
 
             $("input[name^='n_']").not("input[name^='n_season']").not("input[name^='n_min_nights']").TouchSpin({
                 min: 1,
