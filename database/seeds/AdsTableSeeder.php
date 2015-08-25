@@ -904,6 +904,12 @@ class AdsTableSeeder extends Seeder
             $max_capacity = $min_capacity + $n_sb + $n_d_sb * 2 + $n_eb;
             $payment_day = mt_rand(1,$n_payment_day_options);
             $days_before = (\App\OptionPaymentDay::find($payment_day)->name == 'Días antes') ? mt_rand(1,30) : null;
+            $has_booking = mt_rand(0,1);
+            $has_deposit = mt_rand(0,1);
+            $has_cleaning = mt_rand(0,1);
+            $booking = ($has_booking) ? mt_rand(250,550) : null;
+            $deposit = ($has_deposit) ? mt_rand(350,1550) : null;
+            $cleaning = ($has_cleaning) ? mt_rand(50,350) : null;
 
             $newAd = App\Ad::create();
             $newRentVacation = \App\Lodging::create([
@@ -954,9 +960,12 @@ class AdsTableSeeder extends Seeder
                 'max_capacity'              => $max_capacity,
                 'payment_day_id'            => $payment_day,
                 'n_days_before'             => $days_before,
-                'booking'                   => (mt_rand(0,5)) ? null : mt_rand(250,550),
-                'deposit'                   => (mt_rand(0,5)) ? null : mt_rand(350,1550),
-                'cleaning'                  => (mt_rand(0,5)) ? null : mt_rand(50,350),
+                'has_booking'               => $has_booking,
+                'booking'                   => $booking,
+                'has_deposit'               => $has_deposit,
+                'deposit'                   => $deposit,
+                'has_cleaning'              => $has_cleaning,
+                'cleaning'                  => $cleaning,
                 'has_included_towels' => mt_rand(0,1),
                 'has_included_expenses' => mt_rand(0,1),
                 'accepts_cash' => mt_rand(0,1),
@@ -1035,7 +1044,7 @@ class AdsTableSeeder extends Seeder
                     'p_half_month' => mt_rand(8, 35),
                     'p_one_month' => mt_rand(5,30),
                     'p_extra_guest_per_night' => mt_rand(5,30),
-                    'n_min_nights' => mt_rand(1,30),
+                    'n_min_nights' => mt_rand(1,90),
                     'rent_vacation_id' => $newRentVacation->id,
                 ]);
                 $this->command->info('Seeded Season Price (id: '.$newSeasonPrice->id.') for Rent Vacation (id: '.$newRentVacation->id.')');
@@ -1105,7 +1114,7 @@ class AdsTableSeeder extends Seeder
                     'ad_id'     => $ad->id,
                     'filename'  => 'http://lorempixel.com/640/480/city/',
                 ]);
-                $this->command->info('Seeded Picture for Ad (id: '.$ad->id.')');
+                $this->command->info('Seeded Pictures for Ad (id: '.$ad->id.')');
             }
         }
     }

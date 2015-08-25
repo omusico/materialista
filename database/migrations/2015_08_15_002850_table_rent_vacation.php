@@ -108,7 +108,7 @@ class TableRentVacation extends Migration
             $table->integer('payment_day_id',false,true);
             $table->foreign('payment_day_id')->references('id')->on('payment_day')->onDelete('restrict')->onUpdate('cascade');
             $table->integer('n_days_before',false,true)->nullable();
-            $table->boolean('is_cleaning_included');
+            $table->boolean('has_cleaning');
             $table->integer('cleaning',false,true)->nullable();
             $table->boolean('has_included_towels');
             $table->boolean('has_included_expenses');

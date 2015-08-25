@@ -49,3 +49,7 @@ Homestead.yaml
 .env
 
 _ide_helper.php
+
+# Materialista
+public/ads/pictures/*.jpg
+public/ads/thumbnails/*.jpg

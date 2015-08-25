@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.bootstrap-touchspin.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-formhelpers.css') }}">
     {{--STEP 3, photo input, progress bar...--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.fileupload.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.fileupload-ui.css') }}">
@@ -25,6 +26,16 @@
         #uploading-bar {
             margin: 0;
             height: 4px;
+        }
+        #vacation-prices-table > thead > tr > th {
+            text-align: center;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        #vacation-prices-table > tbody > tr > td {
+            text-align: center;
+            font-size: 11px;
+            vertical-align: middle;
         }
     </style>
 @endsection
@@ -1493,7 +1504,125 @@
                                                 </div>
                                             </div>
 
-                                            {{--TABLA CON AñADIR SEASONS, COLUMNAS/PRECIOS y NOCHES MINIMAS--}}
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Precio
+                                                </label>
+                                                <div class="col-md-9">
+                                                    <table id="vacation-prices-table" class="table table-responsive table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="3"></th>
+                                                                <th colspan="6">Precio por noche según temporada</th>
+                                                                <th colspan="2"></th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Temporada</th>
+                                                                <th width="160">De</th>
+                                                                <th width="160">A</th>
+                                                                <th>Noche</th>
+                                                                <th>Fin de semana</th>
+                                                                <th>Semana</th>
+                                                                <th>Dos semanas</th>
+                                                                <th>Mes</th>
+                                                                <th>Extra por invitado y noche</th>
+                                                                <th>Mínimo de noches</th>
+                                                                <th>Eliminar</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbody-seasons">
+                                                            <tr data-season="0">
+                                                                <td><input name="n_season-0" class="hidden" value="0">Resto del a&ntilde;o</td>
+                                                                <td><input name="from_date-0" class="hidden" value="">-</td>
+                                                                <td><input name="to_date-0" class="hidden" value="">-</td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_one_night-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_weekend_night-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_one_week-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_half_month-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_one_month-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_extra_guest_per_night-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="n_min_nights-0"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr data-season="1">
+                                                                <td><input name="n_season-1" class="hidden" value="1"></td>
+                                                                <td>
+                                                                    <div class="bfh-datepicker" data-name="from_date-1"></div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="bfh-datepicker" data-name="to_date-1"></div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_one_night-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_weekend_night-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_one_week-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_half_month-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_one_month-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="p_extra_guest_per_night-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" name="n_min_nights-1"/>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="javascript:" class="btn btn-danger btn-delete-season"><i class="fa fa-times"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <a href="javascript:" id="btn-add-season" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i> A&ntilde;adir temporada</a>
+                                                </div>
+                                            </div>
 
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Reserva
@@ -2214,7 +2343,7 @@
                                         <div class="tab-pane" id="tab3">
 
                                             <div class="row">
-                                                <div class="col-md-3" style="padding-bottom:150px;">
+                                                <div class="col-md-3">
                                                     <form action="{{ route('upload.img') }}" class="form-horizontal" id="fileupload" method="POST" enctype="multipart/form-data">
                                                         <input type="hidden" name="_token" value="{{ \Session::token() }}">
                                                         <span class="btn btn-primary btn-block fileinput-button">
@@ -2268,7 +2397,7 @@
                                 </div>
 
                             </div>
-
+                        {{--form end--}}
                     </div>
                 </div>
             </div>
@@ -2286,6 +2415,8 @@
     <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/select2_locale_es.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.bootstrap-touchspin.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-formhelpers.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-formhelpers-datepicker.es_ES.js') }}"></script>
     {{--STEP 3--}}
     <script src="{{ asset('js/jquery.ui.widget.js') }}"></script>
     <script src="{{ asset('js/jquery.iframe-transport.js') }}"></script>
@@ -2344,7 +2475,32 @@
                 $('input[name=min_capacity]').val(min_capacity);
                 $('input[name=max_capacity]').val(min_capacity + extra_capacity);
             }
+
             var tab2 = $('#tab2');
+            var tbodySeason = $('#tbody-seasons');
+            tbodySeason.on('click','.btn-delete-season',function(){
+                $(this).closest('tr').remove();
+            });
+            $('#btn-add-season').click(function(){
+                var lastSeason = tbodySeason.children().last();
+                var num = parseInt(lastSeason.attr('data-season')) + 1;
+                var newSeason = '<tr data-season="' + num + '">'+
+                        '<td><input name="n_season-' + num + '" class="hidden" value="' + num + '">' + '</td>'+
+                        '<td>' + '<div class="bfh-datepicker" data-name="from_date-' + num + '"></div>' + '</td>' +
+                        '<td>' + '<div class="bfh-datepicker" data-name="to_date-' + num + '"></div>' + '</td>' +
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="p_one_night-' + num + '"/>' + '</div>' + '</td>'+
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="p_weekend_night-' + num + '"/>' + '</div>' + '</td>'+
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="p_one_week-' + num + '"/>' + '</div>' + '</td>' +
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="p_half_month-' + num + '"/>' + '</div>' + '</td>' +
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="p_one_month-' + num + '"/>' + '</div>' + '</td>' +
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="p_extra_guest_per_night-' + num + '"/>' + '</div>' + '</td>'+
+                        '<td>' + '<div class="input-group">' + '<input type="text" class="form-control" name="n_min_nights-' + num + '"/>' + '</div>' + '</td>' +
+                        '<td>' + '<a href="javascript:" class="btn btn-danger btn-delete-season"><i class="fa fa-times"></i></a>'+ '</td>' +
+                        '</tr>';
+                tbodySeason.append(newSeason);
+                tbodySeason.children().last().find('div.bfh-datepicker').bfhdatepicker('toggle');
+            });
+
             tab2.on('change','input[name=n_double_bedroom]',function(){calculate_capacity();});
             tab2.on('change','input[name=n_two_beds_room]',function(){calculate_capacity();});
             tab2.on('change','input[name=n_single_bed_room]',function(){calculate_capacity();});
@@ -2728,10 +2884,10 @@
 
             formWizard.find('.button-previous').hide();
             formWizard.find('.button-submit').click(function () {
-                alert('Ha finalizado!');
+                formWizard.submit();
             }).hide();
 
-            $("input[name^='n_']").TouchSpin({
+            $("input[name^='n_']").not("input[name^='n_season']").not("input[name^='n_min_nights']").TouchSpin({
                 min: 1,
                 max: 1000,
                 step: 1,
