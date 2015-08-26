@@ -52,11 +52,12 @@ class AdsTableSeeder extends Seeder
         $activities = ['Tienda de ropa','Frutería','Panadería','Taller mecánico','Bar','Restaurante',
             'Carnicería','Gestión de residuos industriales','Copistería','Fábrica de papel','Acerería',
             'Alfarería','Fábrica de cemento','Fábrica de mezcla bituminosa','Tienda de respuestos'];
+        $deposits = ['1 mes','2 meses','3 meses','4 meses','5 meses','6 meses o más'];
 
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $energy_cert_id = mt_rand(1,$n_energy_certification_options);
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
@@ -244,7 +245,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $energy_cert_id = mt_rand(1,$n_energy_certification_options);
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
@@ -306,7 +307,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $energy_cert_id = mt_rand(1,$n_energy_certification_options);
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
@@ -454,7 +455,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $energy_cert_id = mt_rand(1,$n_energy_certification_options);
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
@@ -611,7 +612,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100,1000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
 
             $newAd = App\Ad::create();
             $newRentGarage = \App\RentGarage::create([
@@ -695,7 +696,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(200,5000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $area_land = mt_rand(100,800);
             $area_constructed = (int) 0.6 * $area_land;
             $area_usable = (int) 0.8 * $area_constructed;
@@ -747,7 +748,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $energy_cert_id = mt_rand(1,$n_energy_certification_options);
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
@@ -1054,7 +1055,7 @@ class AdsTableSeeder extends Seeder
         for ($i=0; $i<50; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(250,700);
-            $deposit = $price*3;
+            $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
             $n_bedrooms = mt_rand(2,5);

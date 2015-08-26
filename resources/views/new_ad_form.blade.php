@@ -170,7 +170,7 @@
                                             </div>
                                             @endif
 
-                                            @if($operation=='0'&&($typology!='5'&&$typology!='6'&&$typology!='7'&&$typology!='8'))
+                                            @if($operation=='0'&&($typology!='6'&&$typology!='7'&&$typology!='8'))
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Gastos de comunidad
                                                 </label>
@@ -513,10 +513,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="category_room_id" value="piso" data-title=""/>
+                                                            <input type="radio" name="category_room_id" value="1" data-title=""/>
                                                             Piso compartido </label>
                                                         <label>
-                                                            <input type="radio" name="category_room_id" value="chalet" data-title=""/>
+                                                            <input type="radio" name="category_room_id" value="2" data-title=""/>
                                                             Chalet compartido </label>
                                                     </div>
                                                     <div id="form_category_room_id_error">
@@ -762,7 +762,7 @@
                                             </div>
                                             @endif
 
-                                            @if($typology=='0'||$typology=='1'||$typology=='2'||$typology=='3'||$typology=='4'||$typology=='8')
+                                            @if($typology=='0'||$typology=='1'||$typology=='2'||$typology=='8')
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">N&uacute;mero de ba&ntilde;os y aseos
                                                 </label>
@@ -771,6 +771,21 @@
                                                         <input type="text" class="form-control" name="n_bathrooms" />
                                                     </div>
                                                     <div id="form_n_bathrooms_error">
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            @if($typology=='3'||$typology=='4')
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">N&uacute;mero de aseos
+                                                </label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="n_restrooms" />
+                                                    </div>
+                                                    <div id="form_n_restrooms_error">
                                                     </div>
                                                     <span class="help-block"></span>
                                                 </div>
@@ -834,10 +849,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_offices_only" value="0" data-title="S&iacute;"/>
+                                                            <input type="radio" name="has_offices_only" value="1" data-title="S&iacute;"/>
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="has_offices_only" value="1" data-title="No"/>
+                                                            <input type="radio" name="has_offices_only" value="0" data-title="No"/>
                                                             No </label>
                                                     </div>
                                                 </div>
@@ -851,13 +866,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="currrent_tenants_gender_id" value="1" data-title="Chico(s) y chica(s)"/>
+                                                            <input type="radio" name="current_tenants_gender_id" value="1" data-title="Chico(s) y chica(s)"/>
                                                             Chico(s) y chica(s) </label>
                                                         <label>
-                                                            <input type="radio" name="currrent_tenants_gender_id" value="2" data-title="S&oacute;lo chico(s)"/>
+                                                            <input type="radio" name="current_tenants_gender_id" value="2" data-title="S&oacute;lo chico(s)"/>
                                                             S&oacute;lo chico(s) </label>
                                                         <label>
-                                                            <input type="radio" name="currrent_tenants_gender_id" value="3" data-title="S&oacute;lo chica(s)"/>
+                                                            <input type="radio" name="current_tenants_gender_id" value="3" data-title="S&oacute;lo chica(s)"/>
                                                             S&oacute;lo chica(s) </label>
                                                     </div>
                                                     <div id="form_currrent_tenants_gender_id_error"></div>
@@ -1107,17 +1122,15 @@
                                                 <label class="control-label col-md-3">Climatización y agua caliente
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
-                                                    <div class="col-md-4" style="padding-top:5px;">
-                                                        <div class="checkbox-list">
-                                                            <label>
-                                                                <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
-                                                            <label>
-                                                                <input type="checkbox" name="has_air_conditioning_pre-installation" value="1" data-title="Preinstalación de aire acondicionado"/> Preinstalación de aire acondicionado</label>
-                                                            <label>
-                                                                <input type="checkbox" name="has_heating" value="1" data-title="Calefacción"/> Calefacción</label>
-                                                            <label>
-                                                                <input type="checkbox" name="has_hot_water" value="1" data-title="Agua caliente"/> Agua caliente</label>
-                                                        </div>
+                                                    <div class="checkbox-list">
+                                                        <label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_air_conditioning_pre-installation" value="1" data-title="Preinstalación de aire acondicionado"/> Preinstalación de aire acondicionado</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_heating" value="1" data-title="Calefacción"/> Calefacción</label>
+                                                        <label>
+                                                            <input type="checkbox" name="has_hot_water" value="1" data-title="Agua caliente"/> Agua caliente</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1147,7 +1160,7 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_handicapped_adapted" value="yes" data-title="Adaptado a personas con movilidad reducida"/> Adaptado a personas con movilidad reducida</label>
+                                                            <input type="checkbox" name="is_handicapped_adapted" value="1" data-title="Adaptado a personas con movilidad reducida"/> Adaptado a personas con movilidad reducida</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1191,7 +1204,7 @@
                                                         <label>
                                                             <input type="checkbox" name="is_covered" value="1" data-title="Cubierto"/> Cubierto</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_automic_door" value="1" data-title="Puerta automática"/> Puerta automática</label>
+                                                            <input type="checkbox" name="has_automatic_door" value="1" data-title="Puerta automática"/> Puerta automática</label>
                                                         <label>
                                                             <input type="checkbox" name="has_lift" value="1" data-title="Ascensor"/> Ascensor</label>
                                                         <label>
@@ -1532,8 +1545,8 @@
                                                         <tbody id="tbody-seasons">
                                                             <tr data-season="0">
                                                                 <td><input name="n_season-0" class="hidden" value="0">Resto del a&ntilde;o</td>
-                                                                <td><input name="from_date-0" class="hidden" value="">-</td>
-                                                                <td><input name="to_date-0" class="hidden" value="">-</td>
+                                                                <td><input name="from_date-0" class="hidden" value="1/1/1900">-</td>
+                                                                <td><input name="to_date-0" class="hidden" value="1/1/2999">-</td>
                                                                 <td>
                                                                     <div class="input-group">
                                                                         <input type="text" class="form-control" name="p_one_night-0"/>
@@ -1699,10 +1712,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="is_cleaning_included" value="1" data-title="Incluida en el precio"/>
+                                                            <input type="radio" name="has_cleaning" value="0" data-title="Incluida en el precio"/>
                                                             Incluida en el precio </label>
                                                         <label>
-                                                            <input type="radio" name="is_cleaning_included" value="0" data-title="No incluida. En euros:"/>
+                                                            <input type="radio" name="has_cleaning" value="1" data-title="No incluida. En euros:"/>
                                                             No incluida. En euros: </label>
                                                         <div class="input-group">
                                                             <input type="text" class="form-control" name="cleaning" disabled="disabled"/>
@@ -2497,7 +2510,11 @@
                         '<td>' + '<a href="javascript:" class="btn btn-danger btn-delete-season"><i class="fa fa-times"></i></a>'+ '</td>' +
                         '</tr>';
                 tbodySeason.append(newSeason);
+                //initialize datepickers
                 tbodySeason.children().last().find('div.bfh-datepicker').bfhdatepicker('toggle');
+                //get sure new datepickers have the correct input names
+                tbodySeason.children().last().find("div[data-name^='from_date']").find('input').attr('name','from_date-'+num);
+                tbodySeason.children().last().find("div[data-name^='to_date']").find('input').attr('name','to_date-'+num);
             });
 
             tab2.on('change','input[name=n_double_bedroom]',function(){calculate_capacity();});
@@ -2532,8 +2549,8 @@
                     $('input[name=deposit-euros]').attr("disabled","disabled").val('');
                 }
             });
-            tab2.on('change', 'input[type=radio][name=is_cleaning_included]', function() {
-                if ($(this).val() == '0') {
+            tab2.on('change', 'input[type=radio][name=has_cleaning]', function() {
+                if ($(this).val() == '1') {
                     $('input[name=cleaning]').removeAttr('disabled');
                 } else {
                     $('input[name=cleaning]').attr("disabled","disabled").val('');

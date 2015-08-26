@@ -11,6 +11,7 @@ use App\RentHouse;
 use App\RentLand;
 use App\RentOffice;
 use App\Room;
+use App\SeasonPrice;
 use App\SellApartment;
 use App\SellBusiness;
 use App\SellCountryHouse;
@@ -18,6 +19,7 @@ use App\SellGarage;
 use App\SellHouse;
 use App\SellLand;
 use App\SellOffice;
+use Carbon\Carbon;
 
 class AdminController extends Controller {
 
@@ -66,6 +68,20 @@ class AdminController extends Controller {
                 $input['door'] = $input['door_letter'];
             } else if ($input['door'] == '1') {
                 $input['door'] = $input['door_number'];
+            }
+        }
+        if(isset($input['has_booking'])) {
+            if ($input['has_booking']=='1') {
+                $input['booking'] = $input['booking-percentage'];
+            } else if ($input['has_booking']=='2') {
+                $input['booking'] = $input['booking-euros'];
+            }
+        }
+        if(isset($input['has_deposit'])) {
+            if ($input['has_deposit']=='1') {
+                $input['deposit'] = $input['deposit-percentage'];
+            } else if ($input['has_deposit']=='2') {
+                $input['deposit'] = $input['deposit-euros'];
             }
         }
 
@@ -140,6 +156,25 @@ class AdminController extends Controller {
                         break;
                     case '7': //vacation (lodging)
                         $new = Lodging::create($input);
+                        //associate prices to new lodging
+                        foreach($input as $key => $value) {
+                            $exp_key = explode('-', $key);
+                            if($exp_key[0] == 'n_season'){
+                                SeasonPrice::create([
+                                    'n_season'                  => $value,
+                                    'from_date'                 => Carbon::createFromFormat('d/m/Y',$input['from_date-'.$value]),
+                                    'to_date'                   => Carbon::createFromFormat('d/m/Y',$input['to_date-'.$value]),
+                                    'p_one_night'               => $input['p_one_night-'.$value],
+                                    'p_weekend_night'           => $input['p_weekend_night-'.$value],
+                                    'p_one_week'                => $input['p_one_week-'.$value],
+                                    'p_half_month'              => $input['p_half_month-'.$value],
+                                    'p_one_month'               => $input['p_one_month-'.$value],
+                                    'p_extra_guest_per_night'   => $input['p_extra_guest_per_night-'.$value],
+                                    'n_min_nights'              => $input['n_min_nights-'.$value],
+                                    'rent_vacation_id'          => $new->id
+                                ]);
+                            }
+                        }
                         break;
                     case '8': //room
                         $new = Room::create($input);
