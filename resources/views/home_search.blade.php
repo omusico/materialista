@@ -81,33 +81,11 @@
             color: #FFF;
             background-color: #F26721;
         }
-        #footer {
-            background-color: #F2F2F2;
-            color: #4A4A4A;
-            font-size: 14px;
-        }
     </style>
 @endsection
 
 @section('content')
     <label><input class="hidden" name="_token" value="{{ Session::token() }}"></label>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-6">
-                @if(\App::environment() == 'local')
-                <h1>Materialista</h1>
-                @else
-                <div style="display:inline-block;height:100px;width:215px;
-                        background-image: url('{{ asset('img/logo-valkiria.png') }}');
-                        background-size: contain;">
-                </div>
-                @endif
-            </div>
-            <div class="col-xs-6 text-right">
-                {{--TODO: change language--}}
-            </div>
-        </div>
-    </div>
     <div class="container-fluid"  style="height:400px;
             background-image: url('{{ asset('img/frenchhouse.jpg') }}');
             background-position: 0% 50%;
@@ -194,18 +172,6 @@
                     </div>
                     <button class="btn inline btn-default" style="width:20%;vertical-align: top;">Buscar</button>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid" id="footer">
-        <div class="row">
-            <div class="col-xs-12" style="padding-top:50px;padding-bottom:10px;">
-                @if(\App::environment() == 'local')
-                <b>Materialista</b>
-                @else
-                <b>Valkiria</b>
-                @endif
-                Copyright &copy; 2015
             </div>
         </div>
     </div>

@@ -10,15 +10,18 @@ class HomeController extends Controller {
         $this->middleware('guest');
     }
 
-    public function showTesterIndex() {
+    public function showTesterIndex()
+    {
         return view('tester_index');
     }
 
-    public function index() {
+    public function index()
+    {
         return view('home_search');
     }
 
-    public function postAdminsAndLocalities(){
+    public function postAdminsAndLocalities()
+    {
         $input = \Input::all();
         $response = [];
         $response['admins'] = HomeLib::getAdminLvl2List($input['operation'],$input['typology']);
@@ -28,12 +31,18 @@ class HomeController extends Controller {
         return \Response::json($response,200);
     }
 
-    public function postLocalities(){
+    public function postLocalities()
+    {
         $input = \Input::all();
         $response = [];
         $response['localities'] = HomeLib::getLocalityList($input['operation'],$input['typology'],$input['adminLvl2']);
 
         return \Response::json($response,200);
+    }
+
+    public function getResults()
+    {
+        return view('results');
     }
 
 }

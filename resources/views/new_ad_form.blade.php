@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('basic')
 
 @section('css')
     {{--STEPS 1 and 2--}}

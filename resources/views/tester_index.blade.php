@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('basic')
 
 @section('css')
     @if(\App::environment() == 'local')
@@ -31,7 +31,7 @@
                 <h4>Vistas en desarrollo:</h4>
                 <a href="{{ route('form.new.ad') }}" class="btn btn-primary">New ad form</a>
                 <a href="{{ route('home') }}" class="btn btn-primary">Home/Search</a>
-                <a href="javascript:" class="btn btn-primary disabled">Search results and filters</a>
+                <a href="{{ route('results') }}" class="btn btn-primary">Search results and filters</a>
                 <a href="javascript:" class="btn btn-primary disabled">Ad profile</a>
             </div>
         </div>

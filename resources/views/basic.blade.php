@@ -13,22 +13,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-theme.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
-    <style>
-        #footer {
-            background-color: #F2F2F2;
-            color: #4A4A4A;
-            font-size: 14px;
-        }
-    </style>
     {{--Page related CSS--}}
     @yield('css')
 </head>
 <body>
-    @include('header')
-
     @yield('content')
 
-    @include('footer')
     {{--Common JS--}}
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -36,4 +26,3 @@
     @yield('js')
 </body>
 </html>
-

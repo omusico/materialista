@@ -18,6 +18,9 @@ Route::get('/home', ['as'=>'home','uses'=>'HomeController@index']);
 Route::post('updateAdminsAndLocalities', ['as'=>'update.list.1','uses'=>'HomeController@postAdminsAndLocalities']);
 Route::post('updateLocalities', ['as'=>'update.list.2','uses'=>'HomeController@postLocalities']);
 
+//Results page
+Route::get('/resultados', ['as'=>'results','uses'=>'HomeController@getResults']);
+
 //New ad form
 Route::get('form_new', ['as'=>'form.new.ad','uses'=>'AdminController@showNewAdForm']);
 Route::get('check_address', 'AdminController@checkAddress');
