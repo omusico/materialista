@@ -89,7 +89,7 @@
             padding-right: 5px;
         }
         .ad-address,.ad-price,.ad-details,.ad-description {
-            margin-left: 20px;
+            padding-left: 35px;
         }
         .ad-address {
             font-size: 16px;
@@ -114,6 +114,18 @@
             font-size: 15px;
             color: #808080;
             padding-top: 5px;
+        }
+        @media (max-width:767px) {
+            .ad-info { min-height: 50px; }
+        }
+        @media (min-width:768px) {
+            .ad-info { height: 190px; }
+        }
+        @media (min-width:992px) {
+            .ad-info { height: 190px; }
+        }
+        @media (min-width:1200px) {
+            .ad-info { height: 190px; }
         }
     </style>
 @endsection
@@ -178,7 +190,7 @@
                                     </div>
                                 </div>
                                 {{--Info del AD--}}
-                                <div class="col-xs-12 col-sm-8" style="height:190px;background-color: #FFF;padding-left:0;">
+                                <div class="col-xs-12 col-sm-8 ad-info" style="background-color: #FFF;padding-left:0;">
                                     {{--Tipo de inmueble y dirección--}}
                                     <div class="row">
                                         <div class="col-xs-12 ad-address">
@@ -199,7 +211,7 @@
                                         </div>
                                     </div>
                                     {{--Descripción excerpt--}}
-                                    <div class="row">
+                                    <div class="row hidden-xs">
                                         <div class="col-xs-12 ad-description">
                                             @if($ad->description!='') {{ substr($ad->description,0,135).'...' }} @endif
                                         </div>
