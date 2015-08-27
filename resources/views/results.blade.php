@@ -201,13 +201,13 @@
                                     {{--Precio y aquello importante que incluye--}}
                                     <div class="row">
                                         <div class="col-xs-12 ad-price">
-                                            {{ $ad->price }} <small style="font-weight: normal;">&euro;</small> @if(isset($ad->has_parking_space)&&$ad->has_parking_space) Garaje incluido @endif
+                                            {{ number_format((float) $ad->price,0,',','.') }} <small style="font-weight: normal;">&euro;</small> @if(isset($ad->has_parking_space)&&$ad->has_parking_space) Garaje incluido @endif
                                         </div>
                                     </div>
                                     {{--Detalles importantes: tamaño, no. habitaciones, planta, si ascensor--}}
                                     <div class="row">
                                         <div class="col-xs-12 ad-details">
-                                            <span>{{ $ad->rooms }} habs.</span> <span>{{ $ad->area }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
+                                            <span>{{ $ad->rooms }} habs.</span> <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
                                         </div>
                                     </div>
                                     {{--Descripción excerpt--}}
