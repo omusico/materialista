@@ -62,8 +62,7 @@
         .thumbs-slider li {
             height:190px;
         }
-        .bx-wrapper
-        {
+        .bx-wrapper {
             -moz-box-shadow: 0;
             -webkit-box-shadow: 0;
             box-shadow: none;
@@ -71,6 +70,14 @@
             left: 0;
             background: #fff;
             margin-bottom:0;
+        }
+        .bx-wrapper .bx-prev,
+        .bx-wrapper .bx-next {
+            opacity: 0.5;
+        }
+        .bx-wrapper .bx-prev:hover,
+        .bx-wrapper .bx-next:hover {
+            opacity: 1;
         }
         .slide-counter {
             font-size: 16px;
@@ -81,6 +88,33 @@
             margin-top: -25px;
             padding-right: 5px;
         }
+        .ad-address,.ad-price,.ad-details,.ad-description {
+            margin-left: 20px;
+        }
+        .ad-address {
+            font-size: 16px;
+            color: #1260ff;
+            padding-top: 10px;
+        }
+        .ad-price {
+            font-size: 20px;
+            color: #111111;
+            font-weight: bold;
+            padding-top: 10px;
+        }
+        .ad-details {
+            font-size: 14px;
+            color: #2e2e2e;
+            padding-top: 5px;
+        }
+        .ad-details > span {
+            margin-right:6px;
+        }
+        .ad-description {
+            font-size: 15px;
+            color: #808080;
+            padding-top: 5px;
+        }
     </style>
 @endsection
 
@@ -88,8 +122,8 @@
     {{--Descripción de resultados y tabs--}}
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                <h3>Número de resultados y tipo de resultados</h3>
+            <div class="col-xs-12" style="padding-top:10px;">
+                <h3>{{ count($ads) }} {{ $typology }} @if($search_type=='0') en @else cerca de @endif {{ $locality }}</h3>
             </div>
         </div>
         <div class="row" style="padding-top:15px;">
@@ -113,13 +147,18 @@
                 {{--Filtros--}}
                 <div class="hidden-xs col-sm-3">
                     <div class="well">
-                        Aquí van los filtros
+                        FILTROS EN DESARROLLO
                     </div>
                 </div>
                 {{--Resultados--}}
                 <div class="col-xs-12 col-sm-9">
                     <div id="results">
-                        @foreach(\App\SellHouse::all() as $ad)
+                        @if(count($ads)===0)
+                            <div style="margin-top:30px;">
+                                No se encontraron resultados
+                            </div>
+                        @endif
+                        @foreach($ads as $ad)
                             <div class="row" style="margin-top:30px;">
                                 {{--Slider de thumbnails--}}
                                 <div class="hidden-xs col-sm-4 slider-container" style="padding-right:0;">
@@ -140,7 +179,31 @@
                                 </div>
                                 {{--Info del AD--}}
                                 <div class="col-xs-12 col-sm-8" style="height:190px;background-color: #FFF;padding-left:0;">
-
+                                    {{--Tipo de inmueble y dirección--}}
+                                    <div class="row">
+                                        <div class="col-xs-12 ad-address">
+                                            {{--route,street_number,price,has_parking_space--}}
+                                            {{ $ad->type }} en @if(!$ad->hide_address) {{ $ad->route }}, {{ $ad->number }}, @endif {{ $ad->locality }}
+                                        </div>
+                                    </div>
+                                    {{--Precio y aquello importante que incluye--}}
+                                    <div class="row">
+                                        <div class="col-xs-12 ad-price">
+                                            {{ $ad->price }} <small style="font-weight: normal;">&euro;</small> @if(isset($ad->has_parking_space)&&$ad->has_parking_space) Garaje incluido @endif
+                                        </div>
+                                    </div>
+                                    {{--Detalles importantes: tamaño, no. habitaciones, planta, si ascensor--}}
+                                    <div class="row">
+                                        <div class="col-xs-12 ad-details">
+                                            <span>{{ $ad->rooms }} habs.</span> <span>{{ $ad->area }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
+                                        </div>
+                                    </div>
+                                    {{--Descripción excerpt--}}
+                                    <div class="row">
+                                        <div class="col-xs-12 ad-description">
+                                            @if($ad->description!='') {{ substr($ad->description,0,135).'...' }} @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -149,9 +212,6 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
 @section('js')

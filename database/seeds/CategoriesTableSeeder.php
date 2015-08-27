@@ -26,7 +26,7 @@ class CategoriesTableSeeder extends Seeder
         \App\CategoryCountryHouse::create(['name'=>'Torre']);
         \App\CategoryCountryHouse::create(['name'=>'Caserón']);
 
-        \App\CategoryHouse::create(['name'=>'Casa/chalet independiente']);
+        \App\CategoryHouse::create(['name'=>'Casa']);
         \App\CategoryHouse::create(['name'=>'Chalet pareado']);
         \App\CategoryHouse::create(['name'=>'Chalet adosado']);
 
@@ -39,6 +39,6 @@ class CategoriesTableSeeder extends Seeder
         \App\CategoryLodging::create(['name'=>'Villa']); //Chalet independiente con jardín por los cuatro costados
 
         \App\CategoryRoom::create(['name'=>'Piso compartido']);
-        \App\CategoryRoom::create(['name'=>'Casa/chalet compartido']);
+        \App\CategoryRoom::create(['name'=>'Casa compartida']);
     }
 }

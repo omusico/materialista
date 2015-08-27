@@ -12,6 +12,8 @@ class AdsTableSeeder extends Seeder
      */
     public function run()
     {
+        define('THIS_MANY_ADS', '5');
+
         $faker = Faker\Factory::create('es_ES');
 
         $n_house_categories = DB::table('category_house')->count();
@@ -54,7 +56,7 @@ class AdsTableSeeder extends Seeder
             'Alfarería','Fábrica de cemento','Fábrica de mezcla bituminosa','Tienda de respuestos'];
         $deposits = ['1 mes','2 meses','3 meses','4 meses','5 meses','6 meses o más'];
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -62,8 +64,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -118,7 +120,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent House (id: '.$newRentHouse->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100000,1000000);
             $community_cost = (mt_rand(0,5)) ? null : mt_rand(10,100);
@@ -126,8 +128,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -180,7 +182,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell House (id: '.$newSellHouse->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100000,1000000);
             $community_cost = (mt_rand(0,5)) ? null : mt_rand(10,100);
@@ -188,8 +190,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(300,2400);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -242,7 +244,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell Country House (id: '.$newSellCountryHouse->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -250,8 +252,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(300,2400);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -304,7 +306,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Country House (id: '.$newRentCountryHouse->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -312,8 +314,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
@@ -378,7 +380,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Office (id: '.$newRentOffice->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100000,1000000);
             $community_cost = (mt_rand(0,5)) ? null : mt_rand(10,300);
@@ -386,8 +388,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
@@ -452,7 +454,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell Office (id: '.$newSellOffice->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -460,8 +462,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
 
@@ -514,7 +516,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Business (id: '.$newRentBusiness->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100000,1000000);
             $community_cost = (mt_rand(0,5)) ? null : mt_rand(10,300);
@@ -522,8 +524,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
 
@@ -575,7 +577,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell Business (id: '.$newSellBusiness->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(10000,100000);
             $community_cost = (mt_rand(0,5)) ? null : mt_rand(10,100);
@@ -609,7 +611,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell Garage (id: '.$newSellGarage->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100,1000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -643,12 +645,12 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Garage (id: '.$newRentGarage->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(50000,500000);
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
 
             $newAd = App\Ad::create();
@@ -693,13 +695,13 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell Land (id: '.$newSellLand->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(200,5000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
 
             $newAd = App\Ad::create();
@@ -745,7 +747,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Land (id: '.$newRentLand->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(600,2000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -753,8 +755,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
             $is_new_development = mt_rand(0,1);
@@ -818,7 +820,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Rent Apartment (id: '.$newRentApartment->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(100000,1000000);
             $community_cost = (mt_rand(0,5)) ? null : mt_rand(10,300);
@@ -826,8 +828,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) 0.6 * $area_land;
-            $area_usable = (int) 0.8 * $area_constructed;
+            $area_constructed = (int) (0.6 * $area_land);
+            $area_usable = (int) (0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
             $is_new_development = mt_rand(0,1);
@@ -889,7 +891,7 @@ class AdsTableSeeder extends Seeder
             $this->command->info('Seeded Sell Apartment (id: '.$newSellApartment->id.')');
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
@@ -1052,7 +1054,7 @@ class AdsTableSeeder extends Seeder
             }
         }
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<THIS_MANY_ADS; $i++) {
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(250,700);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
@@ -1113,7 +1115,7 @@ class AdsTableSeeder extends Seeder
             for($i=0;$i<$n_pics;++$i) {
                 \App\AdPic::create([
                     'ad_id'     => $ad->id,
-                    'filename'  => 'http://lorempixel.com/640/480/city/',
+                    'filename'  => 'http://lorempixel.com/640/480/city/Faker',
                 ]);
                 $this->command->info('Seeded Pictures for Ad (id: '.$ad->id.')');
             }

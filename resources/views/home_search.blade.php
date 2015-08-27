@@ -99,9 +99,9 @@
         <div class="row">
             <div class="col-xs-3">
                 <ul class="list-group" id="list-operation">
-                    <a href="javascript:" data-value="0" class="list-group-item active">Comprar</a>
-                    <a href="javascript:" data-value="1" class="list-group-item">Alquilar</a>
-                    <a href="javascript:" data-value="2" class="list-group-item">Compartir</a>
+                    <a href="javascript:" data-value="0" data-txt="Comprar" class="list-group-item active">Comprar</a>
+                    <a href="javascript:" data-value="1" data-txt="Alquilar" class="list-group-item">Alquilar</a>
+                    <a href="javascript:" data-value="2" data-txt="Compartir" class="list-group-item">Compartir</a>
                 </ul>
             </div>
             <div class="col-xs-3">

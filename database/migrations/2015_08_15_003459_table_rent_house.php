@@ -26,11 +26,11 @@ class TableRentHouse extends Migration
             $table->string('deposit')->nullable();
 
             //property info
-            $table->boolean('is_bank_agency',false,true);
-            $table->boolean('is_state_subsidized',false,true);
-            $table->boolean('is_new_development',false,true);
-            $table->boolean('is_new_development_finished',false,true);
-            $table->boolean('is_rent_to_own',false,true);
+            $table->boolean('is_bank_agency');
+            $table->boolean('is_state_subsidized');
+            $table->boolean('is_new_development');
+            $table->boolean('is_new_development_finished');
+            $table->boolean('is_rent_to_own');
 
             //address
             $table->decimal('lat',9,7);
