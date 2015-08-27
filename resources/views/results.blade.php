@@ -183,7 +183,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 ad-address">
                                             {{--route,street_number,price,has_parking_space--}}
-                                            {{ $ad->type }} en @if(!$ad->hide_address) @if(isset($ad->route)) {{ $ad->route }}, @endif @if(isset($ad->number)) {{ $ad->number }}, @endif @endif {{ $ad->locality }}
+                                            {{ $ad->type }} en @if(!$ad->hide_address) @if(isset($ad->route)) {{ $ad->route }}, @endif @if(isset($ad->street_number)) {{ $ad->street_number }}, @endif @endif {{ $ad->locality }}
                                         </div>
                                     </div>
                                     {{--Precio y aquello importante que incluye--}}
