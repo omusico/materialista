@@ -127,6 +127,12 @@
         @media (min-width:1200px) {
             .ad-info { height: 190px; }
         }
+        .col-price-min {
+            padding: 0 1px 0 0;
+        }
+        .col-price-max {
+            padding: 0 0 0 1px;
+        }
     </style>
 @endsection
 
@@ -159,66 +165,129 @@
                 {{--Filtros--}}
                 <div class="hidden-xs col-sm-3">
                     <div class="well">
-                        FILTROS EN DESARROLLO
+                    @if($input['operation']=='0')
+                        <div class="row">
+                            <div class="col-xs-6 col-price-min">
+                                <label for="price-min">Precio mínimo</label>
+                                <select name="price-min" class="form-control" title="Precio mínimo">
+                                    <option value="">Seleccione</option>
+                                    <option value="0">OPTION</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-6 col-price-max">
+                                <label for="price-max">Precio máximo</label>
+                                <select name="price-max" class="form-control" title="Precio máximo">
+                                    <option value="">Seleccione</option>
+                                    <option value="0">OPTION</option>
+                                </select>
+                            </div>
+                        </div>
+                    @elseif($input['operation']=='1'&&$typology!='2')
+                        <div class="row">
+                            <div class="col-xs-6 col-price-min">
+                                <label for="price-min">Precio mínimo</label>
+                                <select name="price-min" class="form-control" title="Precio mínimo">
+                                    <option value="">Seleccione</option>
+                                    <option value="0">OPTION</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-6 col-price-max">
+                                <label for="price-max">Precio máximo</label>
+                                <select name="price-max" class="form-control" title="Precio máximo">
+                                    <option value="">Seleccione</option>
+                                    <option value="0">OPTION</option>
+                                </select>
+                            </div>
+                        </div>
+                    @endif
+                    @if($input['typology']=='0'||$input['typology']=='1')
+
+                    @elseif($input['typology']=='2')
+
+                    @elseif($input['typology']=='3')
+
+                    @elseif($input['typology']=='4')
+
+                    @elseif($input['typology']=='5')
+
+                    @elseif($input['typology']=='6')
+
+                    @elseif($input['typology']=='7')
+
+                    @endif
                     </div>
                 </div>
                 {{--Resultados--}}
                 <div class="col-xs-12 col-sm-9">
                     <div id="results">
-                        @if(count($ads)===0)
-                            <div style="margin-top:30px;">
-                                No se encontraron resultados
-                            </div>
-                        @endif
-                        @foreach($ads as $ad)
-                            <div class="row" style="margin-top:30px;">
-                                {{--Slider de thumbnails--}}
-                                <div class="hidden-xs col-sm-4 slider-container" style="padding-right:0;">
-                                    <ul class="thumbs-slider">
-                                        @foreach(\App\AdPic::where('ad_id',$ad->ad_id)->get() as $thumb)
-                                            @if(substr($thumb->filename, 0, 4) === 'http')
-                                            <li style="background-image: url('{{ $thumb->filename }}');
-                                                    background-size: cover;">&nbsp;</li>
-                                            @else
-                                            <li style="background-image: url('{{ asset('ads/thumbnails/thumb_'.$thumb->filename) }}');
-                                                    background-size: cover;">&nbsp;</li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                    <div class="slide-counter text-right" style="width:100%;">
-                                        <i class="fa fa-camera"></i> <span class="current-index"></span>/<span class="total-slides"></span>
-                                    </div>
-                                </div>
-                                {{--Info del AD--}}
-                                <div class="col-xs-12 col-sm-8 ad-info" style="background-color: #FFF;padding-left:0;">
-                                    {{--Tipo de inmueble y dirección--}}
-                                    <div class="row">
-                                        <div class="col-xs-12 ad-address">
-                                            {{--route,street_number,price,has_parking_space--}}
-                                            {{ $ad->type }} en @if(!$ad->hide_address) @if(isset($ad->route)) {{ $ad->route }}, @endif @if(isset($ad->street_number)) {{ $ad->street_number }}, @endif @endif {{ $ad->locality }}
-                                        </div>
-                                    </div>
-                                    {{--Precio y aquello importante que incluye--}}
-                                    <div class="row">
-                                        <div class="col-xs-12 ad-price">
-                                            {{ number_format((float) $ad->price,0,',','.') }} <small style="font-weight: normal;">&euro;</small> @if(isset($ad->has_parking_space)&&$ad->has_parking_space) Garaje incluido @endif
-                                        </div>
-                                    </div>
-                                    {{--Detalles importantes: tamaño, no. habitaciones, planta, si ascensor--}}
-                                    <div class="row">
-                                        <div class="col-xs-12 ad-details">
-                                            <span>{{ $ad->rooms }} habs.</span> <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
-                                        </div>
-                                    </div>
-                                    {{--Descripción excerpt--}}
-                                    <div class="row hidden-xs">
-                                        <div class="col-xs-12 ad-description">
-                                            @if($ad->description!='') {{ substr($ad->description,0,135).'...' }} @endif
-                                        </div>
-                                    </div>
+                    @if(count($ads)===0)
+                        <div style="margin-top:30px;">
+                            No se encontraron resultados con los criterios búsqueda proporcionados.
+                        </div>
+                    @endif
+                    @foreach($ads as $ad)
+                        <div class="row" style="margin-top:30px;">
+                            {{--Slider de thumbnails--}}
+                            <div class="hidden-xs col-sm-4 slider-container" style="padding-right:0;">
+                                <ul class="thumbs-slider">
+                                @foreach(\App\AdPic::where('ad_id',$ad->ad_id)->get() as $thumb)
+                                    @if(substr($thumb->filename, 0, 4) === 'http')
+                                    <li style="background-image: url('{{ $thumb->filename }}');
+                                            background-size: cover;">&nbsp;</li>
+                                    @else
+                                    <li style="background-image: url('{{ asset('ads/thumbnails/thumb_'.$thumb->filename) }}');
+                                            background-size: cover;">&nbsp;</li>
+                                    @endif
+                                @endforeach
+                                </ul>
+                                <div class="slide-counter text-right" style="width:100%;">
+                                    <i class="fa fa-camera"></i> <span class="current-index"></span>/<span class="total-slides"></span>
                                 </div>
                             </div>
-                        @endforeach
+                            {{--Info del AD--}}
+                            <div class="col-xs-12 col-sm-8 ad-info" style="background-color: #FFF;padding-left:0;">
+                                {{--Tipo de inmueble y dirección--}}
+                                <div class="row">
+                                    <div class="col-xs-12 ad-address">
+                                        {{--route,street_number,price,has_parking_space--}}
+                                        {{ $ad->type }} en @if(!$ad->hide_address) @if(isset($ad->route)) {{ $ad->route }}, @endif @if(isset($ad->street_number)) {{ $ad->street_number }}, @endif @endif {{ $ad->locality }}
+                                    </div>
+                                </div>
+                                {{--Precio y aquello importante que incluye--}}
+                                <div class="row">
+                                    <div class="col-xs-12 ad-price">
+                                        {{ number_format((float) $ad->price,0,',','.') }} <small style="font-weight: normal;">&euro;</small> @if(isset($ad->has_parking_space)&&$ad->has_parking_space) Garaje incluido @endif
+                                    </div>
+                                </div>
+                                {{--Detalles importantes: tamaño, no. habitaciones, planta, si ascensor--}}
+                                <div class="row">
+                                    <div class="col-xs-12 ad-details">
+                                    @if($input['typology']=='0'||$input['typology']=='1')
+                                        <span>{{ $ad->rooms }} habs.</span> <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
+                                    @elseif($input['typology']=='2')
+
+                                    @elseif($input['typology']=='3')
+
+                                    @elseif($input['typology']=='4')
+
+                                    @elseif($input['typology']=='5')
+
+                                    @elseif($input['typology']=='6')
+
+                                    @elseif($input['typology']=='7')
+
+                                    @endif
+                                    </div>
+                                </div>
+                                {{--Descripción excerpt--}}
+                                <div class="row hidden-xs">
+                                    <div class="col-xs-12 ad-description">
+                                    @if($ad->description!='') {{ substr($ad->description,0,135).'...' }} @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                     </div>
                 </div>
             </div>
@@ -252,6 +321,14 @@
                     autoStart: false
                 }).getSlideCount();
                 totalSlides.text(slideCount);
+            });
+
+            $('select').select2({
+                placeholder: "Seleccione",
+                allowClear: true,
+                escapeMarkup: function(m) {
+                    return m;
+                }
             });
 
         });

@@ -21,42 +21,43 @@ class HomeLib
                             GROUP BY t4.admin_area_lvl2
                             ORDER BY t4.admin_area_lvl2 ASC;
                         "));
-                        return $list;
                         break;
-                    case 1: //house or apartment
-                        $list = \DB::table('sell_house')->select('admin_area_lvl2')
-                            ->groupBy('admin_area_lvl2')
-                            ->orderBy('admin_area_lvl2', 'ASC')
-                            ->get();
-                        return $list;
+                    case 1: //house, country house or apartment
+                        $list =  \DB::select(\DB::raw("
+                            SELECT admin_area_lvl2 FROM (
+                              SELECT admin_area_lvl2 FROM sell_house AS t1
+                              UNION
+                              SELECT admin_area_lvl2 FROM sell_country_house AS t2
+                              UNION
+                              SELECT admin_area_lvl2 FROM sell_apartment AS t3
+                            ) AS t4
+                            GROUP BY t4.admin_area_lvl2
+                            ORDER BY t4.admin_area_lvl2 ASC;
+                        "));
                         break;
                     case 4: //office
                         $list = \DB::table('sell_office')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 5: //business
                         $list = \DB::table('sell_business')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 6: //garage
                         $list = \DB::table('sell_garage')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 7: //land
                         $list = \DB::table('sell_land')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                 }
                 break;
@@ -74,56 +75,55 @@ class HomeLib
                             GROUP BY t4.admin_area_lvl2
                             ORDER BY t4.admin_area_lvl2 ASC;
                         "));
-                        return $list;
                         break;
-                    case 1: //house or apartment
-                        $list = \DB::table('rent_house')->select('admin_area_lvl2')
-                            ->groupBy('admin_area_lvl2')
-                            ->orderBy('admin_area_lvl2', 'ASC')
-                            ->get();
-                        return $list;
+                    case 1: //house, country house or apartment
+                        $list =  \DB::select(\DB::raw("
+                            SELECT admin_area_lvl2 FROM (
+                              SELECT admin_area_lvl2 FROM rent_house AS t1
+                              UNION
+                              SELECT admin_area_lvl2 FROM rent_country_house AS t2
+                              UNION
+                              SELECT admin_area_lvl2 FROM rent_apartment AS t3
+                            ) AS t4
+                            GROUP BY t4.admin_area_lvl2
+                            ORDER BY t4.admin_area_lvl2 ASC;
+                        "));
                         break;
                     case 2: //vacation
                         $list = \DB::table('rent_vacation')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 3: //room
                         $list = \DB::table('rent_room')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 4: //office
                         $list = \DB::table('rent_office')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 5: //business
                         $list = \DB::table('rent_business')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 6: //garage
                         $list = \DB::table('rent_garage')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                     case 7: //land
                         $list = \DB::table('rent_land')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
-                        return $list;
                         break;
                 }
                 break;
@@ -132,9 +132,11 @@ class HomeLib
                     ->groupBy('admin_area_lvl2')
                     ->orderBy('admin_area_lvl2', 'ASC')
                     ->get();
-                return $list;
                 break;
         }
+        if(isset($list))
+            return $list;
+        return [];
     }
 
     public static function getLocalityList($operation, $typology, $adminLvl2)
@@ -154,15 +156,19 @@ class HomeLib
                             GROUP BY t4.locality
                             ORDER BY t4.locality ASC;
                         "),[$adminLvl2,$adminLvl2,$adminLvl2]);
-                        return $list;
                         break;
-                    case 1: //house or apartment
-                        $list = \DB::table('sell_house')->select('locality',\DB::raw('COUNT(*) as total'))
-                            ->groupBy('locality')
-                            ->orderBy('locality', 'ASC')
-                            ->where('admin_area_lvl2',$adminLvl2)
-                            ->get();
-                        return $list;
+                    case 1: //house, country house or apartment
+                        $list =  \DB::select(\DB::raw("
+                            SELECT locality, COUNT(*) as total FROM (
+                              SELECT locality FROM sell_house AS t1 WHERE t1.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM sell_country_house AS t2 WHERE t2.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM sell_apartment AS t3 WHERE t3.admin_area_lvl2 = ?
+                            ) AS t4
+                            GROUP BY t4.locality
+                            ORDER BY t4.locality ASC;
+                        "),[$adminLvl2,$adminLvl2,$adminLvl2]);
                         break;
                     case 4: //office
                         $list = \DB::table('sell_office')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -170,7 +176,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 5: //business
                         $list = \DB::table('sell_business')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -178,7 +183,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 6: //garage
                         $list = \DB::table('sell_garage')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -186,7 +190,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 7: //land
                         $list = \DB::table('sell_land')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -194,7 +197,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                 }
                 break;
@@ -212,15 +214,19 @@ class HomeLib
                             GROUP BY t4.locality
                             ORDER BY t4.locality ASC;
                         "),[$adminLvl2,$adminLvl2,$adminLvl2]);
-                        return $list;
                         break;
                     case 1: //house or apartment
-                        $list = \DB::table('rent_house')->select('locality',\DB::raw('COUNT(*) as total'))
-                            ->groupBy('locality')
-                            ->orderBy('locality', 'ASC')
-                            ->where('admin_area_lvl2',$adminLvl2)
-                            ->get();
-                        return $list;
+                        $list =  \DB::select(\DB::raw("
+                            SELECT locality, COUNT(*) as total FROM (
+                              SELECT locality FROM rent_house AS t1 WHERE t1.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM rent_country_house AS t2 WHERE t2.admin_area_lvl2 = ?
+                              UNION
+                              SELECT locality FROM rent_apartment AS t3 WHERE t3.admin_area_lvl2 = ?
+                            ) AS t4
+                            GROUP BY t4.locality
+                            ORDER BY t4.locality ASC;
+                        "),[$adminLvl2,$adminLvl2,$adminLvl2]);
                         break;
                     case 2: //vacation
                         $list = \DB::table('rent_vacation')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -228,7 +234,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 3: //room
                         $list = \DB::table('rent_room')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -236,7 +241,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 4: //office
                         $list = \DB::table('rent_office')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -244,7 +248,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 5: //business
                         $list = \DB::table('rent_business')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -252,7 +255,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 6: //garage
                         $list = \DB::table('rent_garage')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -260,7 +262,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                     case 7: //land
                         $list = \DB::table('rent_land')->select('locality',\DB::raw('COUNT(*) as total'))
@@ -268,7 +269,6 @@ class HomeLib
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
-                        return $list;
                         break;
                 }
                 break;
@@ -278,8 +278,10 @@ class HomeLib
                     ->orderBy('locality', 'ASC')
                     ->where('admin_area_lvl2',$adminLvl2)
                     ->get();
-                return $list;
                 break;
         }
+        if(isset($list))
+            return $list;
+        return [];
     }
 }
