@@ -47,7 +47,7 @@ class HomeController extends Controller {
 
         //test
         $input['operation'] = '0';
-        $input['typology'] = '0';
+        $input['typology'] = '1';
         $input['locality'] = 'Girona';
         $input['search_type'] = '0';
         $input['address'] = 'Mayor 1, Barcelona';

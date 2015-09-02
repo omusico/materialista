@@ -265,17 +265,17 @@
                                     @if($input['typology']=='0'||$input['typology']=='1')
                                         <span>{{ $ad->rooms }} habs.</span> <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
                                     @elseif($input['typology']=='2')
-
+                                        <span></span>
                                     @elseif($input['typology']=='3')
-
+                                        <span></span>
                                     @elseif($input['typology']=='4')
-
+                                        <span></span>
                                     @elseif($input['typology']=='5')
-
+                                        <span></span>
                                     @elseif($input['typology']=='6')
-
+                                        <span></span>
                                     @elseif($input['typology']=='7')
-
+                                        <span></span>
                                     @endif
                                     </div>
                                 </div>
