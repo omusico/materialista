@@ -141,11 +141,11 @@
                 Busco <span class="txt-operation">Comprar</span> <span class="txt-typology">Vivienda</span> en <span class="txt-locality">{{ $firstLocality }}</span>
             </div>
             <div class="col-xs-3 text-right" id="col-btn-search">
-                <a class="btn btn-primary btn-block" href="javascript:">Buscar</a>
+                <a class="btn btn-primary btn-block" id="btn-search-by-locality" href="javascript:">Buscar</a>
             </div>
         </div>
     </div>
-    <div class="container" style="padding: 50px 0 150px 0;">
+    <div class="container" id="container-search-by-proximity" style="padding: 50px 0 150px 0;">
         <div class="row">
             <div class="col-xs-offset-0 col-xs-12 col-lg-offset-2 col-lg-8" id="col-proximity-search">
                 <h4>Búsqueda por cercanía:</h4>
@@ -170,7 +170,7 @@
                         <input type="text" placeholder="Escribe una dirección donde centrar la búsqueda" class="form-control" name="customAddress" style="width:100%;">
                         <span class="help-block">Ej.: Calle Mayor 1, Martorell, Barcelona</span>
                     </div>
-                    <button class="btn inline btn-default" style="width:20%;vertical-align: top;">Buscar</button>
+                    <button class="btn inline btn-default" id="btn-search-by-proximity" style="width:20%;vertical-align: top;">Buscar</button>
                 </div>
             </div>
         </div>
@@ -185,6 +185,48 @@
     <script>
         $(document).ready(function() {
             Metronic.init(); // init metronic core components >> uniform checkboxes
+
+            $('#btn-search-by-locality').click(function(){
+                searchByLocality();
+            });
+            var searchByLocality = function() {
+                //default values
+                var operation = 0;
+                var typology = 1;
+                var locality = 'Barcelona';
+                $('.list-group').find('a.active').each(function () {
+                    switch ($(this).parent().attr('id')) {
+                        case 'list-operation':
+                            operation = $(this).attr('data-value');
+                            break;
+                        case 'list-typology':
+                            typology = $(this).attr('data-value');
+                            break;
+                        case 'list-locality':
+                            locality = $(this).attr('data-value');
+                            break;
+                    }
+                });
+                window.location.href = '/resultados?' + $.param({
+                    operation: operation,
+                    typology: typology,
+                    locality: locality,
+                    search_type: '0'
+                });
+            };
+
+            $('#btn-search-by-proximity').click(function(){
+                searchByProximity();
+            });
+            var proximityContainer = $('#container-search-by-proximity');
+            var searchByProximity = function() {
+                window.location.href = '/resultados?' + $.param({
+                    operation: proximityContainer.find('input[name=operation]:checked').val(),
+                    typology: proximityContainer.find('select[name=typology]').val(),
+                    address: proximityContainer.find('input[name=customAddress]').text(),
+                    search_type: '1'
+                });
+            };
 
             $('#radio-operation').on('change','input:radio',function(){
                 var selectTypology = $('#select-typology');

@@ -49,6 +49,12 @@
         .nav-tabs > li > a:focus {
             background-color: #FFF;
         }
+        .nav-tabs > li.disabled > a,
+        .nav-tabs > li.disabled > a:focus,
+        .nav-tabs > li.disabled > a:hover {
+            border-bottom: 3px solid #DDD;
+            color: #DDD;
+        }
         .nav-tabs > li > a {
             font-weight: bold;
             color: #808080;
@@ -137,6 +143,12 @@
 @endsection
 
 @section('content')
+    <input type="hidden" name="operation" value="{!! $input['operation'] !!}">
+    <input type="hidden" name="typology" value="{!! $input['typology'] !!}">
+    <input type="hidden" name="locality" value="@if(isset($input['locality'])){!! $input['locality'] !!}@endif">
+    <input type="hidden" name="address" value="@if(isset($input['address'])){!! $input['address'] !!}@endif">
+    <input type="hidden" name="search_type" value="{!! $input['search_type'] !!}">
+
     {{--Descripción de resultados y tabs--}}
     <div class="container">
         <div class="row">
@@ -147,11 +159,11 @@
         <div class="row" style="padding-top:15px;">
             <div class="col-xs-12 col-sm-offset-3 col-sm-9">
                 <ul class="nav nav-tabs">
-                    <li @if(true) class="active" @endif>
-                        <a href="javascript:">Comprar</a>
+                    <li class=" @if($input['operation']=='0') active @endif @if($input['typology']==2 || $input['typology']==3) disabled @endif ">
+                        <a id="btn-buy" href="javascript:">Comprar</a>
                     </li>
-                    <li>
-                        <a href="javascript:">Alquilar</a>
+                    <li class=" @if($input['operation']=='1') active @endif ">
+                        <a id="btn-rent" href="javascript:">Alquilar</a>
                     </li>
                 </ul>
             </div>
@@ -165,36 +177,50 @@
                 {{--Filtros--}}
                 <div class="hidden-xs col-sm-3">
                     <div class="well">
+                        <div class="row">
+                            <label class="col-xs-12" style="padding-left:1px;">Precio</label>
+                        </div>
                     @if($input['operation']=='0')
                         <div class="row">
                             <div class="col-xs-6 col-price-min">
-                                <label for="price-min">Precio mínimo</label>
                                 <select name="price-min" class="form-control" title="Precio mínimo">
-                                    <option value="">Seleccione</option>
+                                    <option value="">Mín</option>
                                     <option value="0">OPTION</option>
                                 </select>
                             </div>
                             <div class="col-xs-6 col-price-max">
-                                <label for="price-max">Precio máximo</label>
                                 <select name="price-max" class="form-control" title="Precio máximo">
-                                    <option value="">Seleccione</option>
+                                    <option value="">Máx</option>
                                     <option value="0">OPTION</option>
                                 </select>
                             </div>
                         </div>
-                    @elseif($input['operation']=='1'&&$typology!='2')
+                    @elseif($input['operation']=='1'&&$input['typology']!='2')
                         <div class="row">
                             <div class="col-xs-6 col-price-min">
-                                <label for="price-min">Precio mínimo</label>
                                 <select name="price-min" class="form-control" title="Precio mínimo">
-                                    <option value="">Seleccione</option>
+                                    <option value="">Mín</option>
                                     <option value="0">OPTION</option>
                                 </select>
                             </div>
                             <div class="col-xs-6 col-price-max">
-                                <label for="price-max">Precio máximo</label>
                                 <select name="price-max" class="form-control" title="Precio máximo">
-                                    <option value="">Seleccione</option>
+                                    <option value="">Máx</option>
+                                    <option value="0">OPTION</option>
+                                </select>
+                            </div>
+                        </div>
+                    @elseif($input['operation']=='1'&&$input['typology']=='2')
+                        <div class="row">
+                            <div class="col-xs-6 col-price-min">
+                                <select name="price-min" class="form-control" title="Precio mínimo">
+                                    <option value="">Mín</option>
+                                    <option value="0">OPTION</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-6 col-price-max">
+                                <select name="price-max" class="form-control" title="Precio máximo">
+                                    <option value="">Máx</option>
                                     <option value="0">OPTION</option>
                                 </select>
                             </div>
@@ -222,7 +248,7 @@
                     <div id="results">
                     @if(count($ads)===0)
                         <div style="margin-top:30px;">
-                            No se encontraron resultados con los criterios búsqueda proporcionados.
+                            No se encontraron resultados con los criterios de búsqueda elegidos.
                         </div>
                     @endif
                     @foreach($ads as $ad)
@@ -256,26 +282,42 @@
                                 {{--Precio y aquello importante que incluye--}}
                                 <div class="row">
                                     <div class="col-xs-12 ad-price">
-                                        {{ number_format((float) $ad->price,0,',','.') }} <small style="font-weight: normal;">&euro;</small> @if(isset($ad->has_parking_space)&&$ad->has_parking_space) Garaje incluido @endif
+                                    @if($input['typology']=='2')
+                                        <small style="font-weight: normal;">Desde</small> {{ number_format((float) $ad->min_price_per_night,0,',','.') }} <small style="font-weight: normal;">&euro;/noche/persona</small>
+                                    @else
+                                        {{ number_format((float) $ad->price,0,',','.') }} <small style="font-weight: normal;"> @if($input['operation']=='0') &euro; @else &euro;/mes @endif </small>
+                                    @endif
+                                    @if($input['typology']=='0'||$input['typology']=='1')
+                                        @if(isset($ad->has_parking_space)&&$ad->has_parking_space) <small style="font-weight: normal;margin-left:10px;">Garaje incluido</small> @endif
+                                    @elseif($input['typology']=='2')
+                                        {{--Vacation includeds--}}
+                                    @elseif($input['typology']=='3')
+                                        {{--Room includeds--}}
+                                    @endif
                                     </div>
                                 </div>
                                 {{--Detalles importantes: tamaño, no. habitaciones, planta, si ascensor--}}
                                 <div class="row">
                                     <div class="col-xs-12 ad-details">
                                     @if($input['typology']=='0'||$input['typology']=='1')
-                                        <span>{{ $ad->rooms }} habs.</span> <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span> @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }}</span> @endif
+                                        <span>{{ $ad->rooms }} habs.</span>
+                                        <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
+                                        @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }} @if(isset($ad->has_elevator)&&$ad->has_elevator) con ascensor @endif</span> @endif
                                     @elseif($input['typology']=='2')
-                                        <span></span>
+                                        <span>{{ $ad->surroundings }}</span>
+                                        <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
+                                        @if($ad->min_capacity < $ad->max_capacity)<span>Para {{ $ad->min_capacity }} a {{ $ad->max_capacity }} personas</span>@elseif($ad->min_capacity) Desde {{$ad->min_capacity}} personas @elseif($ad->max_capacity) Hasta {{$ad->max_capacity}} personas @endif
                                     @elseif($input['typology']=='3')
-                                        <span></span>
-                                    @elseif($input['typology']=='4')
-                                        <span></span>
-                                    @elseif($input['typology']=='5')
-                                        <span></span>
+                                        <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
+                                        {{--Other room details--}}
+                                    @elseif($input['typology']=='4' || $input['typology']=='5')
+                                        <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
+                                        @if($ad->area)<span>{{ number_format((float) $ad->price/$ad->area,0,',','.') }} @if($input['operation']=='0') &euro;/m&sup2; @else &euro;/mes/m&sup2; @endif</span>@endif
                                     @elseif($input['typology']=='6')
-                                        <span></span>
+                                        <span>{{ $ad->garage_capacity }}</span>
                                     @elseif($input['typology']=='7')
-                                        <span></span>
+                                        <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
+                                        <span>{{ $ad->land_category }}</span>
                                     @endif
                                     </div>
                                 </div>
@@ -304,6 +346,31 @@
     <script>
         $(document).ready(function() {
             Metronic.init(); // init metronic core components >> uniform checkboxes
+
+            $('#btn-buy').click(function(){
+                if($('input[name=operation]').val() == '0')
+                    return false;
+                if($(this).parent().hasClass('disabled'))
+                    return false;
+                window.location.href = '/resultados?' + $.param({
+                    operation: '0',
+                    typology: $('input[name=typology]').val(),
+                    locality: $('input[name=locality]').val(),
+                    address: $('input[name=address]').val(),
+                    search_type: $('input[name=search_type]').val()
+                });
+            });
+            $('#btn-rent').click(function(){
+                if($('input[name=operation]').val() == '1')
+                    return false;
+                window.location.href = '/resultados?' + $.param({
+                    operation: '1',
+                    typology: $('input[name=typology]').val(),
+                    locality: $('input[name=locality]').val(),
+                    address: $('input[name=address]').val(),
+                    search_type: $('input[name=search_type]').val()
+                });
+            });
 
             $('.thumbs-slider').each(function() {
                 var slider = $(this);

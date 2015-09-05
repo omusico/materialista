@@ -12,7 +12,7 @@ class AdsTableSeeder extends Seeder
      */
     public function run()
     {
-        define('THIS_MANY_ADS', '5');
+        define('THIS_MANY_ADS', '50');
 
         $faker = Faker\Factory::create('es_ES');
 
@@ -64,8 +64,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -128,8 +128,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -190,8 +190,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(300,2400);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -252,8 +252,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(300,2400);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $is_new_development = mt_rand(0,1);
             $is_new_development_finished = ($is_new_development) ? mt_rand(0,1) : 0;
 
@@ -314,9 +314,9 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
-            $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
+            $area_min_for_sale = intval(mt_rand(5,10)/10 * $area_usable);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
 
@@ -388,9 +388,9 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
-            $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
+            $area_min_for_sale = intval(mt_rand(5,10)/10 * $area_usable);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
 
@@ -462,8 +462,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
 
@@ -524,8 +524,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
 
@@ -649,9 +649,9 @@ class AdsTableSeeder extends Seeder
             $location = \App\Geocode::generateRandomLocation();
             $price = mt_rand(50000,500000);
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
-            $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
+            $area_min_for_sale = intval(mt_rand(5,10)/10) * $area_usable;
 
             $newAd = App\Ad::create();
             $newSellLand = \App\SellLand::create([
@@ -700,9 +700,9 @@ class AdsTableSeeder extends Seeder
             $price = mt_rand(200,5000);
             $deposit = (mt_rand(0,6)) ? $deposits[array_rand($deposits)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
-            $area_min_for_sale = (int) (mt_rand(5,10)/10) * $area_usable;
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
+            $area_min_for_sale = intval(mt_rand(5,10)/10 * $area_usable);
 
             $newAd = App\Ad::create();
             $newRentLand = \App\RentLand::create([
@@ -755,8 +755,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
             $is_new_development = mt_rand(0,1);
@@ -828,8 +828,8 @@ class AdsTableSeeder extends Seeder
             $energy_cert_name = \App\EnergyCertification::find($energy_cert_id)->name;
             $energy_performance = (in_array($energy_cert_name,$certs)) ? $performances[array_rand($performances)] : null;
             $area_land = mt_rand(100,800);
-            $area_constructed = (int) (0.6 * $area_land);
-            $area_usable = (int) (0.8 * $area_constructed);
+            $area_constructed = intval(0.6 * $area_land);
+            $area_usable = intval(0.8 * $area_constructed);
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
             $is_new_development = mt_rand(0,1);
@@ -1061,7 +1061,7 @@ class AdsTableSeeder extends Seeder
             $has_block = mt_rand(0,1);
             $block_name = ($has_block) ? $blocks[array_rand($blocks)] : null;
             $n_bedrooms = mt_rand(2,5);
-            $n_people = (int) $n_bedrooms/2 + 1;
+            $n_people = intval($n_bedrooms/2 + 1);
 
             $newAd = App\Ad::create();
             $newRentRoom = \App\Room::create([
