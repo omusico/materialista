@@ -110,24 +110,31 @@ class AdminController extends Controller {
                 switch ($input['typology']) {
                     case '0': //apartment
                         $new = SellApartment::create($input);
+                        $table = 'sell_apartment';
                         break;
                     case '1': //house
                         $new = SellHouse::create($input);
+                        $table = 'sell_house';
                         break;
                     case '2': //country house
                         $new = SellCountryHouse::create($input);
+                        $table = 'sell_country_house';
                         break;
                     case '3': //office
                         $new = SellOffice::create($input);
+                        $table = 'sell_office';
                         break;
                     case '4': //business
                         $new = SellBusiness::create($input);
+                        $table = 'sell_business';
                         break;
                     case '5': //garage
                         $new = SellGarage::create($input);
+                        $table = 'sell_garage';
                         break;
                     case '6': //land
                         $new = SellLand::create($input);
+                        $table = 'sell_land';
                         break;
                 }
                 break;
@@ -135,27 +142,35 @@ class AdminController extends Controller {
                 switch ($input['typology']) {
                     case '0': //apartment
                         $new = RentApartment::create($input);
+                        $table = 'rent_apartment';
                         break;
                     case '1': //house
                         $new = RentHouse::create($input);
+                        $table = 'rent_house';
                         break;
                     case '2': //country house
                         $new = RentCountryHouse::create($input);
+                        $table = 'rent_country_house';
                         break;
                     case '3': //office
                         $new = RentOffice::create($input);
+                        $table = 'rent_office';
                         break;
                     case '4': //business
                         $new = RentBusiness::create($input);
+                        $table = 'rent_business';
                         break;
                     case '5': //garage
                         $new = RentGarage::create($input);
+                        $table = 'rent_garage';
                         break;
                     case '6': //land
                         $new = RentLand::create($input);
+                        $table = 'rent_land';
                         break;
                     case '7': //vacation (lodging)
                         $new = Lodging::create($input);
+                        $table = 'rent_vacation';
                         //associate prices to new lodging
                         foreach($input as $key => $value) {
                             $exp_key = explode('-', $key);
@@ -178,9 +193,17 @@ class AdminController extends Controller {
                         break;
                     case '8': //room
                         $new = Room::create($input);
+                        $table = 'rent_room';
                         break;
                 }
                 break;
+        }
+
+        //save local table and ID as ad fields
+        if(isset($new)&&isset($newTable)) {
+            $newAd->local_table = $table;
+            $newAd->local_id = $new->id;
+            $newAd->save();
         }
 
         //todo: return success to admin dashboard

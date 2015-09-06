@@ -1,8 +1,14 @@
 <?php namespace App\Http\Controllers;
 
+use App\Ad;
+use App\CategoryBusiness;
+use App\CategoryCountryHouse;
+use App\CategoryHouse;
+use App\CategoryLand;
+use App\CategoryLodging;
+use App\CategoryRoom;
 use App\Geocode;
 use App\HomeLib;
-use App\SellHouse;
 
 class HomeController extends Controller {
 
@@ -45,13 +51,17 @@ class HomeController extends Controller {
     {
         $input = \Input::all();
 
-        //test
-//        $input['operation'] = '0';
-//        $input['typology'] = '1';
-//        $input['locality'] = 'Girona';
-//        $input['search_type'] = '0';
-//        $input['address'] = 'Mayor 1, Barcelona';
-        //end test
+        //set defaults
+        if(!isset($input['operation']))
+            $input['operation'] = '0';
+        if(!isset($input['typology']))
+            $input['typology'] = '1';
+        if(!isset($input['locality']))
+            $input['locality'] = 'Blanes';
+        if(!isset($input['search_type']))
+            $input['search_type'] = '0';
+        if(!isset($input['operation']))
+            $input['address'] = '';
 
         /*
          * possible search types from HOME/SEARCH:
@@ -225,8 +235,9 @@ class HomeController extends Controller {
                             break;
                         case '5': //business
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,price,description,'Garaje' as type,area_constructed as area,hide_address,ad_id
+                              SELECT floor_number as floor,locality,route,street_number,price,description,`name` as type,area_constructed as area,hide_address,ad_id
                               FROM rent_business AS t1
+                              LEFT JOIN category_business AS t2 ON t1.category_business_id = t2.id
                               WHERE t1.locality = ?;
                             "),[$input['locality']]);
                             break;
@@ -274,14 +285,14 @@ class HomeController extends Controller {
                         case '0': //new development
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.is_new_development = 1
                                       AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.is_new_development = 1
@@ -302,13 +313,13 @@ class HomeController extends Controller {
                         case '1': //house + country house + apartment
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ?
@@ -363,14 +374,14 @@ class HomeController extends Controller {
                         case '0': //new development
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.is_new_development = 1
                                       AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.is_new_development = 1
@@ -391,13 +402,13 @@ class HomeController extends Controller {
                         case '1': //house + country house + apartment
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,IF(1=1,'0','dummy') as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ?
@@ -498,4 +509,69 @@ class HomeController extends Controller {
         return view('results',compact('ads','typology','locality','search_type','input'));
     }
 
+    public function adProfile($id)
+    {
+        $Ad = Ad::find($id);
+        $ad = \DB::table($Ad->local_table)->where('id',$Ad->local_id)->first();
+
+        //specific operation and typology codes for the profile page
+        $txt = explode('_',$Ad->local_table,2);
+        switch($txt[0]) {
+            case 'sell':
+                $operation = 0;
+                break;
+            case 'rent':
+                $operation = 1;
+                break;
+        }
+        switch($txt[1]) {
+            case 'house':
+                $typology = 0;
+                $ad->type = CategoryHouse::where('id',$ad->category_house_id)->pluck('name');
+                break;
+            case 'apartment':
+                $typology = 1;
+                if($ad->is_duplex)
+                    $ad->type = 'Dúplex';
+                elseif($ad->is_penthouse)
+                    $ad->type = 'Ático';
+                elseif($ad->is_studio)
+                    $ad->type = 'Estudio';
+                else
+                    $ad->type = 'Piso';
+                break;
+            case 'country_house':
+                $typology = 2;
+                $ad->type = CategoryCountryHouse::where('id',$ad->category_country_house_id)->pluck('name');
+                break;
+            case 'business':
+                $typology = 3;
+                $ad->type = CategoryBusiness::where('id',$ad->category_business_id)->pluck('name');
+                break;
+            case 'office':
+                $typology = 4;
+                $ad->type = 'Oficina';
+                break;
+            case 'garage':
+                $typology = 5;
+                $ad->type = 'Garaje';
+                break;
+            case 'land':
+                $typology = 6;
+                $ad->type = 'Terreno';
+                $ad->category_land = CategoryLand::where('id',$ad->category_land_id)->pluck('name');
+                break;
+            case 'room':
+                $typology = 7;
+                $ad->type = 'Habitación';
+                $ad->category_room = CategoryRoom::where('id',$ad->category_room_id)->pluck('name');
+                break;
+            case 'vacation':
+                $typology = 8;
+                $ad->type = CategoryLodging::where('id',$ad->category_lodging_id)->pluck('name');
+                break;
+        }
+
+        return view('ad',compact('ad','operation','typology'));
+    }
 }

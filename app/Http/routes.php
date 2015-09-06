@@ -21,6 +21,9 @@ Route::post('updateLocalities', ['as'=>'update.list.2','uses'=>'HomeController@p
 //Results page
 Route::get('/resultados', ['as'=>'results','uses'=>'HomeController@getResults']);
 
+//Ad page
+Route::get('/anuncio/{id}', ['as'=>'ad.profile','uses'=>'HomeController@adProfile']);
+
 //New ad form
 Route::get('form_new', ['as'=>'form.new.ad','uses'=>'AdminController@showNewAdForm']);
 Route::get('check_address', 'AdminController@checkAddress');

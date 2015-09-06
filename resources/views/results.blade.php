@@ -7,16 +7,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.bxslider.min.css') }}">
-
-    @if(\App::environment() == 'local')
-        <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
-        <style>
-            h1 {
-                font-family: 'Dancing Script', cursive;
-                font-size: 50px;
-            }
-        </style>
-    @endif
     <style>
         h3 {
             font-weight: bold;
@@ -252,7 +242,8 @@
                         </div>
                     @endif
                     @foreach($ads as $ad)
-                        <div class="row" style="margin-top:30px;">
+                        <div class="row row-ad" style="margin-top:30px;">
+                            <input type="hidden" class="ad-id" value="{{ $ad->ad_id }}">
                             {{--Slider de thumbnails--}}
                             <div class="hidden-xs col-sm-4 slider-container" style="padding-right:0;">
                                 <ul class="thumbs-slider">
@@ -271,7 +262,7 @@
                                 </div>
                             </div>
                             {{--Info del AD--}}
-                            <div class="col-xs-12 col-sm-8 ad-info" style="background-color: #FFF;padding-left:0;">
+                            <div class="col-xs-12 col-sm-8 ad-info" style="position:relative;background-color: #FFF;padding-left:0;">
                                 {{--Tipo de inmueble y dirección--}}
                                 <div class="row">
                                     <div class="col-xs-12 ad-address">
@@ -327,6 +318,7 @@
                                     @if($ad->description!='') {{ substr($ad->description,0,135).'...' }} @endif
                                     </div>
                                 </div>
+                                <a style="display:block;position:absolute;left:0;top:0;width:100%;height:100%;" href="/anuncio/{{$ad->ad_id}}"></a>
                             </div>
                         </div>
                     @endforeach

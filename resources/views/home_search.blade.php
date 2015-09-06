@@ -6,15 +6,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}">
-    @if(\App::environment() == 'local')
-    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
-    <style>
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 50px;
-        }
-    </style>
-    @endif
     <style>
         .list-group {
             border: 1px solid #a5a5a5;

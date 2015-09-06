@@ -117,6 +117,9 @@ class AdsTableSeeder extends Seeder
                 'has_garden'                => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_house';
+            $newAd->local_id = $newRentHouse->id;
+            $newAd->save();
             $this->command->info('Seeded Rent House (id: '.$newRentHouse->id.')');
         }
 
@@ -179,6 +182,9 @@ class AdsTableSeeder extends Seeder
                 'has_garden'                => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_house';
+            $newAd->local_id = $newSellHouse->id;
+            $newAd->save();
             $this->command->info('Seeded Sell House (id: '.$newSellHouse->id.')');
         }
 
@@ -241,6 +247,9 @@ class AdsTableSeeder extends Seeder
                 'has_garden'                => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_country_house';
+            $newAd->local_id = $newSellCountryHouse->id;
+            $newAd->save();
             $this->command->info('Seeded Sell Country House (id: '.$newSellCountryHouse->id.')');
         }
 
@@ -303,6 +312,9 @@ class AdsTableSeeder extends Seeder
                 'has_garden'                => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_country_house';
+            $newAd->local_id = $newRentCountryHouse->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Country House (id: '.$newRentCountryHouse->id.')');
         }
 
@@ -377,6 +389,9 @@ class AdsTableSeeder extends Seeder
                 'has_access_control'        => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_office';
+            $newAd->local_id = $newRentOffice->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Office (id: '.$newRentOffice->id.')');
         }
 
@@ -451,6 +466,9 @@ class AdsTableSeeder extends Seeder
                 'has_access_control'        => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_office';
+            $newAd->local_id = $newSellOffice->id;
+            $newAd->save();
             $this->command->info('Seeded Sell Office (id: '.$newSellOffice->id.')');
         }
 
@@ -513,6 +531,9 @@ class AdsTableSeeder extends Seeder
                 'is_corner_located'         => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_business';
+            $newAd->local_id = $newRentBusiness->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Business (id: '.$newRentBusiness->id.')');
         }
 
@@ -574,6 +595,9 @@ class AdsTableSeeder extends Seeder
                 'is_corner_located'         => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_business';
+            $newAd->local_id = $newSellBusiness->id;
+            $newAd->save();
             $this->command->info('Seeded Sell Business (id: '.$newSellBusiness->id.')');
         }
 
@@ -608,6 +632,9 @@ class AdsTableSeeder extends Seeder
                 'has_security_guard'        => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_garage';
+            $newAd->local_id = $newSellGarage->id;
+            $newAd->save();
             $this->command->info('Seeded Sell Garage (id: '.$newSellGarage->id.')');
         }
 
@@ -642,6 +669,9 @@ class AdsTableSeeder extends Seeder
                 'has_security_guard'        => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_garage';
+            $newAd->local_id = $newRentGarage->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Garage (id: '.$newRentGarage->id.')');
         }
 
@@ -692,6 +722,9 @@ class AdsTableSeeder extends Seeder
                 'has_sidewalks'             => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_land';
+            $newAd->local_id = $newSellLand->id;
+            $newAd->save();
             $this->command->info('Seeded Sell Land (id: '.$newSellLand->id.')');
         }
 
@@ -744,6 +777,9 @@ class AdsTableSeeder extends Seeder
                 'has_sidewalks'             => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_land';
+            $newAd->local_id = $newRentLand->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Land (id: '.$newRentLand->id.')');
         }
 
@@ -817,6 +853,9 @@ class AdsTableSeeder extends Seeder
                 'has_garden'                => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_apartment';
+            $newAd->local_id = $newRentApartment->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Apartment (id: '.$newRentApartment->id.')');
         }
 
@@ -888,6 +927,9 @@ class AdsTableSeeder extends Seeder
                 'has_garden'                => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'sell_apartment';
+            $newAd->local_id = $newSellApartment->id;
+            $newAd->save();
             $this->command->info('Seeded Sell Apartment (id: '.$newSellApartment->id.')');
         }
 
@@ -1031,6 +1073,9 @@ class AdsTableSeeder extends Seeder
                 'has_gym' => mt_rand(0,1),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_vacation';
+            $newAd->local_id = $newRentVacation->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Vacation (id: '.$newRentVacation->id.')');
 
             $n_seasons_prices = mt_rand(1,4);
@@ -1107,6 +1152,9 @@ class AdsTableSeeder extends Seeder
                 'tenant_min_stay_id'        => mt_rand(1,$n_tenant_min_stay_options),
                 'description'               => $faker->text(1020)
             ]);
+            $newAd->local_table = 'rent_room';
+            $newAd->local_id = $newRentRoom->id;
+            $newAd->save();
             $this->command->info('Seeded Rent Room (id: '.$newRentRoom->id.')');
         }
 

@@ -14,6 +14,8 @@ class TableAd extends Migration
     {
         Schema::create('ad', function(Blueprint $table){
             $table->increments('id');
+            $table->string('local_table');
+            $table->integer('local_id',false,true);
             $table->timestamps();
             $table->softDeletes();
         });

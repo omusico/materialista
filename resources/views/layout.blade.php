@@ -13,6 +13,15 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-theme.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
+    @if(\App::environment() == 'local')
+        <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
+        <style>
+            h1 {
+                font-family: 'Dancing Script', cursive;
+                font-size: 50px;
+            }
+        </style>
+    @endif
     <style>
         #footer {
             background-color: #F2F2F2;
