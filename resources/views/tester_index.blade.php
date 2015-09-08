@@ -32,7 +32,7 @@
                 <a href="{{ route('form.new.ad') }}" class="btn btn-primary">New ad form</a>
                 <a href="{{ route('home') }}" class="btn btn-primary">Home/Search</a>
                 <a href="{{ route('results') }}" class="btn btn-primary">Search results and filters</a>
-                <a href="javascript:" class="btn btn-primary disabled">Ad profile</a>
+                <a href="{{ url('/anuncio/'.mt_rand(1,800)) }}" class="btn btn-primary">Ad profile</a>
             </div>
         </div>
         <div class="row" style="padding-bottom: 100px;">

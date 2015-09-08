@@ -9,6 +9,7 @@ use App\CategoryLodging;
 use App\CategoryRoom;
 use App\Geocode;
 use App\HomeLib;
+use App\OptionGarageCapacity;
 
 class HomeController extends Controller {
 
@@ -555,6 +556,7 @@ class HomeController extends Controller {
             case 'garage':
                 $typology = 5;
                 $ad->type = 'Garaje';
+                $ad->garage_capacity = OptionGarageCapacity::where('id',$ad->garage_capacity_id)->pluck('name');
                 break;
             case 'land':
                 $typology = 6;

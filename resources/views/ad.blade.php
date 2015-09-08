@@ -11,6 +11,12 @@
             font-weight: bold;
             font-size: 16px;
         }
+        #ad-details > h4 {
+            margin: 50px 0 15px;
+        }
+        #ad-details > p {
+            margin-bottom: 4px;
+        }
         #main-container {
             padding-top: 15px;
         }
@@ -50,6 +56,12 @@
         }
         .form-control, .btn {
             border-radius: 0;
+        }
+        #ad-details {
+            padding-bottom: 150px;
+        }
+        #ad-pictures > div > div > img {
+            background-color: #F2F2F2;
         }
     </style>
 @endsection
@@ -100,7 +112,7 @@
                             <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
                             @if($ad->area_constructed) <span>{{ number_format((float) $ad->price/$ad->area_constructed,0,',','.') }}</span> @if($operation==0) <small>&euro;/m&sup2;</small> @else <small>&euro;/mes/m&sup2;</small> @endif @endif
                         @elseif($typology==5)
-                            <span>{{ $ad->garage_capacity }}</span>
+                            <span><small>Plaza para</small> {{ strtolower($ad->garage_capacity) }}</span>
                         @elseif($typology==6)
                             <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
                             <span>{{ $ad->land_category }}</span>
@@ -166,8 +178,172 @@
 
                 {{--Details row--}}
                 <div class="row">
-                    <div class="col-xs-12">
-                        {{--Here goes more details about the ad--}}
+                    <div class="col-xs-12" id="ad-details">
+
+                        {{--common to all--}}
+                        <h4>Descripción</h4>
+                        <p>{{$ad->description}}</p>
+
+                        @if($typology!=8)
+                            {{--common to all but vacational--}}
+                            <h4>Precio</h4>
+                            <p>{{ number_format((float) $ad->price,0,',','.') }} @if($operation==0) &euro; @else &euro;/mes @endif </p>
+                            @if(isset($ad->area_constructed)&&$ad->area_constructed) <p>{{ number_format((float) $ad->price/$ad->area_constructed,0,',','.') }} @if($operation==0) &euro;/m&sup2; @else &euro;/mes/m&sup2; @endif </p> @endif
+                            @if(isset($ad->deposit)&&$ad->deposit) <p>Fianza de {{ $ad->deposit }}</p> @endif
+                            @if(isset($ad->community_cost)&&$ad->community_cost) <p>Gastos de comunidad {{$ad->community_cost}} &euro;/mes</p> @endif
+                            @if(isset($ad->rent_to_own)&&$ad->rent_to_own) <p>Alquiler con derecho a compra</p> @endif
+                        @endif
+
+                        @if($typology==0||$typology==1||$typology==2)
+                        {{--common to house, apartment or country house--}}
+                            <h4>Características básicas</h4>
+                            @if(isset($ad->type)&&$ad->type)<p>{{$ad->type}}</p>@endif
+                            @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}}</p> @endif
+                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) {{$ad->area_constructed}} m&sup2; construidos @endif @if(isset($ad->area_usable)&&$ad->area_usable) {{$ad->area_usable}} m&sup2; útiles @endif </p> @endif
+                            @if(isset($ad->n_bedrooms)&&$ad->n_bedrooms) <p>{{$ad->n_bedrooms}} habitaciones</p> @endif
+                            @if(isset($ad->n_bathrooms)&&$ad->n_bathrooms) <p>{{$ad->n_bathrooms}} wc</p> @endif
+                            @if(isset($ad->area_land)&&$ad->area_land) <p>{{$ad->area_land}} m&sup2; parcela</p> @endif
+                            @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
+                            @if(isset($ad->faces_north)||isset($ad->faces_south)||isset($ad->faces_east)||isset($ad->faces_west)) <p>Orientación @if(isset($ad->faces_north)&&$ad->faces_north) Norte @endif @if(isset($ad->faces_south)&&$ad->faces_south) Sur @endif @if(isset($ad->faces_east)&&$ad->faces_east) Este @endif @if(isset($ad->faces_west)&&$ad->faces_west) Oeste @endif </p> @endif
+
+                            @if((isset($ad->is_new_development)&&$ad->is_new_development)||(isset($ad->is_new_development_finished)&&$ad->is_new_development_finished))
+                            <h4>Construcción</h4>
+                            <p>Obra nueva @if(isset($ad->is_new_development_finished)&&$ad->is_new_development_finished) terminada @endif </p>
+                            @endif
+
+                            <h4>Equipamiento</h4>
+                            @if(isset($ad->has_box_room)&&$ad->has_box_room) <p>Trastero</p> @endif
+                            @if(isset($ad->has_terrace)&&$ad->has_terrace) <p>{{$ad->has_terrace}} Terraza</p> @endif
+                            @if(isset($ad->has_fireplace)&&$ad->has_fireplace) <p>{{$ad->has_fireplace}} Chimenea</p> @endif
+                            @if(isset($ad->has_parking_space)&&$ad->has_parking_space) <p>{{$ad->has_parking_space}} Plaza de garaje incluida en el precio</p> @endif
+                            @if(isset($ad->has_builtin_closets)&&$ad->has_builtin_closets) <p>Armarios empotrados</p> @endif
+                            @if(isset($ad->has_furniture)&&$ad->has_furniture) <p>Amueblada</p> @endif
+                            @if(isset($ad->has_equipped_kitchen)&&$ad->has_equipped_kitchen) <p>Cocina equipada</p> @endif
+                            @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <p>Aire acondicionado</p> @endif
+
+                            <h4>Edificio</h4>
+                            @if(isset($ad->n_floors)&&$ad->n_floors) {{$ad->n_floors}} plantas @endif
+                            @if(isset($ad->has_elevator)&&$ad->has_elevator) Con ascensor @endif
+                            <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
+                            <p>Certificación energética: {{ $certE }}
+                                @if(in_array($certE,range('A','G')))
+                                    @if(isset($ad->energy_performance)&&$ad->energy_performance)
+                                        ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
+                                    @else
+                                        (IPE no indicado)
+                                    @endif
+                                @endif
+                            </p>
+
+                            @if((isset($ad->has_swimming_pool)&&$ad->has_swimming_pool)||(isset($ad->has_garden)&&$ad->has_garden))
+                            <h4> @if($typology!=1) Exterior @else Zonas comunes @endif </h4>
+                            @if(isset($ad->has_swimming_pool)&&$ad->has_swimming_pool) Piscina @endif
+                            @if(isset($ad->has_garden)&&$ad->has_garden) Jardín @endif
+                            @endif
+                        @elseif($typology==3)
+                        {{--business--}}
+                            <h4>Características básicas</h4>
+                            {{--CARACTERÍSTICAS BÁSICAS basic details: m2 constru (same line) m2 util, planta, estado (2a mano...),
+                            distro, n aseos, situacion (a pie de calle), n escaparates--}}
+
+                            <h4>Edificio</h4>
+                            {{--EDIFICIO bajo, fachada de x m, certificación energética--}}
+
+                            <h4>Equipamiento</h4>
+                            {{--EQUIPAMIENTO almacén/archivo--}}
+                        @elseif($typology==4)
+                        {{--office--}}
+                            <h4>Características básicas</h4>
+                            {{--CARACTERÍSTICAS BÁSICAS basic details: m2 constru (same line) m2 util, planta, estado (2a mano...),
+                            distro, n aseos, situacion (a pie de calle), n escaparates--}}
+
+                            <h4>Edificio</h4>
+                            {{--EDIFICIO bajo, ascensor, fachada de x m, uso exclusivo ofices, certificación energética--}}
+
+                            <h4>Equipamiento</h4>
+                            {{--EQUIPAMIENTO almacén/archivo--}}{{--???--}}
+                        @elseif($typology==5)
+                        {{--garage--}}
+                            <h4>Características básicas</h4>
+                            {{--CARACTERÍSTICAS BÁSICAS basic details: capacidad, covered, elevator--}}
+
+                            <h4>Extras</h4>
+                            {{--EXTRAS sauo doro, alarm, cameras...--}}
+                        @elseif($typology==6)
+                        {{--land--}}
+                            <h4>Características básicas</h4>
+                            {{--CARACTERÍSTICAS BÁSICAS total surface, min surface alquilar, edifi surface, acceso, distancias--}}
+
+                            <h4>Situación urbanística</h4>
+                            {{--SITUACIÓN URBANÍSTICA terreno urbanizable, certificado para residencial unifamiliar (chalets), plantas edific--}}
+
+                            <h4>Equipamiento</h4>
+                            {{--EQUIPAMIENTO agua, elec, alcant, gas, alumbrado, aceras--}}
+                        @elseif($typology==7)
+                        {{--room--}}
+                            <h4>Características básicas</h4>
+                            {{--CARACTERÍSTICAS BÁSICAS basic details: habitación en piso de x m2, planta con/sin elevator, n habitaciones,
+                            2 wc, estancia mínima, capacidad máxima, género y edad de actuales "Ahora son chica(s), entre 10 y 20 años",
+                            no se puede fumar(?), no se admite mascota(?)--}}
+
+                            <h4>Buscan</h4>
+                            {{--BUSCAN chico/chica (da igual), estudiante/...--}}
+                        
+                            <h4>Equipamiento</h4>
+                            {{--EQUIPAMIENTO amueblado...--}}
+                        @elseif($typology==8)
+                        {{--vacation--}}
+                            <h4>Características del apartamento</h4>
+                            {{--CARACTERÍSTICAS DEL APARTAMENTO--}}
+                            {{--Exterior: aparcamiento, vistas...--}}
+                            {{--Distro: habitaciones--}}
+                            {{--Interior: tv, calefacción, secador--}}
+                            {{--Cocina y electrodoms: lavavajillas, nevera, horno...--}}
+                            {{--Info adicional: verificado, no fumad, ascensor, no mascot, recom coche--}}
+                            {{--Idiomas: español, inglés, francés--}}
+
+                            <h4>Precios</h4>
+                            {{--PRECIOS--}}
+                            {{--Precios para capacidad de x plazas y un maximo de 2 huespedes extra (precios con IVA incluido)--}}
+                            {{--Tabla de precios--}}
+                            {{--Fianza: % o euros--}}
+                            {{--Reserva: "" ""--}}
+                            {{--Forma de pago: transferencia bancaria--}}
+                            {{--Limpieza final: incluida--}}
+                            {{--Sábanas y toallas: incluidas--}}
+                            {{--Gastos (luz, gas, etc.): incluidos--}}
+                            {{--* Consultar precios en puentes, navidad y semana santa--}}
+                            {{--* Entrada a las 16.00 y salida a las 10.00 salvo acuerdo de lo contrario--}}
+
+                            <h4>Situación</h4>
+                            {{--SITUACIÓN--}}
+                        @endif
+
+                        {{--common to all--}}
+                        @if(!$ad->hide_address)
+                            <h4> @if(isset($ad->route)) {{ $ad->route }}, @endif @if(isset($ad->street_number)) {{ $ad->street_number }} @endif </h4>
+                            @if(isset($ad->residential_area)&&$ad->residential_area) <p>{{ $ad->residential_area }}</p> @endif
+                            <p>{{ $ad->locality }}</p>
+                            <p> @if(isset($ad->admin_area_lvl2)&&$ad->admin_area_lvl2) {{ $ad->admin_area_lvl2 }}, @endif @if(isset($ad->admin_area_lvl1)&&$ad->admin_area_lvl1) {{ $ad->admin_area_lvl1 }} @endif </p>
+                            <p><a href="https://www.google.es/maps/<?php foreach(preg_split('/[ \r\n]/',$ad->formatted_address) as $piece) { echo $piece.'+'; } ?>" target="_blank"><i class="fa fa-map-marker"></i> Ver localización en Google Maps</a></p>
+                        @endif
+
+                        <h4>Actualizado el {{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('d') + 0 }} de
+                            @if(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='01') Enero
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='02') Febrero
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='03') Marzo
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='04') Abril
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='05') Mayo
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='06') Junio
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='07') Julio
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='08') Agosto
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='09') Septiembre
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='10') Octubre
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='11') Noviembre
+                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='12') Diciembre
+                            @endif
+                        </h4>
+
                     </div>
                 </div>
 
@@ -201,6 +377,8 @@
                             </div>
                         </div>
                     </form>
+
+                    <h4>969 969 969</h4>
                 </div>
             </div>
 
