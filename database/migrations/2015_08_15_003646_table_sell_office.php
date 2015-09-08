@@ -33,7 +33,7 @@ class TableSellOffice extends Migration
             $table->string('route');
             $table->string('locality');
             $table->string('admin_area_lvl2'); //Provincia
-            $table->string('admin_area_lvl1'); //Comunidad autónoma
+            $table->string('admin_area_lvl1'); //Comunidad autï¿½noma
             $table->string('country');
             $table->string('postal_code');
 
@@ -93,7 +93,7 @@ class TableSellOffice extends Migration
             $table->boolean('has_doorman');
 
             //others details (office)
-            $table->boolean('has_air_conditioning_pre-installation');
+            $table->boolean('has_air_conditioning_preinstallation');
             $table->boolean('has_air_conditioning');
             $table->boolean('has_heating');
             $table->boolean('has_hot_water');

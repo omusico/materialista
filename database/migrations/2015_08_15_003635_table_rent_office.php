@@ -93,7 +93,7 @@ class TableRentOffice extends Migration
             $table->boolean('has_doorman');
 
             //others details (office)
-            $table->boolean('has_air_conditioning_pre-installation');
+            $table->boolean('has_air_conditioning_preinstallation');
             $table->boolean('has_air_conditioning');
             $table->boolean('has_heating');
             $table->boolean('has_hot_water');

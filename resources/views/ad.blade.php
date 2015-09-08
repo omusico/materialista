@@ -94,6 +94,7 @@
                             <span class="price">{{ number_format((float) $ad->price,0,',','.') }}</span> <small> @if($operation==0) &euro; @else &euro;/mes @endif </small>
                         @endif
                         {{--Other typology specific details--}}
+                        <?php if($operation==0) $decimales = 0; else $decimales = 2; ?>
                         @if($typology==0)
                             <span>{{ $ad->n_bedrooms }}</span> <small>habs.</small>
                             <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
@@ -107,10 +108,10 @@
                             <span>{{ number_format((float) $ad->area_land,0,',','.') }}</span> <small>m&sup2; terreno</small>
                         @elseif($typology==3)
                             <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
-                            @if($ad->area_constructed) <span>{{ number_format((float) $ad->price/$ad->area_constructed,0,',','.') }}</span> @if($operation==0) <small>&euro;/m&sup2;</small> @else <small>&euro;/mes/m&sup2;</small> @endif @endif
+                            @if($ad->area_constructed) <span>{{ number_format((float) $ad->price/$ad->area_constructed,$decimales,',','.') }}</span> @if($operation==0) <small>&euro;/m&sup2;</small> @else <small>&euro;/mes/m&sup2;</small> @endif @endif
                         @elseif($typology==4)
                             <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
-                            @if($ad->area_constructed) <span>{{ number_format((float) $ad->price/$ad->area_constructed,0,',','.') }}</span> @if($operation==0) <small>&euro;/m&sup2;</small> @else <small>&euro;/mes/m&sup2;</small> @endif @endif
+                            @if($ad->area_constructed) <span>{{ number_format((float) $ad->price/$ad->area_constructed,$decimales,',','.') }}</span> @if($operation==0) <small>&euro;/m&sup2;</small> @else <small>&euro;/mes/m&sup2;</small> @endif @endif
                         @elseif($typology==5)
                             <span><small>Plaza para</small> {{ strtolower($ad->garage_capacity) }}</span>
                         @elseif($typology==6)
@@ -254,14 +255,50 @@
                         @elseif($typology==4)
                         {{--office--}}
                             <h4>Características básicas</h4>
-                            {{--CARACTERÍSTICAS BÁSICAS basic details: m2 constru (same line) m2 util, planta, estado (2a mano...),
-                            distro, n aseos, situacion (a pie de calle), n escaparates--}}
+                            @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}} @if(isset($ad->is_exterior)&&$ad->is_exterior) exterior @endif </p> @endif
+                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) {{$ad->area_constructed}} m&sup2; construidos @endif @if(isset($ad->area_usable)&&$ad->area_usable) {{$ad->area_usable}} m&sup2; útiles @endif </p> @endif
+                            @if(isset($ad->area_min_for_sale)&&$ad->area_min_for_sale) <p>{{ $ad->area_min_for_sale }} m&sup2; mínimos en @if($operation==0) venta @else alquiler @endif </p> @endif
+                            @if(isset($ad->distribution)&&$ad->distribution) <p>{{ $ad->distribution }}</p> @endif
+                            @if((isset($ad->n_restrooms)&&$ad->n_restrooms)&&((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside))) <p> {{ $ad->n_restrooms }} @choice('aseo|aseos',$ad->n_restrooms) @if((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside)) y @choice('baño completo|baños completos',$ad->n_restrooms) @endif @if(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside) dentro de la oficina @endif </p> @endif
+                            @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
 
                             <h4>Edificio</h4>
-                            {{--EDIFICIO bajo, ascensor, fachada de x m, uso exclusivo ofices, certificación energética--}}
+                            @if(isset($ad->n_floors)&&$ad->n_floors) <p>{{$ad->n_floors}} plantas</p> @endif
+                            @if(isset($ad->n_elevators)&&$ad->n_elevators) <p> {{ $ad->n_elevators }} @choice('ascensor|ascensores',$ad->n_elevators) </p> @endif
+                            @if(isset($ad->has_offices_only)&&$ad->has_offices_only) <p>Uso exclusivo de oficinas</p> @endif
+                            <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
+                            <p>Certificación energética: {{ $certE }}
+                                @if(in_array($certE,range('A','G')))
+                                    @if(isset($ad->energy_performance)&&$ad->energy_performance)
+                                        ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
+                                    @else
+                                        (IPE no indicado)
+                                    @endif
+                                @endif
+                            </p>
 
                             <h4>Equipamiento</h4>
-                            {{--EQUIPAMIENTO almacén/archivo--}}{{--???--}}
+                            @if(isset($ad->n_parking_spaces)&&$ad->n_parking_spaces) <p>{{ $ad->n_parking_spaces }} @choice('plaza|plazas',$ad->n_parking_spaces) de aparcamiento</p> @endif
+                            @if(isset($ad->has_steel_door)&&$ad->has_steel_door) <p>Puerta de seguridad</p> @endif
+                            @if(isset($ad->has_security_system)&&$ad->has_security_system) <p>Sistema de alarma</p> @endif
+                            @if(isset($ad->has_access_control)&&$ad->has_access_control) <p>Control de accesos</p> @endif
+                            @if(isset($ad->has_fire_detectors)&&$ad->has_fire_detectors) <p>Detectores de incendios</p> @endif
+                            @if(isset($ad->has_fire_extinguishers)&&$ad->has_fire_extinguishers) <p>Extintores</p> @endif
+                            @if(isset($ad->has_fire_sprinklers)&&$ad->has_fire_sprinklers) <p>Aspersores</p> @endif
+                            @if(isset($ad->has_fireproof_doors)&&$ad->has_fireproof_doors) <p>Puertas cortafuegos</p> @endif
+                            @if(isset($ad->has_emergency_lights)&&$ad->has_emergency_lights) <p>Luces de salida de emergencia</p> @endif
+                            @if(isset($ad->has_doorman)&&$ad->has_doorman) <p>Portero/seguridad/conserge</p> @endif
+                            @if(isset($ad->has_air_conditioning_preinstallation)&&$ad->has_air_conditioning_preinstallation) <p>Preinstalación de aire acondicionado</p> @endif
+                            @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <p>Aire acondicionado</p> @endif
+                            @if(isset($ad->has_heating)&&$ad->has_heating) <p>Calefacción</p> @endif
+                            @if(isset($ad->has_hot_water)&&$ad->has_hot_water) <p>Agua caliente</p> @endif
+                            @if(isset($ad->has_kitchen)&&$ad->has_kitchen) <p>Cocina</p> @endif
+                            @if(isset($ad->has_archive)&&$ad->has_archive) <p>Archivo/almacén</p> @endif
+                            @if(isset($ad->has_double_windows)&&$ad->has_double_windows) <p>Doble acristalamiento</p> @endif
+                            @if(isset($ad->has_suspended_ceiling)&&$ad->has_suspended_ceiling) <p>Falso techo</p> @endif
+                            @if(isset($ad->has_suspended_floor)&&$ad->has_suspended_floor) <p>Suelo técnico</p> @endif
+                            @if(isset($ad->is_handicapped_adapted)&&$ad->is_handicapped_adapted) <p>Edificio adaptado a personas con discapacidad</p> @endif
+
                         @elseif($typology==5)
                         {{--garage--}}
                             <h4>Características básicas</h4>
@@ -288,7 +325,7 @@
 
                             <h4>Buscan</h4>
                             {{--BUSCAN chico/chica (da igual), estudiante/...--}}
-                        
+
                             <h4>Equipamiento</h4>
                             {{--EQUIPAMIENTO amueblado...--}}
                         @elseif($typology==8)

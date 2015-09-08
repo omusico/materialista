@@ -10,6 +10,7 @@ use App\CategoryRoom;
 use App\Geocode;
 use App\HomeLib;
 use App\OptionGarageCapacity;
+use App\OptionOfficeDistribution;
 
 class HomeController extends Controller {
 
@@ -552,6 +553,7 @@ class HomeController extends Controller {
             case 'office':
                 $typology = 4;
                 $ad->type = 'Oficina';
+                $ad->distribution = OptionOfficeDistribution::where('id',$ad->office_distribution_id)->pluck('name');
                 break;
             case 'garage':
                 $typology = 5;
