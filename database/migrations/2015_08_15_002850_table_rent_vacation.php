@@ -92,8 +92,8 @@ class TableRentVacation extends Migration
             $table->integer('n_four_beds_room',false,true); //+4
 
             //extra beds (+ max capacity), default: 0
-            $table->integer('n_sofa-bed',false,true); //+1 max capacity
-            $table->integer('n_double_sofa-bed',false,true); //+2
+            $table->integer('n_sofa_bed',false,true); //+1 max capacity
+            $table->integer('n_double_sofa_bed',false,true); //+2
             $table->integer('n_extra_bed',false,true); //+1
 
             //capacity (pre-calculated as suggestion in front-end, allow edit)

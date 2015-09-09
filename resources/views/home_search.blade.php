@@ -214,7 +214,7 @@
                 window.location.href = '/resultados?' + $.param({
                     operation: proximityContainer.find('input[name=operation]:checked').val(),
                     typology: proximityContainer.find('select[name=typology]').val(),
-                    address: proximityContainer.find('input[name=customAddress]').text(),
+                    address: proximityContainer.find('input[name=customAddress]').val(),
                     search_type: '1'
                 });
             };

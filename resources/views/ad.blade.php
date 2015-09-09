@@ -115,14 +115,14 @@
                         @elseif($typology==5)
                             <span><small>Plaza para</small> {{ strtolower($ad->garage_capacity) }}</span>
                         @elseif($typology==6)
-                            <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
+                            <span>{{ number_format((float) $ad->area_total,0,',','.') }}</span> <small>m&sup2;</small>
                             <span>{{ $ad->land_category }}</span>
                         @elseif($typology==7)
-                            <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
-                            {{--Other room details--}}
+                            <span>{{ $ad->n_bedrooms }} habs.</span>
+                            <span>@if(isset($ad->deposit)) Fianza de {{ $ad->deposit }} @endif</span>
                         @elseif($typology==8)
                             <span>{{ $ad->surroundings }}</span>
-                            <span>{{ number_format((float) $ad->area_constructed,0,',','.') }}</span> <small>m&sup2;</small>
+                            <span>{{ number_format((float) $ad->area_total,0,',','.') }}</span> <small>m&sup2;</small>
                             @if($ad->min_capacity < $ad->max_capacity) <small>Para</small> <span>{{ $ad->min_capacity }}</span> <small>a</small> <span>{{ $ad->max_capacity }}</span> <small>personas</small> @elseif($ad->min_capacity) <small>Desde</small> <span>{{$ad->min_capacity}}</span> <small>personas</small> @elseif($ad->max_capacity) <small>Hasta</small> <span>{{$ad->max_capacity}}</span> <small>personas</small> @endif
                         @endif
                     </div>
@@ -223,7 +223,7 @@
                             @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <p>Aire acondicionado</p> @endif
 
                             <h4>Edificio</h4>
-                            @if(isset($ad->n_floors)&&$ad->n_floors) {{$ad->n_floors}} plantas @endif
+                            @if(isset($ad->n_floors)&&$ad->n_floors) {{$ad->n_floors}} @choice('planta|plantas',$ad->n_floors) @endif
                             @if(isset($ad->has_elevator)&&$ad->has_elevator) Con ascensor @endif
                             <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
                             <p>Certificación energética: {{ $certE }}
@@ -244,14 +244,38 @@
                         @elseif($typology==3)
                         {{--business--}}
                             <h4>Características básicas</h4>
-                            {{--CARACTERÍSTICAS BÁSICAS basic details: m2 constru (same line) m2 util, planta, estado (2a mano...),
-                            distro, n aseos, situacion (a pie de calle), n escaparates--}}
+                            @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}} @if(isset($ad->is_exterior)&&$ad->is_exterior) exterior @endif </p> @endif
+                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) {{$ad->area_constructed}} m&sup2; construidos @endif @if(isset($ad->area_usable)&&$ad->area_usable) {{$ad->area_usable}} m&sup2; útiles @endif </p> @endif
+                            @if(isset($ad->distribution)&&$ad->distribution) <p>{{ $ad->distribution }}</p> @endif
+                            @if((isset($ad->n_restrooms)&&$ad->n_restrooms)&&((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside))) <p> {{ $ad->n_restrooms }} @choice('aseo|aseos',$ad->n_restrooms) @if((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside)) y @choice('baño completo|baños completos',$ad->n_restrooms) @endif @if(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside) dentro de la oficina @endif </p> @endif
+                            @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
+                            @if(isset($ad->location)&&$ad->location) <p>{{ $ad->location }}</p> @endif
+                            @if(isset($ad->is_corner_located)&&$ad->is_corner_located) <p>Hace esquina</p> @endif
+                            @if(isset($ad->n_shop_windows)&&$ad->n_shop_windows) <p>{{ $ad->n_shop_windows }} @choice('escaparate|escaparates',$ad->n_shop_windows)</p> @endif
+                            @if(isset($ad->last_activity)&&$ad->last_activity) <p>{{ $ad->last_activity }}</p> @endif
 
                             <h4>Edificio</h4>
-                            {{--EDIFICIO bajo, fachada de x m, certificación energética--}}
+                            @if(isset($ad->n_floors)&&$ad->n_floors) <p>{{$ad->n_floors}} @choice('planta|plantas',$ad->n_floors)</p> @endif
+                            @if(isset($ad->facade)&&$ad->facade) <p>{{ $ad->facade }}</p> @endif
+                            <p>Certificación energética: {{ $certE }}
+                                @if(in_array($certE,range('A','G')))
+                                    @if(isset($ad->energy_performance)&&$ad->energy_performance)
+                                        ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
+                                    @else
+                                        (IPE no indicado)
+                                    @endif
+                                @endif
+                            </p>
 
                             <h4>Equipamiento</h4>
-                            {{--EQUIPAMIENTO almacén/archivo--}}
+                            @if(isset($ad->has_archive)&&$ad->has_archive) <p>Almacén</p> @endif
+                            @if(isset($ad->has_smoke_extractor)&&$ad->has_smoke_extractor) <p>Salida de humos</p> @endif
+                            @if(isset($ad->has_fully_equipped_kitchen)&&$ad->has_fully_equipped_kitchen) <p>Cocina completamente equipada</p> @endif
+                            @if(isset($as->has_steel_door)&&$as->has_steel_door) <p>Puerta de seguridad</p> @endif
+                            @if(isset($ad->has_alarm)&&$ad->has_alarm) <p>Sistema de alarma</p> @endif
+                            @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <p>Aire acondicionado</p> @endif
+                            @if(isset($ad->has_heating)&&$ad->has_heating) <p>Calefacción</p> @endif
+                            @if(isset($ad->has_security_camera)&&$ad->has_security_camera) <p>Circuito cerrado de seguridad</p> @endif
                         @elseif($typology==4)
                         {{--office--}}
                             <h4>Características básicas</h4>
@@ -263,7 +287,7 @@
                             @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
 
                             <h4>Edificio</h4>
-                            @if(isset($ad->n_floors)&&$ad->n_floors) <p>{{$ad->n_floors}} plantas</p> @endif
+                            @if(isset($ad->n_floors)&&$ad->n_floors) <p>{{$ad->n_floors}} @choice('planta|plantas',$ad->n_floors)</p> @endif
                             @if(isset($ad->n_elevators)&&$ad->n_elevators) <p> {{ $ad->n_elevators }} @choice('ascensor|ascensores',$ad->n_elevators) </p> @endif
                             @if(isset($ad->has_offices_only)&&$ad->has_offices_only) <p>Uso exclusivo de oficinas</p> @endif
                             <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
@@ -302,46 +326,137 @@
                         @elseif($typology==5)
                         {{--garage--}}
                             <h4>Características básicas</h4>
-                            {{--CARACTERÍSTICAS BÁSICAS basic details: capacidad, covered, elevator--}}
+                            @if(isset($ad->garage_capacity)&&$ad->garage_capacity) <p>Plaza para {{ strtolower($ad->garage_capacity) }}</p>@endif
+                            @if(isset($ad->is_covered)&&$ad->is_covered) <p>Cubierta</p> @endif
+                            @if(isset($ad->has_lift)&&$ad->has_lift) <p>Con ascensor</p> @endif
 
                             <h4>Extras</h4>
-                            {{--EXTRAS sauo doro, alarm, cameras...--}}
+                            @if(isset($ad->has_automatic_door)&&$ad->has_automatic_door) <p>Puerta automática de garaje</p> @endif
+                            @if(isset($ad->has_alarm)&&$ad->has_alarm) <p>Alarma</p> @endif
+                            @if(isset($ad->has_security_camera)&&$ad->has_security_camera) <p>Cámaras de seguridad</p> @endif
+                            @if(isset($ad->has_security_guard)&&$ad->has_security_guard) <p>Vigilante</p> @endif
                         @elseif($typology==6)
                         {{--land--}}
                             <h4>Características básicas</h4>
-                            {{--CARACTERÍSTICAS BÁSICAS total surface, min surface alquilar, edifi surface, acceso, distancias--}}
+                            @if(isset($ad->area_total)&&$ad->area_total) <p>Superficie total {{ $ad->area_total }} m&sup2;</p> @endif
+                            @if(isset($ad->area_min_for_sale)&&$ad->area_min_for_sale) <p>Superficie mínima en venta {{ $ad->area_min_for_sale }} m&sup2;</p> @endif
+                            @if(isset($ad->area_building_land)&&$ad->area_building_land) <p>Superficie edificable {{ $ad->area_building_land }} m&sup2;</p> @endif
+                            @if(isset($ad->has_road_access)&&$ad->has_road_access) <p>Acceso vía urbana</p> @endif
+                            @if(isset($ad->nearest_town)&&$ad->nearest_town) <p>{{ $ad->nearest_town }}</p> @endif
 
                             <h4>Situación urbanística</h4>
-                            {{--SITUACIÓN URBANÍSTICA terreno urbanizable, certificado para residencial unifamiliar (chalets), plantas edific--}}
+                            @if(isset($ad->category_land)&&$ad->category_land) <p>{{ $ad->category_land }}</p> @endif
+                            @if(isset($ad->is_classified_residential_block)&&$ad->is_classified_residential_block) <p>Calificado para residencial en altura (bloques)</p> @endif
+                            @if(isset($ad->is_classified_residential_house)&&$ad->is_classified_residential_house) <p>Calificado para residencial unifamiliar (chalets)</p> @endif
+                            @if(isset($ad->is_classified_office)&&$ad->is_classified_office) <p>Calificado para terciario oficinas</p> @endif
+                            @if(isset($ad->is_classified_commercial)&&$ad->is_classified_commercial) <p>Calificado para terciario comercial</p> @endif
+                            @if(isset($ad->is_classified_hotel)&&$ad->is_classified_hotel) <p>Calificado para terciario hoteles</p> @endif
+                            @if(isset($ad->is_classified_industrial)&&$ad->is_classified_industrial) <p>Calificado para industrial</p> @endif
+                            @if(isset($ad->is_classified_public_service)&&$ad->is_classified_public_service) <p>Calificado para dotaciones (hospitales, escuelas, museos)</p> @endif
+                            @if(isset($ad->is_classified_others)&&$ad->is_classified_others) <p>Dispone de calificación (consultar)</p> @endif
+                            @if(isset($ad->max_floors_allowed)&&$ad->max_floors_allowed) <p>{{ $ad->max_floors_allowed }} @choice('planta|plantas',$ad->max_floors_allowed) edificables</p> @endif
 
                             <h4>Equipamiento</h4>
-                            {{--EQUIPAMIENTO agua, elec, alcant, gas, alumbrado, aceras--}}
+                            @if(isset($ad->has_water)&&$ad->has_water) <p>Agua</p> @endif
+                            @if(isset($ad->has_electricity)&&$ad->has_electricity) <p>Electricidad</p> @endif
+                            @if(isset($ad->has_sewer_system)&&$ad->has_sewer_system) <p>Alcantarillado</p> @endif
+                            @if(isset($ad->has_natural_gas)&&$ad->has_natural_gas) <p>Gas natural</p> @endif
+                            @if(isset($ad->has_street_lightning)&&$ad->has_street_lightning) <p>Alumbrado público</p> @endif
+                            @if(isset($ad->has_sidewalks)&&$ad->has_sidewalks) <p>Aceras</p> @endif
                         @elseif($typology==7)
                         {{--room--}}
                             <h4>Características básicas</h4>
-                            {{--CARACTERÍSTICAS BÁSICAS basic details: habitación en piso de x m2, planta con/sin elevator, n habitaciones,
-                            2 wc, estancia mínima, capacidad máxima, género y edad de actuales "Ahora son chica(s), entre 10 y 20 años",
-                            no se puede fumar(?), no se admite mascota(?)--}}
+                            @if(isset($ad->area_room)&&$ad->area_room) <p>Habitación en {{ strtolower($ad->category_room) }} de {{ $ad->area_room }} m&sup2;</p> @endif
+                            @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}} @if(isset($ad->has_elevator)&&$ad->has_elevator) con ascensor @endif </p> @endif
+                            @if(isset($ad->n_bedrooms)&&$ad->n_bedrooms) <p>{{ $ad->n_bedrooms }} @choice('habitación|habitaciones',$ad->n_bedrooms)</p> @endif
+                            @if(isset($ad->n_bathrooms)&&$ad->n_bathrooms) <p>{{ $ad->n_bathrooms }} @choice('wc|wc',$ad->n_bathrooms)</p> @endif
+                            @if(isset($ad->min_stay)&&$ad->min_stay) <p>Estancia mínima de {{ $ad->min_stay }}</p> @endif
+                            @if(isset($ad->n_people)&&$ad->n_people) <p>Capacidad máxima de {{ $ad->n_people }} @choice('persona|personas',$ad->n_people)</p> @endif
+                            @if(isset($ad->current_gender)&&$ad->current_gender) <p>Ahora son {{ $ad->current_gender }}@if(isset($ad->min_current_tenants_age)&&isset($ad->max_current_tenants_age)&&($ad->min_current_tenants_age<=$ad->max_current_tenants_age)), entre {{ $ad->min_current_tenants_age }} y {{ $ad->max_current_tenants_age }} a&ntilde;os @endif </p> @endif
+                            @if(isset($ad->is_smoking_allowed)&&$ad->is_smoking_allowed) <p>No se puede fumar</p> @endif
+                            @if(isset($ad->is_pet_allowed)&&$ad->is_pet_allowed) <p>No se admite mascota</p> @endif
 
                             <h4>Buscan</h4>
-                            {{--BUSCAN chico/chica (da igual), estudiante/...--}}
+                            @if(isset($ad->gender)&&$ad->gender) <p> @if($ad->gender=='Da igual') Chico o chica, {{ strtolower($ad->gender) }} @else {{ $ad->gender }} @endif </p> @endif
+                            @if(isset($ad->occupation)&&$ad->occupation) <p> @if($ad->occupation=='Da igual') Trabajador o estudiante, {{ strtolower($ad->occupation) }} @else {{ $ad->occupation }} @endif  @endif
 
                             <h4>Equipamiento</h4>
-                            {{--EQUIPAMIENTO amueblado...--}}
+                            @if(isset($ad->has_furniture)&&$ad->has_furniture) <p>Amueblado</p> @endif
+                            @if(isset($ad->has_builtin_closets)&&$ad->has_builtin_closets) <p>Armarios empotrados</p> @endif
+                            @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <p>Aire acondicionado</p> @endif
+                            @if(isset($ad->has_internet)&&$ad->has_internet) <p>Conexión a internet</p> @endif
+                            @if(isset($ad->has_house_keeper)&&$ad->has_house_keeper) <p>Asistente/a del hogar</p> @endif
                         @elseif($typology==8)
                         {{--vacation--}}
                             <h4>Características del apartamento</h4>
-                            {{--CARACTERÍSTICAS DEL APARTAMENTO--}}
-                            {{--Exterior: aparcamiento, vistas...--}}
-                            {{--Distro: habitaciones--}}
-                            {{--Interior: tv, calefacción, secador--}}
-                            {{--Cocina y electrodoms: lavavajillas, nevera, horno...--}}
-                            {{--Info adicional: verificado, no fumad, ascensor, no mascot, recom coche--}}
-                            {{--Idiomas: español, inglés, francés--}}
+                            <h3>Exterior</h3>
+                            <p>
+                            @if(isset($ad->has_barbecue)&&$ad->has_barbecue) <span>Barbacoa</span> @endif
+                            @if(isset($ad->has_terrace)&&$ad->has_terrace) <span>Terraza</span> @endif
+                            @if(isset($ad->has_private_swimming_pool)&&$ad->has_private_swimming_pool) <span>Piscina privada</span>  @endif
+                            @if(isset($ad->has_shared_swimming_pool)&&$ad->has_shared_swimming_pool) <span>Piscina compartida</span>  @endif
+                            @if(isset($ad->has_indoor_swimming_pool)&&$ad->has_indoor_swimming_pool) <span>Piscina cubierta</span> @endif
+                            @if(isset($ad->has_private_garden)&&$ad->has_private_garden) <span>Jardín privado</span> @endif
+                            @if(isset($ad->has_shared_garden)&&$ad->has_shared_garden) <span>Jardín compartido</span> @endif
+                            @if(isset($ad->has_furnished_garden)&&$ad->has_furnished_garden) <span>Muebles de jardín</span> @endif
+                            @if(isset($ad->has_parking_space)&&$ad->has_parking_space) <span>Aparcamiento</span> @endif
+                            @if(isset($ad->has_playground)&&$ad->has_playground) <span>Parque infantil</span> @endif
+                            @if(isset($ad->has_mountain_sights)&&$ad->has_mountain_sights) <span>Vistas a la monta&ntilde;a</span> @endif
+                            @if(isset($ad->has_sea_sights)&&$ad->has_sea_sights) <span>Vistas al mar</span> @endif
+                            </p>
+
+                            <h3>Distribución</h3>
+                            <p>
+                            @if(isset($ad->n_double_bedroom)&&$ad->n_double_bedroom) <span>{{ $ad->n_double_bedroom }} @choice('habitación doble|habitaciones dobles',$ad->n_double_bedroom) </span> @endif
+                            @if(isset($ad->n_two_beds_room)&&$ad->n_two_beds_room) <span>{{ $ad->n_two_beds_room }} @choice('habitación|habitaciones',$ad->n_two_beds_room) de matrimonio</span> @endif
+                            @if(isset($ad->n_single_bed_room)&&$ad->n_single_bed_room) <span>{{ $ad->n_single_bed_room }} @choice('habitación individual|habitaciones individuales',$ad->n_single_bed_room) </span> @endif
+                            @if(isset($ad->n_three_beds_room)&&$ad->n_three_beds_room) <span>{{ $ad->n_three_beds_room }} @choice('habitación|habitaciones',$ad->n_three_beds_room) con tres camas </span> @endif
+                            @if(isset($ad->n_four_beds_room)&&$ad->n_four_beds_room) <span>{{ $ad->n_four_beds_room }} @choice('habitación|habitaciones',$ad->n_four_beds_room) con cuatro camas </span> @endif
+                            @if(isset($ad->n_sofa_bed)&&$ad->n_sofa_bed) <span>{{ $ad->n_sofa_bed }} @choice('sofá cama|sofás cama',$ad->n_sofa_bed)</span> @endif
+                            @if(isset($ad->n_double_sofa_bed)&&$ad->n_double_sofa_bed) <span>{{ $ad->n_double_sofa_bed }} @choice('sofá cama doble|sofás cama dobles',$ad->n_double_sofa_bed)</span> @endif
+                            @if(isset($ad->n_extra_bed)&&$ad->n_extra_bed) <span>{{ $ad->n_extra_bed }} @choice('cama supletoria|camas supletorias',$ad->n_extra_bed)</span> @endif
+                            @if(isset($ad->is_american_kitchen)&&$ad->is_american_kitchen) <span>Cocina americana</span> @else <span>Cocina independiente</span> @endif
+                            @if(isset($ad->area_total)&&$ad->area_total) <span>{{ $ad->area_total }} m&sup2; total</span> @endif
+                            @if(isset($ad->area_garden)&&$ad->area_garden) <span>{{ $ad->area_garden }} m&sup2; de jardín</span> @endif
+                            @if(isset($ad->area_terrace)&&$ad->area_terrace) <span>{{ $ad->area_terrace }} m&sup2; de terraza</span> @endif
+                            </p>
+
+                            <h3>Interior</h3>
+                            <p>
+                            @if(isset($ad->has_fireplace)&&$ad->has_fireplace) <span>Chimenea</span> @endif
+                            @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <span>Aire acondicionado</span> @endif
+                            @if(isset($ad->has_jacuzzi)&&$ad->has_jacuzzi) <span>Jacuzzi</span> @endif
+                            @if(isset($ad->has_tv)&&$ad->has_tv) <span>TV</span> @endif
+                            @if(isset($ad->has_cable_tv)&&$ad->has_cable_tv) <span>TV satélite/por cable</span> @endif
+                            @if(isset($ad->has_internet)&&$ad->has_internet) <span>Internet</span> @endif
+                            @if(isset($ad->has_heating)&&$ad->has_heating) <span>Calefacción</span> @endif
+                            @if(isset($ad->has_fan)&&$ad->has_fan) <span>Ventilador</span> @endif
+                            @if(isset($ad->has_cradle)&&$ad->has_cradle) <span>Cuna</span> @endif
+                            @if(isset($ad->has_hairdryer)&&$ad->has_hairdryer) <span>Secador de pelo</span> @endif
+                            </p>
+
+                            <h3>Cocina y electrodomésticos</h3>
+                            <p>
+                            @if(isset($ad->has_dishwasher)&&$ad->has_dishwasher) <span>Lavavajillas</span> @endif
+                            @if(isset($ad->has_fridge)&&$ad->has_fridge) <span>Frigorífico</span> @endif
+                            @if(isset($ad->has_oven)&&$ad->has_oven) <span>Horno</span> @endif
+                            @if(isset($ad->has_microwave)&&$ad->has_microwave) <span>Microondas</span> @endif
+                            @if(isset($ad->has_coffee_maker)&&$ad->has_coffee_maker) <span>Cafetera</span> @endif
+                            @if(isset($ad->has_dryer)&&$ad->has_dryer) <span>Secadora</span> @endif
+                            @if(isset($ad->has_washer)&&$ad->has_washer) <span>Lavadora</span> @endif
+                            @if(isset($ad->has_iron)&&$ad->has_iron) <span>Plancha</span> @endif
+                            </p>
+
+                            <h3>Información adicional</h3>
+                            <p>
+                            @if(isset($ad->is_smoking_allowed)&&!$ad->is_smoking_allowed) <span>No se puede fumar</span> @endif
+                            @if(isset($ad->is_pet_allowed)&&!$ad->is_pet_allowed) <span>No se admite mascota</span> @endif
+                            @if(isset($ad->is_car_recommended)&&$ad->is_car_recommended) <span>Recomendable tener coche</span> @endif
+                            @if(isset($ad->is_handicapped_adapted)&&$ad->is_handicapped_adapted) <span>Adaptado para personas con discapacidad</span> @endif
+                            </p>
 
                             <h4>Precios</h4>
-                            {{--PRECIOS--}}
-                            {{--Precios para capacidad de x plazas y un maximo de 2 huespedes extra (precios con IVA incluido)--}}
+                            @if(isset($ad->min_capacity)&&$ad->min_capacity) <p>Precios para una capacidad de {{ $ad->min_capacity }} plazas @if(isset($ad->max_capacity)&&($ad->min_capacity<$ad->max_capacity)) y un máximo de {{ ($ad->max_capacity - $ad->min_capacity) }} @choice('huésped|huéspedes',($ad->max_capacity - $ad->min_capacity)) extra @endif </p> @endif
                             {{--Tabla de precios--}}
                             {{--Fianza: % o euros--}}
                             {{--Reserva: "" ""--}}
@@ -351,9 +466,6 @@
                             {{--Gastos (luz, gas, etc.): incluidos--}}
                             {{--* Consultar precios en puentes, navidad y semana santa--}}
                             {{--* Entrada a las 16.00 y salida a las 10.00 salvo acuerdo de lo contrario--}}
-
-                            <h4>Situación</h4>
-                            {{--SITUACIÓN--}}
                         @endif
 
                         {{--common to all--}}
@@ -362,7 +474,47 @@
                             @if(isset($ad->residential_area)&&$ad->residential_area) <p>{{ $ad->residential_area }}</p> @endif
                             <p>{{ $ad->locality }}</p>
                             <p> @if(isset($ad->admin_area_lvl2)&&$ad->admin_area_lvl2) {{ $ad->admin_area_lvl2 }}, @endif @if(isset($ad->admin_area_lvl1)&&$ad->admin_area_lvl1) {{ $ad->admin_area_lvl1 }} @endif </p>
-                            <p><a href="https://www.google.es/maps/<?php foreach(preg_split('/[ \r\n]/',$ad->formatted_address) as $piece) { echo $piece.'+'; } ?>" target="_blank"><i class="fa fa-map-marker"></i> Ver localización en Google Maps</a></p>
+                            <p><a href="https://www.google.es/maps/search/<?php foreach(preg_split('/[ \r\n]/',$ad->formatted_address) as $piece) { echo $piece.'+'; } ?>" target="_blank"><i class="fa fa-map-marker"></i> Ver localización en Google Maps</a></p>
+                        @endif
+
+                        @if($typology==8)
+                            <h4>Ubicación y entorno</h4>
+                            <p>
+                            @if(isset($ad->is_out_town_center)&&$ad->is_out_town_center) <span>Fuera del casco urbano</span> @endif
+                            @if(isset($ad->is_isolated)&&$ad->is_isolated) <span>Aislado</span> @endif
+                            @if(isset($ad->distance_to_beach)&&$ad->distance_to_beach) <span>{{ $ad->distance_to_beach }} m a la playa</span> @endif
+                            @if(isset($ad->distance_to_town_center)&&$ad->distance_to_town_center) <span>{{ $ad->distance_to_town_center }} m al centro de la localidad</span> @endif
+                            @if(isset($ad->distance_to_ski_area)&&$ad->distance_to_ski_area) <span>{{ $ad->distance_to_ski_area }} m a pistas de ski</span> @endif
+                            @if(isset($ad->distance_to_golf_course)&&$ad->distance_to_golf_course) <span>{{ $ad->distance_to_golf_course }} m a campo de golf</span> @endif
+                            @if(isset($ad->distance_to_airport)&&$ad->distance_to_airport) <span>{{ $ad->distance_to_airport }} m al aeropuerto</span> @endif
+                            @if(isset($ad->distance_to_supermarket)&&$ad->distance_to_supermarket) <span>{{ $ad->distance_to_supermarket }} m al supermercado</span> @endif
+                            @if(isset($ad->distance_to_river_or_lake)&&$ad->distance_to_river_or_lake) <span>{{ $ad->distance_to_river_or_lake }} m al río o lago</span> @endif
+                            @if(isset($ad->distance_to_marina)&&$ad->distance_to_marina) <span>{{ $ad->distance_to_marina }} m al puerto deportivo</span> @endif
+                            @if(isset($ad->distance_to_horse_riding_area)&&$ad->distance_to_horse_riding_area) <span>{{ $ad->distance_to_horse_riding_area }} m a centro ecuestre</span> @endif
+                            @if(isset($ad->distance_to_scuba_diving_area)&&$ad->distance_to_scuba_diving_area) <span>{{ $ad->distance_to_scuba_diving_area }} m a escuela de submarinismo</span> @endif
+                            @if(isset($ad->distance_to_train_station)&&$ad->distance_to_train_station) <span>{{ $ad->distance_to_train_station }} m a estación de tren</span> @endif
+                            @if(isset($ad->distance_to_bus_station)&&$ad->distance_to_bus_station) <span>{{ $ad->distance_to_bus_station }} m a estación de autobús</span> @endif
+                            @if(isset($ad->distance_to_hospital)&&$ad->distance_to_hospital) <span>{{ $ad->distance_to_hospital }} m al hospital</span> @endif
+                            @if(isset($ad->distance_to_hiking_area)&&$ad->distance_to_hiking_area) <span>{{ $ad->distance_to_hiking_area }} m a ruta de senderismo</span> @endif
+                            @if(isset($ad->is_nudist_area)&&$ad->is_nudist_area) <span>Turismo nudista</span> @endif
+                            @if(isset($ad->is_bar_area)&&$ad->is_bar_area) <span>Zona de bares</span> @endif
+                            @if(isset($ad->is_gayfriendly_area)&&$ad->is_gayfriendly_area) <span>Ambiente gayfriendly</span> @endif
+                            @if(isset($ad->is_family_tourism_area)&&$ad->is_family_tourism_area) <span>Turismo familiar</span> @endif
+                            @if(isset($ad->is_luxury_area)&&$ad->is_luxury_area) <span>Alojamiento de lujo</span> @endif
+                            @if(isset($ad->is_charming)&&$ad->is_charming) <span>Alojamiento con encanto</span> @endif
+                            </p>
+
+                            <h4>Actividades y atracciones</h4>
+                            <p>
+                            @if(isset($ad->has_bicycle_rental)&&$ad->has_bicycle_rental) <span>Alquiler de bicicleta</span> @endif
+                            @if(isset($ad->has_car_rental)&&$ad->has_car_rental) <span>Alquiler de coche</span> @endif
+                            @if(isset($ad->has_adventure_activities)&&$ad->has_adventure_activities) <span>Actividades multiaventura</span> @endif
+                            @if(isset($ad->has_kindergarten)&&$ad->has_kindergarten) <span>Guardería</span> @endif
+                            @if(isset($ad->has_sauna)&&$ad->has_sauna) <span>Sauna</span> @endif
+                            @if(isset($ad->has_tennis_court)&&$ad->has_tennis_court) <span>Pista de tenis</span> @endif
+                            @if(isset($ad->has_paddle_court)&&$ad->has_paddle_court) <span>Pista de pádel</span> @endif
+                            @if(isset($ad->has_gym)&&$ad->has_gym) <span>Gimnasio</span> @endif
+                            </p>
                         @endif
 
                         <h4>Actualizado el {{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('d') + 0 }} de

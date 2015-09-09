@@ -2,11 +2,12 @@
     <div class="row">
         <div class="col-xs-6">
             @if(\App::environment() == 'local')
-                <h1>Materialista</h1>
+                <h1><a href="{{route('home')}}" style="text-decoration:none;color:#4A4A4A;">Materialista</a></h1>
             @else
                 <div style="display:inline-block;height:100px;width:215px;
                         background-image: url('{{ asset('img/logo-valkiria.png') }}');
-                        background-size: contain;">
+                        background-size: contain;position:relative;">
+                    <a href="{{route('home')}}" style="position:absolute;display:block;height:100%;">&nbsp;</a>
                 </div>
             @endif
         </div>

@@ -525,7 +525,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">M&sup2; de la habitación <span class="required">* </span>
+                                                <label class="control-label col-md-3">M&sup2; de la vivienda <span class="required">* </span>
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -536,7 +536,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Total de personas (incluyendo nuevo inquilino)
+                                                <label class="control-label col-md-3">Total de personas (capacidad incluyendo nuevo inquilino)
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -1126,7 +1126,7 @@
                                                         <label>
                                                             <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning_pre-installation" value="1" data-title="Preinstalación de aire acondicionado"/> Preinstalación de aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning_preinstallation" value="1" data-title="Preinstalación de aire acondicionado"/> Preinstalación de aire acondicionado</label>
                                                         <label>
                                                             <input type="checkbox" name="has_heating" value="1" data-title="Calefacción"/> Calefacción</label>
                                                         <label>
@@ -1918,13 +1918,13 @@
                                                         <div class="col-md-4">
                                                             <label>Sofá cama (tama&ntilde;o individual)</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_sofa-bed"/>
+                                                                <input type="text" class="form-control" name="n_sofa_bed"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Sofá cama (tama&ntilde;o matrimonio)</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_double_sofa-bed"/>
+                                                                <input type="text" class="form-control" name="n_double_sofa_bed"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -2481,8 +2481,8 @@
                         (parseInt($('input[name=n_single_bed_room]').val())||0)*1 +
                         (parseInt($('input[name=n_three_beds_room]').val())||0)*3 +
                         (parseInt($('input[name=n_four_beds_room]').val())||0)*4;
-                var extra_capacity = (parseInt($('input[name=n_sofa-bed]').val())||0)*1 +
-                        (parseInt($('input[name=n_double_sofa-bed]').val())||0)*2 +
+                var extra_capacity = (parseInt($('input[name=n_sofa_bed]').val())||0)*1 +
+                        (parseInt($('input[name=n_double_sofa_bed]').val())||0)*2 +
                         (parseInt($('input[name=n_extra_bed]').val())||0)*1;
                 $('input[name=min_capacity]').val(min_capacity);
                 $('input[name=max_capacity]').val(min_capacity + extra_capacity);
@@ -2522,8 +2522,8 @@
             tab2.on('change','input[name=n_single_bed_room]',function(){calculate_capacity();});
             tab2.on('change','input[name=n_three_beds_room]',function(){calculate_capacity();});
             tab2.on('change','input[name=n_four_beds_room]',function(){calculate_capacity();});
-            tab2.on('change','input[name=n_sofa-bed]',function(){calculate_capacity();});
-            tab2.on('change','input[name=n_double_sofa-bed]',function(){calculate_capacity();});
+            tab2.on('change','input[name=n_sofa_bed]',function(){calculate_capacity();});
+            tab2.on('change','input[name=n_double_sofa_bed]',function(){calculate_capacity();});
             tab2.on('change','input[name=n_extra_bed]',function(){calculate_capacity();});
             tab2.on('change', 'input[type=radio][name=has_booking]', function() {
                 if ($(this).val() == '1') {

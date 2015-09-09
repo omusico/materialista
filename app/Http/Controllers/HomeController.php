@@ -9,8 +9,17 @@ use App\CategoryLodging;
 use App\CategoryRoom;
 use App\Geocode;
 use App\HomeLib;
+use App\Lodging;
+use App\OptionBusinessDistribution;
+use App\OptionCurrentTenantsGender;
 use App\OptionGarageCapacity;
+use App\OptionNearestTownDistance;
 use App\OptionOfficeDistribution;
+use App\OptionSurroundings;
+use App\OptionTenantGender;
+use App\OptionTenantMinStay;
+use App\OptionTenantOccupation;
+use App\OptionTenantSexualOrientation;
 
 class HomeController extends Controller {
 
@@ -59,10 +68,10 @@ class HomeController extends Controller {
         if(!isset($input['typology']))
             $input['typology'] = '1';
         if(!isset($input['locality']))
-            $input['locality'] = 'Blanes';
+            $input['locality'] = 'Barcelona';
         if(!isset($input['search_type']))
             $input['search_type'] = '0';
-        if(!isset($input['operation']))
+        if(!isset($input['address']))
             $input['address'] = '';
 
         /*
@@ -267,10 +276,11 @@ class HomeController extends Controller {
             $location = Geocode::geocodeAddress($input['address']);
             if(!$location)
                 return \Redirect::back();
+            $locality = $location['locality'];
 
             //Geo-distance calculations
             $R = 6371.01; //radio de la tierra promedio (en km)
-            $distance = 50; //todo: set this as a constant in config file
+            $distance = 25; //todo: set this as a constant in config file
             $r = $distance/$R; //ángulo en radianes que equivale a recorrer $distance sobre un círculo de radio $R
             $lat_r = deg2rad($location['lat']); //en rads
             $lng_r = deg2rad($location['lng']); //en rads
@@ -505,7 +515,6 @@ class HomeController extends Controller {
                 $typology = 'terrenos';
                 break;
         }
-        $locality = $input['locality'];
         $search_type = $input['search_type'];
 
         return view('results',compact('ads','typology','locality','search_type','input'));
@@ -549,6 +558,9 @@ class HomeController extends Controller {
             case 'business':
                 $typology = 3;
                 $ad->type = CategoryBusiness::where('id',$ad->category_business_id)->pluck('name');
+                $ad->distribution = OptionBusinessDistribution::where('id',$ad->business_distribution_id)->pluck('name');
+                $ad->facade = OptionBusinessFacade::where('id',$ad->business_facade_id)->pluck('name');
+                $ad->location = OptionBusinessLocation::where('id',$ad->business_location_id)->pluck('name');
                 break;
             case 'office':
                 $typology = 4;
@@ -564,15 +576,28 @@ class HomeController extends Controller {
                 $typology = 6;
                 $ad->type = 'Terreno';
                 $ad->category_land = CategoryLand::where('id',$ad->category_land_id)->pluck('name');
+                $ad->nearest_town = OptionNearestTownDistance::where('',$ad->nearest_town_distance_id)->pluck('name');
                 break;
             case 'room':
                 $typology = 7;
                 $ad->type = 'Habitación';
                 $ad->category_room = CategoryRoom::where('id',$ad->category_room_id)->pluck('name');
+                $ad->min_stay = OptionTenantMinStay::where('id',$ad->tenant_min_stay_id)->pluck('name');
+                $ad->current_gender = OptionCurrentTenantsGender::where('id',$ad->current_tenants_gender_id)->pluck('name');
+                $ad->gender = OptionTenantGender::where('id',$ad->tenant_gender_id)->pluck('name');
+                $ad->occupation = OptionTenantOccupation::where('id',$ad->tenant_occupation_id)->pluck('name');
+                $ad->sexual_orientation = OptionTenantSexualOrientation::where('id',$ad->tenant_sexual_orientation_id)->pluck('name');
                 break;
             case 'vacation':
                 $typology = 8;
                 $ad->type = CategoryLodging::where('id',$ad->category_lodging_id)->pluck('name');
+                $ad->surroundings = OptionSurroundings::where('id',$ad->surroundings_id)->pluck('name');
+                $ad->min_price_per_night = \DB::select(\DB::raw("
+                  SELECT MIN(t2.p_one_month) as min_price_per_night
+                  FROM rent_vacation AS t1
+                  LEFT JOIN vacation_season_price AS t2 ON t1.id = t2.rent_vacation_id
+                  WHERE t1.id = ?;
+                "),[$ad->id]);
                 break;
         }
 
