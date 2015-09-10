@@ -216,7 +216,9 @@
                             </div>
                         </div>
                     @endif
-                    @if($input['typology']=='0'||$input['typology']=='1')
+                    @if($input['typology']=='0')
+
+                    @elseif($input['typology']=='1')
 
                     @elseif($input['typology']=='2')
 
@@ -245,15 +247,17 @@
                         <div class="row row-ad" style="margin-top:30px;">
                             <input type="hidden" class="ad-id" value="{{ $ad->ad_id }}">
                             {{--Slider de thumbnails--}}
+                            <?php $thumbs = \App\AdPic::where('ad_id',$ad->ad_id)->get(); ?>
+                            @if(count($thumbs))
                             <div class="hidden-xs col-sm-4 slider-container" style="padding-right:0;">
                                 <ul class="thumbs-slider">
-                                @foreach(\App\AdPic::where('ad_id',$ad->ad_id)->get() as $thumb)
+                                @foreach($thumbs as $thumb)
                                     @if(substr($thumb->filename, 0, 4) === 'http')
                                     <li style="background-image: url('{{ $thumb->filename }}');
-                                            background-size: cover;">&nbsp;</li>
+                                        background-size: cover;">&nbsp;</li>
                                     @else
                                     <li style="background-image: url('{{ asset('ads/thumbnails/thumb_'.$thumb->filename) }}');
-                                            background-size: cover;">&nbsp;</li>
+                                        background-size: cover;">&nbsp;</li>
                                     @endif
                                 @endforeach
                                 </ul>
@@ -261,6 +265,17 @@
                                     <i class="fa fa-camera"></i> <span class="current-index"></span>/<span class="total-slides"></span>
                                 </div>
                             </div>
+                            @else
+                            <div class="hidden-xs col-sm-4 slider-container" style="min-height:190px;position:relative;">
+                                <div style="position:absolute;top:0;width:100%;height:100%;
+                                    background-image: url('{{ asset('img/no_thumbs.png') }}');
+                                    background-position: center center;
+                                    background-size: cover;">
+                                    &nbsp;
+                                </div>
+                            </div>
+                            @endif
+
                             {{--Info del AD--}}
                             <div class="col-xs-12 col-sm-8 ad-info" style="position:relative;background-color: #FFF;padding-left:0;">
                                 {{--Tipo de inmueble y dirección--}}

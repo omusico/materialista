@@ -1525,7 +1525,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th colspan="3"></th>
-                                                                <th colspan="6">Precio por noche según temporada</th>
+                                                                <th colspan="6">Precios según temporada</th>
                                                                 <th colspan="2"></th>
                                                             </tr>
                                                             <tr>
@@ -1534,9 +1534,9 @@
                                                                 <th width="160">A</th>
                                                                 <th>Noche</th>
                                                                 <th>Fin de semana</th>
-                                                                <th>Semana</th>
-                                                                <th>Dos semanas</th>
-                                                                <th>Mes</th>
+                                                                <th>Semana <small>(7 noches)</small></th>
+                                                                <th>Quincena <small>(14 noches)</small></th>
+                                                                <th>Mes <small>(29 noches)</small></th>
                                                                 <th>Extra por invitado y noche</th>
                                                                 <th>Mínimo de noches</th>
                                                                 <th>Eliminar</th>

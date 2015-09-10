@@ -11,15 +11,19 @@ use App\Geocode;
 use App\HomeLib;
 use App\Lodging;
 use App\OptionBusinessDistribution;
+use App\OptionBusinessFacade;
+use App\OptionBusinessLocation;
 use App\OptionCurrentTenantsGender;
 use App\OptionGarageCapacity;
 use App\OptionNearestTownDistance;
 use App\OptionOfficeDistribution;
+use App\OptionPaymentDay;
 use App\OptionSurroundings;
 use App\OptionTenantGender;
 use App\OptionTenantMinStay;
 use App\OptionTenantOccupation;
 use App\OptionTenantSexualOrientation;
+use App\SeasonPrice;
 
 class HomeController extends Controller {
 
@@ -102,6 +106,7 @@ class HomeController extends Controller {
         }
 
         if($input['search_type']=='0') {
+            $locality = $input['locality'];
             switch ($input['operation']) {
                 case '0': //buy
                     switch ($input['typology']) {
@@ -576,7 +581,7 @@ class HomeController extends Controller {
                 $typology = 6;
                 $ad->type = 'Terreno';
                 $ad->category_land = CategoryLand::where('id',$ad->category_land_id)->pluck('name');
-                $ad->nearest_town = OptionNearestTownDistance::where('',$ad->nearest_town_distance_id)->pluck('name');
+                $ad->nearest_town = OptionNearestTownDistance::where('id',$ad->nearest_town_distance_id)->pluck('name');
                 break;
             case 'room':
                 $typology = 7;
@@ -598,6 +603,8 @@ class HomeController extends Controller {
                   LEFT JOIN vacation_season_price AS t2 ON t1.id = t2.rent_vacation_id
                   WHERE t1.id = ?;
                 "),[$ad->id]);
+                $ad->season_prices = SeasonPrice::where('rent_vacation_id',$ad->id)->get();
+                $ad->payment_day = OptionPaymentDay::where('id',$ad->payment_day_id)->pluck('name');
                 break;
         }
 

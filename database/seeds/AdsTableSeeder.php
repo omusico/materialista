@@ -12,7 +12,7 @@ class AdsTableSeeder extends Seeder
      */
     public function run()
     {
-        define('THIS_MANY_ADS', '50');
+        define('THIS_MANY_ADS', '25');
 
         $faker = Faker\Factory::create('es_ES');
 
@@ -949,11 +949,11 @@ class AdsTableSeeder extends Seeder
             $max_capacity = $min_capacity + $n_sb + $n_d_sb * 2 + $n_eb;
             $payment_day = mt_rand(1,$n_payment_day_options);
             $days_before = (\App\OptionPaymentDay::find($payment_day)->pluck('name') == 'Días antes de la entrada') ? mt_rand(1,30) : null;
-            $has_booking = mt_rand(0,1);
-            $has_deposit = mt_rand(0,1);
+            $has_booking = mt_rand(0,2);
+            $has_deposit = mt_rand(0,2);
             $has_cleaning = mt_rand(0,1);
-            $booking = ($has_booking) ? mt_rand(250,550) : null;
-            $deposit = ($has_deposit) ? mt_rand(350,1550) : null;
+            if($has_booking==1) { $booking = mt_rand(1,100) } elseif($has_booking==2) { $booking = mt_rand(250,550) } else { $booking = null; }
+            if($has_deposit==1) { $deposit = mt_rand(1,100) } elseif($has_deposit==2) { $deposit = mt_rand(350,1550) } else { $deposit = null; }
             $cleaning = ($has_cleaning) ? mt_rand(50,350) : null;
             $area_total = mt_rand(45,300);
             $area_garden = intval(0.4 * $area_total);
@@ -1092,13 +1092,13 @@ class AdsTableSeeder extends Seeder
                     'n_season' => $j+1,
                     'from_date' => $from_date,
                     'to_date' => $to_date,
-                    'p_one_night' => mt_rand(15,50),
-                    'p_weekend_night' => 10 + mt_rand(15,50),
-                    'p_one_week' => mt_rand(10,40),
-                    'p_half_month' => mt_rand(8, 35),
-                    'p_one_month' => mt_rand(5,30),
-                    'p_extra_guest_per_night' => mt_rand(5,30),
-                    'n_min_nights' => mt_rand(1,90),
+                    'p_one_night' => mt_rand(15,100),
+                    'p_weekend_night' => mt_rand(30,200),
+                    'p_one_week' => mt_rand(80,700),
+                    'p_half_month' => mt_rand(150, 1400),
+                    'p_one_month' => mt_rand(300,2800),
+                    'p_extra_guest_per_night' => mt_rand(7,50),
+                    'n_min_nights' => mt_rand(1,60),
                     'rent_vacation_id' => $newRentVacation->id,
                 ]);
                 $this->command->info('Seeded Season Price (id: '.$newSeasonPrice->id.') for Rent Vacation (id: '.$newRentVacation->id.')');

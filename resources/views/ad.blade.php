@@ -11,6 +11,14 @@
             font-weight: bold;
             font-size: 16px;
         }
+        @if($typology==8)
+        h5 {
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 25px;
+            color: #666;
+        }
+        @endif
         #ad-details > h4 {
             margin: 50px 0 15px;
         }
@@ -39,7 +47,7 @@
         .ad-pic {
             margin: 5px 0 5px 0;
         }
-        @media (min-width:992px) {
+        @media (min-width:768px) {
             .coupled-pic-1 {
                 padding-right: 5px;
             }
@@ -62,6 +70,29 @@
         }
         #ad-pictures > div > div > img {
             background-color: #F2F2F2;
+        }
+        @if($typology==8)
+        #table-payment-details > tbody > tr > td,
+        #table-payment-details > tbody > tr {
+            border-top:0;
+            padding:4px 0;
+        }
+        #table-payment-details > tbody > tr > td:first-of-type {
+            font-weight: bold;
+            color: #666;
+        }
+        @endif
+        p > span:after,
+        td > span:after {
+            content: ',';
+        }
+        p.orientacion > span:after {
+            content: ' -';
+        }
+        p > span:last-of-type:after,
+        p.orientacion > span:last-of-type:after,
+        td > span:last-of-type:after {
+            content: '';
         }
     </style>
 @endsection
@@ -89,7 +120,7 @@
                     <div class="col-xs-12" id="ad-main-details">
                         {{--Price--}}
                         @if($typology==8)
-                            <small>Desde</small> <span class="price">{{ number_format((float) $ad->min_price_per_night,0,',','.') }}</span> <small>&euro;/noche/persona</small>
+                            <small>Desde</small> <span class="price">{{ number_format((float) $ad->min_price_per_night/29.0,0,',','.') }}</span> <small>&euro;/noche/persona</small>
                         @else
                             <span class="price">{{ number_format((float) $ad->price,0,',','.') }}</span> <small> @if($operation==0) &euro; @else &euro;/mes @endif </small>
                         @endif
@@ -116,14 +147,14 @@
                             <span><small>Plaza para</small> {{ strtolower($ad->garage_capacity) }}</span>
                         @elseif($typology==6)
                             <span>{{ number_format((float) $ad->area_total,0,',','.') }}</span> <small>m&sup2;</small>
-                            <span>{{ $ad->land_category }}</span>
+                            <span>{{ $ad->category_land }}</span>
                         @elseif($typology==7)
                             <span>{{ $ad->n_bedrooms }} habs.</span>
                             <span>@if(isset($ad->deposit)) Fianza de {{ $ad->deposit }} @endif</span>
                         @elseif($typology==8)
                             <span>{{ $ad->surroundings }}</span>
                             <span>{{ number_format((float) $ad->area_total,0,',','.') }}</span> <small>m&sup2;</small>
-                            @if($ad->min_capacity < $ad->max_capacity) <small>Para</small> <span>{{ $ad->min_capacity }}</span> <small>a</small> <span>{{ $ad->max_capacity }}</span> <small>personas</small> @elseif($ad->min_capacity) <small>Desde</small> <span>{{$ad->min_capacity}}</span> <small>personas</small> @elseif($ad->max_capacity) <small>Hasta</small> <span>{{$ad->max_capacity}}</span> <small>personas</small> @endif
+                            @if($ad->min_capacity < $ad->max_capacity) <small style="margin-left:35px;">De</small> <span style="margin-left:0;">{{ $ad->min_capacity }}</span> <small>a</small> <span style="margin-left:0;">{{ $ad->max_capacity }}</span> <small>personas</small> @elseif($ad->min_capacity) <small>Desde</small> <span>{{$ad->min_capacity}}</span> <small>personas</small> @elseif($ad->max_capacity) <small>Hasta</small> <span>{{$ad->max_capacity}}</span> <small>plazas</small> @endif
                         @endif
                     </div>
                 </div>
@@ -200,12 +231,12 @@
                             <h4>Características básicas</h4>
                             @if(isset($ad->type)&&$ad->type)<p>{{$ad->type}}</p>@endif
                             @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}}</p> @endif
-                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) {{$ad->area_constructed}} m&sup2; construidos @endif @if(isset($ad->area_usable)&&$ad->area_usable) {{$ad->area_usable}} m&sup2; útiles @endif </p> @endif
+                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) <span>{{$ad->area_constructed}} m&sup2; construidos</span> @endif @if(isset($ad->area_usable)&&$ad->area_usable) <span>{{$ad->area_usable}} m&sup2; útiles</span> @endif </p> @endif
                             @if(isset($ad->n_bedrooms)&&$ad->n_bedrooms) <p>{{$ad->n_bedrooms}} habitaciones</p> @endif
                             @if(isset($ad->n_bathrooms)&&$ad->n_bathrooms) <p>{{$ad->n_bathrooms}} wc</p> @endif
                             @if(isset($ad->area_land)&&$ad->area_land) <p>{{$ad->area_land}} m&sup2; parcela</p> @endif
                             @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
-                            @if(isset($ad->faces_north)||isset($ad->faces_south)||isset($ad->faces_east)||isset($ad->faces_west)) <p>Orientación @if(isset($ad->faces_north)&&$ad->faces_north) Norte @endif @if(isset($ad->faces_south)&&$ad->faces_south) Sur @endif @if(isset($ad->faces_east)&&$ad->faces_east) Este @endif @if(isset($ad->faces_west)&&$ad->faces_west) Oeste @endif </p> @endif
+                            @if(isset($ad->faces_north)||isset($ad->faces_south)||isset($ad->faces_east)||isset($ad->faces_west)) <p class="orientacion">Orientación @if(isset($ad->faces_north)&&$ad->faces_north) <span>Norte</span> @endif @if(isset($ad->faces_south)&&$ad->faces_south) <span>Sur</span> @endif @if(isset($ad->faces_east)&&$ad->faces_east) <span>Este</span> @endif @if(isset($ad->faces_west)&&$ad->faces_west) <span>Oeste</span> @endif </p> @endif
 
                             @if((isset($ad->is_new_development)&&$ad->is_new_development)||(isset($ad->is_new_development_finished)&&$ad->is_new_development_finished))
                             <h4>Construcción</h4>
@@ -245,7 +276,7 @@
                         {{--business--}}
                             <h4>Características básicas</h4>
                             @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}} @if(isset($ad->is_exterior)&&$ad->is_exterior) exterior @endif </p> @endif
-                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) {{$ad->area_constructed}} m&sup2; construidos @endif @if(isset($ad->area_usable)&&$ad->area_usable) {{$ad->area_usable}} m&sup2; útiles @endif </p> @endif
+                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) <span>{{$ad->area_constructed}} m&sup2; construidos</span> @endif @if(isset($ad->area_usable)&&$ad->area_usable) <span>{{$ad->area_usable}} m&sup2; útiles</span> @endif </p> @endif
                             @if(isset($ad->distribution)&&$ad->distribution) <p>{{ $ad->distribution }}</p> @endif
                             @if((isset($ad->n_restrooms)&&$ad->n_restrooms)&&((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside))) <p> {{ $ad->n_restrooms }} @choice('aseo|aseos',$ad->n_restrooms) @if((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside)) y @choice('baño completo|baños completos',$ad->n_restrooms) @endif @if(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside) dentro de la oficina @endif </p> @endif
                             @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
@@ -257,12 +288,13 @@
                             <h4>Edificio</h4>
                             @if(isset($ad->n_floors)&&$ad->n_floors) <p>{{$ad->n_floors}} @choice('planta|plantas',$ad->n_floors)</p> @endif
                             @if(isset($ad->facade)&&$ad->facade) <p>{{ $ad->facade }}</p> @endif
+                            <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
                             <p>Certificación energética: {{ $certE }}
                                 @if(in_array($certE,range('A','G')))
                                     @if(isset($ad->energy_performance)&&$ad->energy_performance)
                                         ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
                                     @else
-                                        (IPE no indicado)
+                                        &lbrack;IPE no indicado]
                                     @endif
                                 @endif
                             </p>
@@ -280,7 +312,7 @@
                         {{--office--}}
                             <h4>Características básicas</h4>
                             @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}} @if(isset($ad->is_exterior)&&$ad->is_exterior) exterior @endif </p> @endif
-                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) {{$ad->area_constructed}} m&sup2; construidos @endif @if(isset($ad->area_usable)&&$ad->area_usable) {{$ad->area_usable}} m&sup2; útiles @endif </p> @endif
+                            @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) <span>{{$ad->area_constructed}} m&sup2; construidos</span> @endif @if(isset($ad->area_usable)&&$ad->area_usable) <span>{{$ad->area_usable}} m&sup2; útiles</span> @endif </p> @endif
                             @if(isset($ad->area_min_for_sale)&&$ad->area_min_for_sale) <p>{{ $ad->area_min_for_sale }} m&sup2; mínimos en @if($operation==0) venta @else alquiler @endif </p> @endif
                             @if(isset($ad->distribution)&&$ad->distribution) <p>{{ $ad->distribution }}</p> @endif
                             @if((isset($ad->n_restrooms)&&$ad->n_restrooms)&&((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside))) <p> {{ $ad->n_restrooms }} @choice('aseo|aseos',$ad->n_restrooms) @if((isset($ad->has_bathrooms)&&$ad->has_bathrooms)||(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside)) y @choice('baño completo|baños completos',$ad->n_restrooms) @endif @if(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside) dentro de la oficina @endif </p> @endif
@@ -389,7 +421,7 @@
                         @elseif($typology==8)
                         {{--vacation--}}
                             <h4>Características del apartamento</h4>
-                            <h3>Exterior</h3>
+                            <h5>Exterior</h5>
                             <p>
                             @if(isset($ad->has_barbecue)&&$ad->has_barbecue) <span>Barbacoa</span> @endif
                             @if(isset($ad->has_terrace)&&$ad->has_terrace) <span>Terraza</span> @endif
@@ -405,7 +437,7 @@
                             @if(isset($ad->has_sea_sights)&&$ad->has_sea_sights) <span>Vistas al mar</span> @endif
                             </p>
 
-                            <h3>Distribución</h3>
+                            <h5>Distribución</h5>
                             <p>
                             @if(isset($ad->n_double_bedroom)&&$ad->n_double_bedroom) <span>{{ $ad->n_double_bedroom }} @choice('habitación doble|habitaciones dobles',$ad->n_double_bedroom) </span> @endif
                             @if(isset($ad->n_two_beds_room)&&$ad->n_two_beds_room) <span>{{ $ad->n_two_beds_room }} @choice('habitación|habitaciones',$ad->n_two_beds_room) de matrimonio</span> @endif
@@ -421,7 +453,7 @@
                             @if(isset($ad->area_terrace)&&$ad->area_terrace) <span>{{ $ad->area_terrace }} m&sup2; de terraza</span> @endif
                             </p>
 
-                            <h3>Interior</h3>
+                            <h5>Interior</h5>
                             <p>
                             @if(isset($ad->has_fireplace)&&$ad->has_fireplace) <span>Chimenea</span> @endif
                             @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <span>Aire acondicionado</span> @endif
@@ -435,7 +467,7 @@
                             @if(isset($ad->has_hairdryer)&&$ad->has_hairdryer) <span>Secador de pelo</span> @endif
                             </p>
 
-                            <h3>Cocina y electrodomésticos</h3>
+                            <h5>Cocina y electrodomésticos</h5>
                             <p>
                             @if(isset($ad->has_dishwasher)&&$ad->has_dishwasher) <span>Lavavajillas</span> @endif
                             @if(isset($ad->has_fridge)&&$ad->has_fridge) <span>Frigorífico</span> @endif
@@ -447,7 +479,7 @@
                             @if(isset($ad->has_iron)&&$ad->has_iron) <span>Plancha</span> @endif
                             </p>
 
-                            <h3>Información adicional</h3>
+                            <h5>Información adicional</h5>
                             <p>
                             @if(isset($ad->is_smoking_allowed)&&!$ad->is_smoking_allowed) <span>No se puede fumar</span> @endif
                             @if(isset($ad->is_pet_allowed)&&!$ad->is_pet_allowed) <span>No se admite mascota</span> @endif
@@ -456,16 +488,88 @@
                             </p>
 
                             <h4>Precios</h4>
-                            @if(isset($ad->min_capacity)&&$ad->min_capacity) <p>Precios para una capacidad de {{ $ad->min_capacity }} plazas @if(isset($ad->max_capacity)&&($ad->min_capacity<$ad->max_capacity)) y un máximo de {{ ($ad->max_capacity - $ad->min_capacity) }} @choice('huésped|huéspedes',($ad->max_capacity - $ad->min_capacity)) extra @endif </p> @endif
-                            {{--Tabla de precios--}}
-                            {{--Fianza: % o euros--}}
-                            {{--Reserva: "" ""--}}
-                            {{--Forma de pago: transferencia bancaria--}}
-                            {{--Limpieza final: incluida--}}
-                            {{--Sábanas y toallas: incluidas--}}
-                            {{--Gastos (luz, gas, etc.): incluidos--}}
-                            {{--* Consultar precios en puentes, navidad y semana santa--}}
-                            {{--* Entrada a las 16.00 y salida a las 10.00 salvo acuerdo de lo contrario--}}
+                            @if(isset($ad->season_prices)&&$ad->season_prices->count())
+                                @if(isset($ad->min_capacity)&&$ad->min_capacity) <p>Precios para una capacidad de {{ $ad->min_capacity }} plazas @if(isset($ad->max_capacity)&&($ad->min_capacity<$ad->max_capacity)) y un máximo de {{ ($ad->max_capacity - $ad->min_capacity) }} @choice('huésped|huéspedes',($ad->max_capacity - $ad->min_capacity)) extra. @endif &lbrack;Precios con IVA incluido&rbrack;</p> @endif
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr style="font-size:12px;">
+                                            <th style="min-width:20%;">Temporada</th>
+                                            <th style="text-align:center;min-width:11%;">1 Noche</th>
+                                            <th style="text-align:center;min-width:12%;">1 Noche fin de semana</th>
+                                            <th style="text-align:center;min-width:11%;">1 Semana <br><small>(7 noches)</small></th>
+                                            <th style="text-align:center;min-width:11%;">1 Quincena <br><small>(14 noches)</small></th>
+                                            <th style="text-align:center;min-width:11%;">1 Mes <br><small>(29 noches)</small></th>
+                                            <th style="text-align:center;min-width:11%;">Coste por huesped extra/noche</th>
+                                            <th style="text-align:center;min-width:13%;">Noches de alquiler mínimo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($ad->season_prices as $season)
+                                            <tr>
+                                            @if($season->n_season=='1')
+                                                <td style="vertical-align:middle;">Precio básico</td>
+                                            @else
+                                                <td style="vertical-align:middle;">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$season->from_date)->format('d M') }} a {{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$season->to_date)->format('d M') }}</td>
+                                            @endif
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_one_night)&&$season->p_one_night) {{ $season->p_one_night }} &euro; @else - @endif</td>
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_weekend_night)&&$season->p_weekend_night) {{ $season->p_weekend_night }} &euro; @else - @endif</td>
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_one_week)&&$season->p_one_week) {{ $season->p_one_week }} &euro; @else - @endif</td>
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_half_month)&&$season->p_half_month) {{ $season->p_half_month }} &euro; @else - @endif</td>
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_one_month)&&$season->p_one_month) {{ $season->p_one_month }} &euro; @else - @endif</td>
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_extra_guest_per_night)&&$season->p_extra_guest_per_night) {{ $season->p_extra_guest_per_night }} &euro; @else - @endif</td>
+                                                <td style="text-align:center;vertical-align:middle;">@if(isset($season->n_min_nights)&&$season->n_min_nights) {{ $season->n_min_nights }} @choice('noche|noches',$season->n_min_nights) @else - @endif</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+                            <table class="table" id="table-payment-details">
+                                <tbody>
+                                    @if(isset($ad->has_deposit)&&$ad->has_deposit)
+                                    <tr>
+                                        <td width="160">Fianza:</td>
+                                        <td>{{ $ad->deposit }} @if($ad->has_deposit=='1') % @else &euro; @endif </td>
+                                    </tr>
+                                    @endif
+                                    @if(isset($ad->has_booking)&&$ad->has_booking)
+                                    <tr>
+                                        <td width="160">Reserva:</td>
+                                        <td>{{ $ad->booking }} @if($ad->has_booking=='1') % @else &euro; @endif </td>
+                                    </tr>
+                                    @endif
+                                    <tr>
+                                        <td width="160">Formas de pago:</td>
+                                        <td>
+                                            @if(isset($ad->accepts_cash)&&$ad->accepts_cash) <span>En efectivo</span> @endif
+                                            @if(isset($ad->accepts_transfer)&&$ad->accepts_transfer) <span>Transferencia bancaria</span> @endif
+                                            @if(isset($ad->accepts_credit_card)&&$ad->accepts_credit_card) <span>Tarjeta de crédito</span> @endif
+                                            @if(isset($ad->accepts_paypal)&&$ad->accepts_paypal) <span>Paypal</span> @endif
+                                            @if(isset($ad->accepts_check)&&$ad->accepts_check) <span>Cheque</span> @endif
+                                            @if(isset($ad->accepts_western_union)&&$ad->accepts_western_union) <span>Western Union</span> @endif
+                                            @if(isset($ad->accepts_money_gram)&&$ad->accepts_money_gram) <span>Money Gram</span> @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="160">Día de pago:</td>
+                                        <td>
+                                            @if(isset($ad->payment_day)&&$ad->payment_day) <span>@if($ad->payment_day=='Días antes de la entrada') {{ $ad->n_days_before }} {{ strtolower($ad->payment_day) }} @else {{ $ad->payment_day }} @endif </span> @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="160">Limpieza final:</td>
+                                        <td>@if(isset($ad->has_cleaning)&&$ad->has_cleaning) No incluida: {{$ad->cleaning }} &euro; @else Incluida @endif</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="160">Sábanas y toallas:</td>
+                                        <td>@if(isset($ad->has_included_towels)&&$ad->has_included_towels) Incluidas @else No incluidas @endif</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="160">Gastos: </td>
+                                        <td>@if(isset($ad->has_included_expenses)&&$ad->has_included_expenses) Incluidos @else No incluidos @endif</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>* Entrada a las 16.00 y salida a las 10.00 salvo acuerdo de lo contrario</p>
                         @endif
 
                         {{--common to all--}}
