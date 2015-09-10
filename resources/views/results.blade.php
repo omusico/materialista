@@ -171,51 +171,118 @@
                             <label class="col-xs-12" style="padding-left:1px;">Precio</label>
                         </div>
                     @if($input['operation']=='0')
-                        <div class="row">
+                        <div class="row select-prices-container">
                             <div class="col-xs-6 col-price-min">
                                 <select name="price-min" class="form-control" title="Precio mínimo">
                                     <option value="">Mín</option>
-                                    <option value="0">OPTION</option>
+                                    @for($value=60000;$value<400001;$value+=20000)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=450000;$value<1000000;$value+=50000)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    <option value="{{ $value=1000000 }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >1 millón</option>
+                                    <option value="{{ $value=2000000 }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >2 millones</option>
+                                    <option value="{{ $value=3000000 }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >3 millones</option>
                                 </select>
                             </div>
                             <div class="col-xs-6 col-price-max">
                                 <select name="price-max" class="form-control" title="Precio máximo">
-                                    <option value="">Máx</option>
-                                    <option value="0">OPTION</option>
+                                    <option value="" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >Máx</option>
+                                    @for($value=60000;$value<400001;$value+=20000)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=450000;$value<1000000;$value+=50000)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    <option value="{{ $value=1000000 }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >1 millón</option>
+                                    <option value="{{ $value=2000000 }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >2 millones</option>
+                                    <option value="{{ $value=3000000 }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >3 millones</option>
                                 </select>
                             </div>
                         </div>
                     @elseif($input['operation']=='1'&&$input['typology']!='2')
-                        <div class="row">
+                        <div class="row select-prices-container">
                             <div class="col-xs-6 col-price-min">
                                 <select name="price-min" class="form-control" title="Precio mínimo">
                                     <option value="">Mín</option>
-                                    <option value="0">OPTION</option>
+                                    @for($value=100;$value<2099;$value+=100)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=2100;$value<3001;$value+=300)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
                                 </select>
                             </div>
                             <div class="col-xs-6 col-price-max">
                                 <select name="price-max" class="form-control" title="Precio máximo">
                                     <option value="">Máx</option>
-                                    <option value="0">OPTION</option>
+                                    @for($value=100;$value<2099;$value+=100)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=2100;$value<3001;$value+=300)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
                     @elseif($input['operation']=='1'&&$input['typology']=='2')
-                        <div class="row">
+                        <div class="row select-prices-container">
                             <div class="col-xs-6 col-price-min">
                                 <select name="price-min" class="form-control" title="Precio mínimo">
                                     <option value="">Mín</option>
-                                    <option value="0">OPTION</option>
+                                    @for($value=30;$value<69;$value+=20)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=70;$value<99;$value+=30)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=100;$value<499;$value+=50)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=500;$value<1001;$value+=500)
+                                    <option value="{{ $value }}" @if(isset($input['price-min'])&&$value==$input['price-min']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
                                 </select>
                             </div>
                             <div class="col-xs-6 col-price-max">
                                 <select name="price-max" class="form-control" title="Precio máximo">
                                     <option value="">Máx</option>
-                                    <option value="0">OPTION</option>
+                                    @for($value=30;$value<69;$value+=20)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=70;$value<99;$value+=30)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=100;$value<499;$value+=50)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
+                                    @for($value=500;$value<1001;$value+=500)
+                                    <option value="{{ $value }}" @if(isset($input['price-max'])&&$value==$input['price-max']) selected="selected" @endif >{{ number_format((float) $value,0,',','.') }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
                     @endif
+                        <div class="row" style="margin-top:20px;">
+                            <label class="col-xs-12" style="padding-left:1px;">Qué busca</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12" style="padding:0 1px;" id="select-typology-container">
+                                <select name="typology" class="form-control" title="Qué busca" id="select-typology">
+                                    <option value="0" @if($input['typology']=='0') selected="selected" @endif >Obra nueva</option>
+                                    <option value="1" @if($input['typology']=='1') selected="selected" @endif >Viviendas</option>
+                                    @if($input['operation']!='0')
+                                    <option value="2" @if($input['typology']=='2') selected="selected" @endif >Vacacional</option>
+                                    <option value="3" @if($input['typology']=='3') selected="selected" @endif >Habitación</option>
+                                    @endif
+                                    <option value="4" @if($input['typology']=='4') selected="selected" @endif >Oficinas</option>
+                                    <option value="5" @if($input['typology']=='5') selected="selected" @endif >Locales o naves</option>
+                                    <option value="6" @if($input['typology']=='6') selected="selected" @endif >Garajes</option>
+                                    <option value="7" @if($input['typology']=='7') selected="selected" @endif >Terrenos</option>
+                                </select>
+                            </div>
+                        </div>
                     @if($input['typology']=='0')
 
                     @elseif($input['typology']=='1')
@@ -239,7 +306,7 @@
                 <div class="col-xs-12 col-sm-9">
                     <div id="results">
                     @if(count($ads)===0)
-                        <div style="margin-top:30px;">
+                        <div style="margin-top:30px;font-size:16px;font-weight:bold;color:#666;">
                             No se encontraron resultados con los criterios de búsqueda elegidos.
                         </div>
                     @endif
@@ -377,6 +444,51 @@
                     address: $('input[name=address]').val(),
                     search_type: $('input[name=search_type]').val()
                 });
+            });
+            $('#select-typology-container').on('change','#select-typology',function(){
+                if($(this).val() == $('input[name=typology]').val())
+                    return false;
+                window.location.href = '/resultados?' + $.param({
+                    operation: $('input[name=operation]').val(),
+                    typology: $(this).val(),
+                    locality: $('input[name=locality]').val(),
+                    address: $('input[name=address]').val(),
+                    search_type: $('input[name=search_type]').val()
+                });
+            });
+            $('.select-prices-container').on('change','select',function(){
+                var min = $('select[name=price-min]').val();
+                var max = $('select[name=price-max]').val();
+                if(min == '' && max == '')
+                    return false;
+                else if(min=='')
+                    window.location.href = '/resultados?' + $.param({
+                        operation: $('input[name=operation]').val(),
+                        typology: $('input[name=operation]').val(),
+                        locality: $('input[name=locality]').val(),
+                        address: $('input[name=address]').val(),
+                        search_type: $('input[name=search_type]').val(),
+                        'price-max': max
+                    });
+                else if(max=='')
+                    window.location.href = '/resultados?' + $.param({
+                        operation: $('input[name=operation]').val(),
+                        typology: $('input[name=operation]').val(),
+                        locality: $('input[name=locality]').val(),
+                        address: $('input[name=address]').val(),
+                        search_type: $('input[name=search_type]').val(),
+                        'price-min': min
+                    });
+                else
+                    window.location.href = '/resultados?' + $.param({
+                        operation: $('input[name=operation]').val(),
+                        typology: $('input[name=operation]').val(),
+                        locality: $('input[name=locality]').val(),
+                        address: $('input[name=address]').val(),
+                        search_type: $('input[name=search_type]').val(),
+                        'price-min': min,
+                        'price-max': max
+                    });
             });
 
             $('.thumbs-slider').each(function() {
