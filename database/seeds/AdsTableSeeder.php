@@ -952,8 +952,8 @@ class AdsTableSeeder extends Seeder
             $has_booking = mt_rand(0,2);
             $has_deposit = mt_rand(0,2);
             $has_cleaning = mt_rand(0,1);
-            if($has_booking==1) { $booking = mt_rand(1,100) } elseif($has_booking==2) { $booking = mt_rand(250,550) } else { $booking = null; }
-            if($has_deposit==1) { $deposit = mt_rand(1,100) } elseif($has_deposit==2) { $deposit = mt_rand(350,1550) } else { $deposit = null; }
+            if($has_booking==1) { $booking = mt_rand(1,100); } elseif($has_booking==2) { $booking = mt_rand(250,550); } else { $booking = null; }
+            if($has_deposit==1) { $deposit = mt_rand(1,100); } elseif($has_deposit==2) { $deposit = mt_rand(350,1550); } else { $deposit = null; }
             $cleaning = ($has_cleaning) ? mt_rand(50,350) : null;
             $area_total = mt_rand(45,300);
             $area_garden = intval(0.4 * $area_total);
