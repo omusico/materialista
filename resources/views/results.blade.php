@@ -387,7 +387,7 @@
                                         <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
                                         @if($ad->area)<span>{{ number_format((float) $ad->price/$ad->area,0,',','.') }} @if($input['operation']=='0') &euro;/m&sup2; @else &euro;/mes/m&sup2; @endif</span>@endif
                                     @elseif($input['typology']=='6')
-                                        <span>{{ $ad->garage_capacity }}</span>
+                                        <span>Plaza para {{ strtolower($ad->garage_capacity) }}</span>
                                     @elseif($input['typology']=='7')
                                         <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
                                         <span>{{ $ad->land_category }}</span>
