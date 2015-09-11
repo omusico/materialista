@@ -75,8 +75,8 @@ class HomeController extends Controller {
             $input['locality'] = 'Barcelona';
         if(!isset($input['search_type']))
             $input['search_type'] = '0';
-        if(!isset($input['address']))
-            $input['address'] = '';
+        if(!isset($input['address'])||$input['address']=='')
+            $input['address'] = $input['locality'];
         if(!isset($input['price-min'])||$input['price-min']=='')
             $input['price-min'] = 0;
         if(!isset($input['price-max'])||$input['price-max']=='')
@@ -301,7 +301,6 @@ class HomeController extends Controller {
             $delta_lng = asin(sin($r)/cos($lat_r)); //en rads
             $min_lng = rad2deg($lng_r-$delta_lng); //en sexag
             $max_lng = rad2deg($lng_r+$delta_lng); //en sexag
-            $q_distance = "({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(lat))+COS({$lat_r})*COS(RADIANS(lat))*COS(RADIANS(lng)-{$lng_r})))";
 
             switch ($input['operation']) {
                 case '0': //buy
@@ -309,14 +308,16 @@ class HomeController extends Controller {
                         case '0': //new development
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.is_new_development = 1
                                       AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.is_new_development = 1
@@ -324,72 +325,86 @@ class HomeController extends Controller {
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
-                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
+                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t3.lat))+COS({$lat_r})*COS(RADIANS(t3.lat))*COS(RADIANS(t3.lng)-{$lng_r}))) AS distance
                                       FROM sell_apartment AS t3
                                       WHERE t3.is_new_development = 1
                                       AND t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
-                                ) AS t4;
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                                ) AS t4
+                                ORDER BY t4.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '1': //house + country house + apartment
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
-                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
+                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t3.lat))+COS({$lat_r})*COS(RADIANS(t3.lat))*COS(RADIANS(t3.lng)-{$lng_r}))) AS distance
                                       FROM sell_apartment AS t3
                                       WHERE t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
-                                ) AS t4;
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                                ) AS t4
+                                ORDER BY t4.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '4': //office
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
+                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM sell_office AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '5': //business
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
+                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM sell_business AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t2.price >= ? AND t2.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '6': //garage
                             $ads = \DB::select(\DB::raw("
-                              SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
+                              SELECT locality,route,street_number,price,description,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM sell_garage AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t3.price >= ? AND t3.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '7': //land
                             $ads = \DB::select(\DB::raw("
-                              SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
+                              SELECT locality,route,street_number,price,description,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM sell_land AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                     }
                     break;
@@ -398,14 +413,16 @@ class HomeController extends Controller {
                         case '0': //new development
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.is_new_development = 1
                                       AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.is_new_development = 1
@@ -413,88 +430,106 @@ class HomeController extends Controller {
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
-                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
+                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t3.lat))+COS({$lat_r})*COS(RADIANS(t3.lat))*COS(RADIANS(t3.lng)-{$lng_r}))) AS distance
                                       FROM rent_apartment AS t3
                                       WHERE t3.is_new_development = 1
                                       AND t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
-                                ) AS t4;
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                                ) AS t4
+                                ORDER BY t4.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '1': //house + country house + apartment
                             $ads =  \DB::select(\DB::raw("
                                 SELECT rooms,floor,locality,route,street_number,price,has_parking_space,description,area,hide_address,`name` as type,ad_id,distance FROM (
-                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
+                                      SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
-                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
+                                      SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
-                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
+                                      IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,
+                                      ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t3.lat))+COS({$lat_r})*COS(RADIANS(t3.lat))*COS(RADIANS(t3.lng)-{$lng_r}))) AS distance
                                       FROM rent_apartment AS t3
                                       WHERE t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
-                                ) AS t4;
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
-                                $q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                                ) AS t4
+                                ORDER BY t4.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
+                                $min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '2': //vacation/lodge
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,description,hide_address,ad_id,? AS distance
+                              SELECT floor_number as floor,locality,route,street_number,description,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM rent_vacation AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '3': //room
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,price,description,area_room as area,hide_address,ad_id,? AS distance
+                              SELECT floor_number as floor,locality,route,street_number,price,description,area_room as area,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM rent_room AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '4': //office
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
+                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM rent_office AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '5': //business
                             $ads = \DB::select(\DB::raw("
-                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
+                              SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM rent_business AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '6': //garage
                             $ads = \DB::select(\DB::raw("
-                              SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
+                              SELECT locality,route,street_number,price,description,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM rent_garage AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                         case '7': //land
                             $ads = \DB::select(\DB::raw("
-                              SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
+                              SELECT locality,route,street_number,price,description,hide_address,ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t1.lat))+COS({$lat_r})*COS(RADIANS(t1.lat))*COS(RADIANS(t1.lng)-{$lng_r}))) AS distance
                               FROM rent_land AS t1
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
-                            "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                              ORDER BY t1.distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
                     }
                     break;
