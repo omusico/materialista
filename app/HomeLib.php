@@ -148,9 +148,9 @@ class HomeLib
                         $list =  \DB::select(\DB::raw("
                             SELECT locality, COUNT(*) as total FROM (
                               SELECT locality FROM sell_house AS t1 WHERE t1.is_new_development = 1 AND t1.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM sell_country_house AS t2 WHERE t2.is_new_development = 1 AND t2.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM sell_apartment AS t3 WHERE t3.is_new_development = 1 AND t3.admin_area_lvl2 = ?
                             ) AS t4
                             GROUP BY t4.locality
@@ -161,9 +161,9 @@ class HomeLib
                         $list =  \DB::select(\DB::raw("
                             SELECT locality, COUNT(*) as total FROM (
                               SELECT locality FROM sell_house AS t1 WHERE t1.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM sell_country_house AS t2 WHERE t2.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM sell_apartment AS t3 WHERE t3.admin_area_lvl2 = ?
                             ) AS t4
                             GROUP BY t4.locality
@@ -206,9 +206,9 @@ class HomeLib
                         $list =  \DB::select(\DB::raw("
                             SELECT locality, COUNT(*) as total FROM (
                               SELECT locality FROM rent_house AS t1 WHERE t1.is_new_development = 1 AND t1.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM rent_country_house AS t2 WHERE t2.is_new_development = 1 AND t2.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM rent_apartment AS t3 WHERE t3.is_new_development = 1 AND t3.admin_area_lvl2 = ?
                             ) AS t4
                             GROUP BY t4.locality
@@ -219,9 +219,9 @@ class HomeLib
                         $list =  \DB::select(\DB::raw("
                             SELECT locality, COUNT(*) as total FROM (
                               SELECT locality FROM rent_house AS t1 WHERE t1.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM rent_country_house AS t2 WHERE t2.admin_area_lvl2 = ?
-                              UNION
+                              UNION ALL
                               SELECT locality FROM rent_apartment AS t3 WHERE t3.admin_area_lvl2 = ?
                             ) AS t4
                             GROUP BY t4.locality

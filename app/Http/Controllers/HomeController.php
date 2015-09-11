@@ -82,8 +82,8 @@ class HomeController extends Controller {
         if(!isset($input['price-max'])||$input['price-max']=='')
             $input['price-max'] = 0;
 
-        $price_min = ($input['price-min']) ? 'price >= '.$input['price-min'] : '1=1';
-        $price_max = ($input['price-min']) ? 'price =< '.$input['price-max'] : '1=1';
+        $price_min = ($input['price-min']) ? $input['price-min'] : '-1';
+        $price_max = ($input['price-max']) ? $input['price-max'] : '999999999';
 
         /*
          * possible search types from HOME/SEARCH:
@@ -123,17 +123,17 @@ class HomeController extends Controller {
                                       SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,'0' as has_elevator,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
-                                      WHERE t1.is_new_development = 1 AND t1.locality = ? AND ? AND ?
+                                      WHERE t1.is_new_development = 1 AND t1.locality = ? AND t1.price >= ? AND t1.price <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
-                                      WHERE t2.is_new_development = 1 AND t2.locality = ? AND ? AND ?
+                                      WHERE t2.is_new_development = 1 AND t2.locality = ? AND t2.price >= ? AND t2.price <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_elevator,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id
                                       FROM sell_apartment AS t3
-                                      WHERE t3.is_new_development = 1 AND t3.locality = ? AND ? AND ?
+                                      WHERE t3.is_new_development = 1 AND t3.locality = ? AND t3.price >= ? AND t3.price <= ?
                                 ) AS t4;
                             "),[$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max]);
                             break;
@@ -143,17 +143,17 @@ class HomeController extends Controller {
                                       SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,'0' as has_elevator,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
-                                      WHERE t1.locality = ? AND ? AND ?
+                                      WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
-                                      WHERE t2.locality = ? AND ? AND ?
+                                      WHERE t2.locality = ? AND t2.price >= ? AND t2.price <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.has_elevator,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id
                                       FROM sell_apartment AS t3
-                                      WHERE t3.locality = ? AND ? AND ?
+                                      WHERE t3.locality = ? AND t3.price >= ? AND t3.price <= ?
                                 ) AS t4;
                             "),[$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max]);
                             break;
@@ -161,14 +161,14 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,'Oficina' as type,area_constructed as area,hide_address,ad_id
                               FROM sell_office AS t1
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '5': //business
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,'Garaje' as type,area_constructed as area,hide_address,ad_id
                               FROM sell_business AS t1
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '6': //garage
@@ -176,7 +176,7 @@ class HomeController extends Controller {
                               SELECT locality,route,street_number,price,description,'Garaje' as type,`name` as garage_capacity,hide_address,ad_id
                               FROM sell_garage AS t1
                               LEFT JOIN garage_capacity AS t2 ON t1.garage_capacity_id = t2.id
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '7': //land
@@ -184,7 +184,7 @@ class HomeController extends Controller {
                               SELECT locality,route,street_number,price,description,area_total as area,'Terreno' as type,`name` as land_category,hide_address,ad_id
                               FROM sell_land AS t1
                               LEFT JOIN category_land AS t2 ON t1.category_land_id = t2.id
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                     }
@@ -197,17 +197,17 @@ class HomeController extends Controller {
                                       SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,'0' as has_elevator,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
-                                      WHERE t1.is_new_development = 1 AND t1.locality = ? AND ? AND ?
+                                      WHERE t1.is_new_development = 1 AND t1.locality = ? AND t1.price >= ? AND t1.price <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
-                                      WHERE t2.is_new_development = 1 AND t2.locality = ? AND ? AND ?
+                                      WHERE t2.is_new_development = 1 AND t2.locality = ? AND t2.price >= ? AND t2.price <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.has_elevator,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id
                                       FROM rent_apartment AS t3
-                                      WHERE t3.is_new_development = 1 AND t3.locality = ? AND ? AND ?
+                                      WHERE t3.is_new_development = 1 AND t3.locality = ? AND t3.price >= ? AND t3.price <= ?
                                 ) AS t4;
                             "),[$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max]);
                             break;
@@ -217,17 +217,17 @@ class HomeController extends Controller {
                                       SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,'0' as has_elevator,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
-                                      WHERE t1.locality = ? AND ? AND ?
+                                      WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
-                                      WHERE t2.locality = ? AND ? AND ?
+                                      WHERE t2.locality = ? AND t2.price >= ? AND t2.price <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.has_elevator,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id
                                       FROM rent_apartment AS t3
-                                      WHERE t3.locality = ? AND ? AND ?
+                                      WHERE t3.locality = ? AND t3.price >= ? AND t3.price <= ?
                                 ) AS t4;
                             "),[$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max,$input['locality'],$price_min,$price_max]);
                             break;
@@ -238,7 +238,7 @@ class HomeController extends Controller {
                               LEFT JOIN category_lodging AS t2 ON t1.category_lodging_id = t2.id
                               LEFT JOIN vacation_season_price AS t3 ON t1.id = t3.rent_vacation_id
                               LEFT JOIN surroundings AS t4 ON t1.surroundings_id = t4.id
-                              WHERE t1.locality = ? AND ? AND ?
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?
                               GROUP BY ad_id;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
@@ -246,14 +246,14 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,'Habitación' as type,area_room as area,hide_address,ad_id
                               FROM rent_room AS t1
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '4': //office
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,'Oficina' as type,area_constructed as area,hide_address,ad_id
                               FROM rent_office AS t1
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '5': //business
@@ -261,7 +261,7 @@ class HomeController extends Controller {
                               SELECT floor_number as floor,locality,route,street_number,price,description,`name` as type,area_constructed as area,hide_address,ad_id
                               FROM rent_business AS t1
                               LEFT JOIN category_business AS t2 ON t1.category_business_id = t2.id
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '6': //garage
@@ -269,7 +269,7 @@ class HomeController extends Controller {
                               SELECT locality,route,street_number,price,description,'Garaje' as type,`name` as garage_capacity,hide_address,ad_id
                               FROM rent_garage AS t1
                               LEFT JOIN garage_capacity AS t2 ON t1.garage_capacity_id = t2.id
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                         case '7': //land
@@ -277,7 +277,7 @@ class HomeController extends Controller {
                               SELECT locality,route,street_number,price,description,area_total as area,'Terreno' as type,`name` as land_category,hide_address,ad_id
                               FROM rent_land AS t1
                               LEFT JOIN category_land AS t2 ON t1.category_land_id = t2.id
-                              WHERE t1.locality = ? AND ? AND ?;
+                              WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                     }
@@ -313,21 +313,21 @@ class HomeController extends Controller {
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.is_new_development = 1
-                                      AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                                      AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.is_new_development = 1
-                                      AND t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND ? AND ?
+                                      AND t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
                                       FROM sell_apartment AS t3
                                       WHERE t3.is_new_development = 1
-                                      AND t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND ? AND ?
+                                      AND t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
                                 ) AS t4;
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
@@ -340,19 +340,19 @@ class HomeController extends Controller {
                                       SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
                                       FROM sell_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
-                                      WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                                      WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM sell_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
-                                      WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND ? AND ?
+                                      WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
                                       FROM sell_apartment AS t3
-                                      WHERE t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND ? AND ?
+                                      WHERE t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
                                 ) AS t4;
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
@@ -363,7 +363,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
                               FROM sell_office AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -371,7 +371,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
                               FROM sell_business AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t2.price >= ? AND t2.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -379,7 +379,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
                               FROM sell_garage AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t3.price >= ? AND t3.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -387,7 +387,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
                               FROM sell_land AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -402,21 +402,21 @@ class HomeController extends Controller {
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
                                       WHERE t1.is_new_development = 1
-                                      AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                                      AND t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
                                       WHERE t2.is_new_development = 1
-                                      AND t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND ? AND ?
+                                      AND t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
                                       FROM rent_apartment AS t3
                                       WHERE t3.is_new_development = 1
-                                      AND t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND ? AND ?
+                                      AND t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
                                 ) AS t4;
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
@@ -429,19 +429,19 @@ class HomeController extends Controller {
                                       SELECT t1.n_bedrooms as rooms,'0' as floor,t1.locality,t1.route,t1.street_number,t1.price,t1.has_parking_space,t1.description,t1.area_constructed as area,t1.hide_address,t5.name,t1.ad_id,? AS distance
                                       FROM rent_house AS t1
                                       LEFT JOIN category_house AS t5 ON t1.category_house_id = t5.id
-                                      WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                                      WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name,t2.ad_id,? AS distance
                                       FROM rent_country_house AS t2
                                       LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
-                                      WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND ? AND ?
+                                      WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                                       HAVING distance <= ?
                                       UNION
                                       SELECT t3.n_bedrooms as rooms,t3.floor_number as floor,t3.locality,t3.route,t3.street_number,t3.price,t3.has_parking_space,t3.description,t3.area_constructed as area,t3.hide_address,
                                       IF(is_duplex = 1, 'Dúplex', IF(is_penthouse = 1, 'Ático', IF(is_studio = 1, 'Estudio', 'Piso'))) as `name`,t3.ad_id,? AS distance
                                       FROM rent_apartment AS t3
-                                      WHERE t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND ? AND ?
+                                      WHERE t3.lat >= ? AND t3.lat <= ? AND t3.lng >= ? AND t3.lng <= ? AND t3.price >= ? AND t3.price <= ?
                                       HAVING distance <= ?
                                 ) AS t4;
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance,
@@ -452,7 +452,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,description,hide_address,ad_id,? AS distance
                               FROM rent_vacation AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -460,7 +460,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,area_room as area,hide_address,ad_id,? AS distance
                               FROM rent_room AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -468,7 +468,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
                               FROM rent_office AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -476,7 +476,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT floor_number as floor,locality,route,street_number,price,description,area_constructed as area,hide_address,ad_id,? AS distance
                               FROM rent_business AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -484,7 +484,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
                               FROM rent_garage AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
@@ -492,7 +492,7 @@ class HomeController extends Controller {
                             $ads = \DB::select(\DB::raw("
                               SELECT locality,route,street_number,price,description,hide_address,ad_id,? AS distance
                               FROM rent_land AS t1
-                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND ? AND ?
+                              WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= AND t1.price >= ? AND t1.price <= ?
                               HAVING distance <= ?
                             "),[$q_distance,$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;

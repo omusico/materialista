@@ -460,11 +460,17 @@
                 var min = $('select[name=price-min]').val();
                 var max = $('select[name=price-max]').val();
                 if(min == '' && max == '')
-                    return false;
+                    window.location.href = '/resultados?' + $.param({
+                        operation: $('input[name=operation]').val(),
+                        typology: $('input[name=typology]').val(),
+                        locality: $('input[name=locality]').val(),
+                        address: $('input[name=address]').val(),
+                        search_type: $('input[name=search_type]').val()
+                    });
                 else if(min=='')
                     window.location.href = '/resultados?' + $.param({
                         operation: $('input[name=operation]').val(),
-                        typology: $('input[name=operation]').val(),
+                        typology: $('input[name=typology]').val(),
                         locality: $('input[name=locality]').val(),
                         address: $('input[name=address]').val(),
                         search_type: $('input[name=search_type]').val(),
@@ -473,7 +479,7 @@
                 else if(max=='')
                     window.location.href = '/resultados?' + $.param({
                         operation: $('input[name=operation]').val(),
-                        typology: $('input[name=operation]').val(),
+                        typology: $('input[name=typology]').val(),
                         locality: $('input[name=locality]').val(),
                         address: $('input[name=address]').val(),
                         search_type: $('input[name=search_type]').val(),
@@ -482,7 +488,7 @@
                 else
                     window.location.href = '/resultados?' + $.param({
                         operation: $('input[name=operation]').val(),
-                        typology: $('input[name=operation]').val(),
+                        typology: $('input[name=typology]').val(),
                         locality: $('input[name=locality]').val(),
                         address: $('input[name=address]').val(),
                         search_type: $('input[name=search_type]').val(),
