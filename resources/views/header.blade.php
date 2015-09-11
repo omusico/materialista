@@ -7,7 +7,7 @@
                 <div style="display:inline-block;height:100px;width:215px;
                         background-image: url('{{ asset('img/logo-valkiria.png') }}');
                         background-size: contain;position:relative;">
-                    <a href="{{route('home')}}" style="position:absolute;display:block;height:100%;">&nbsp;</a>
+                    <a href="{{route('home')}}" style="position:absolute;width:100%;height:100%;">&nbsp;</a>
                 </div>
             @endif
         </div>
