@@ -25,10 +25,20 @@ class AdminController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
-    public function showNewAdForm() {
+    public function getNewAd() {
+        $input = \Input::all();
+        $operation = (isset($input['operation'])) ? $input['operation'] : '0';
+        $typology = (isset($input['typology'])) ? $input['typology'] : '0';
+        if($typology=='7'||$typology=='8')
+            $operation = '1';
+
+        return view('new_ad_form', compact('operation','typology'));
+    }
+
+    public function getEditAd() {
         $input = \Input::all();
         $operation = (isset($input['operation'])) ? $input['operation'] : '0';
         $typology = (isset($input['typology'])) ? $input['typology'] : '0';
@@ -253,6 +263,11 @@ class AdminController extends Controller {
             ], 200);
         }
         return \Response::json('error', 400);
+    }
+
+    public function dashboard()
+    {
+        return view('dashboard');
     }
 
 }

@@ -1,4 +1,8 @@
-@extends('basic')
+@extends('dashboard_layout')
+
+@section('title')
+    <title>Panel de control | Nuevo anuncio</title>
+@endsection
 
 @section('css')
     {{--STEPS 1 and 2--}}

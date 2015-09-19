@@ -11,10 +11,24 @@
 |
 */
 
-Route::get('/', 'HomeController@showTesterIndex');
+// Authentication
+Route::get('acceso', ['as'=>'auth.login','uses'=>'Auth\AuthController@getLogin']);
+Route::post('auth/login', ['as'=>'auth.doLogin','uses'=>'Auth\AuthController@postLogin']);
+Route::get('auth/logout', ['as'=>'auth.logout','uses'=>'Auth\AuthController@getLogout']);
+
+// Registration
+Route::get('auth/register', ['as'=>'auth.register','uses'=>'Auth\AuthController@getRegister']);
+Route::post('auth/register', ['as'=>'auth.doRegister','uses'=>'Auth\AuthController@postRegister']);
+
+//Reset password
+Route::get('auth/reset', ['as'=>'auth.reset','uses'=>'AuthController@reset']);
+Route::post('auth/reset', ['as'=>'auth.doReset','uses'=>'AuthController@doreset']);
+
+//Test home
+Route::get('/test', 'HomeController@showTesterIndex');
 
 //Home & Main search
-Route::get('/home', ['as'=>'home','uses'=>'HomeController@index']);
+Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);
 Route::post('updateAdminsAndLocalities', ['as'=>'update.list.1','uses'=>'HomeController@postAdminsAndLocalities']);
 Route::post('updateLocalities', ['as'=>'update.list.2','uses'=>'HomeController@postLocalities']);
 
@@ -24,8 +38,12 @@ Route::get('/resultados', ['as'=>'results','uses'=>'HomeController@getResults'])
 //Ad page
 Route::get('/anuncio/{id}', ['as'=>'ad.profile','uses'=>'HomeController@adProfile']);
 
+//Admin dashboard
+Route::get('/dashboard', ['as'=>'dashboard.home','uses'=>'AdminController@dashboard']);
+
 //New ad form
-Route::get('form_new', ['as'=>'form.new.ad','uses'=>'AdminController@showNewAdForm']);
+Route::get('dashboard/newAd', ['as'=>'dashboard.newAd','uses'=>'AdminController@getNewAd']);
+Route::get('dashboard/editAd', ['as'=>'dashboard.editAd','uses'=>'AdminController@getEditAd']);
 Route::get('check_address', 'AdminController@checkAddress');
 Route::post('new_ad', ['as'=>'new.ad','uses'=>'AdminController@doNewAd']);
 Route::post('upload_img',['as'=>'upload.img','uses'=>'AdminController@uploadImage']);

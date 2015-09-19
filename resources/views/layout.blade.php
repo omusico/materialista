@@ -7,7 +7,7 @@
     <meta name="author" content="" />
     <meta name="Description" content="" />
 
-    <title>Materialista</title>
+    <title>@if(\App::environment() == 'local') Materialista @else Vakiria | Inmobiliaria y fincas rústicas @endif</title>
 
     {{--Common CSS--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">

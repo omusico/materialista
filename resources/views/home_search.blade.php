@@ -139,7 +139,7 @@
     <div class="container" id="container-search-by-proximity" style="padding: 50px 0 150px 0;">
         <div class="row">
             <div class="col-xs-offset-0 col-xs-12 col-lg-offset-2 col-lg-8" id="col-proximity-search">
-                <h4>Búsqueda por cercanía:</h4>
+                <h4>Buscar por cercanía:</h4>
                 <div class="radio-list" style="padding: 0 0 10px 0;" id="radio-operation">
                     <label class="checkbox" style="display: inline;"><input type="radio" name="operation" value="0" data-title="Comprar" checked="checked"> Comprar</label>
                     <label class="checkbox" style="display: inline;"><input type="radio" name="operation" value="1" data-title="Alquilar"> Alquilar</label>
@@ -158,7 +158,7 @@
                         </select>
                     </div>
                     <div class="form-group" style="width:50%;vertical-align: top;">
-                        <input type="text" placeholder="Escribe una dirección donde centrar la búsqueda" class="form-control" name="customAddress" style="width:100%;">
+                        <input type="text" placeholder="Escribe la dirección donde centrar la búsqueda" class="form-control" name="customAddress" style="width:100%;">
                         <span class="help-block">Ej.: Calle Mayor 1, Martorell, Barcelona</span>
                     </div>
                     <button class="btn inline btn-default" id="btn-search-by-proximity" style="width:20%;vertical-align: top;">Buscar</button>
