@@ -326,7 +326,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <?php
-                                                        
+
                                                     ?>
                                                     <select name="door" class="form-control">
                                                         <option value="">Seleccione</option>
