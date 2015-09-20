@@ -326,35 +326,38 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <?php
-
+                                                        if(isset($ad->door)) {
+                                                            $door_is_letter = (in_array($ad->door,range('A','Z'))) ? true : false;
+                                                            $door_is_number = (in_array($ad->door,range(1,100))) ? true : false;
+                                                        }
                                                     ?>
                                                     <select name="door" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="0">Letra (A, B, C...)</option>
-                                                        <option value="1">N&uacute;mero (1, 2, 3...)</option>
-                                                        <option value="Puerta &uacute;nica">Puerta &uacute;nica</option>
-                                                        <option value="Izquierda">Izquierda</option>
-                                                        <option value="Derecha">Derecha</option>
-                                                        <option value="Exterior">Exterior</option>
-                                                        <option value="Exterior izquierda">Exterior izquierda</option>
-                                                        <option value="Exterior derecha">Exterior derecha</option>
-                                                        <option value="Interior">Interior</option>
-                                                        <option value="Interior izquierda">Interior izquierda</option>
-                                                        <option value="Interior derecha">Interior derecha</option>
-                                                        <option value="Centro">Centro</option>
-                                                        <option value="Centro izquierda">Centro izquierda</option>
-                                                        <option value="Centro derecha">Centro derecha</option>
+                                                        <option value="0" @if(isset($ad->door)&&$door_is_letter) selected="selected" @endif >Letra (A, B, C...)</option>
+                                                        <option value="1" @if(isset($ad->door)&&$door_is_number) selected="selected" @endif >N&uacute;mero (1, 2, 3...)</option>
+                                                        <option value="Puerta &uacute;nica" @if(isset($ad->door)&&$ad->door=='Puerta única') selected="selected" @endif >Puerta &uacute;nica</option>
+                                                        <option value="Izquierda" @if(isset($ad->door)&&$ad->door=='Izquierda') selected="selected" @endif >Izquierda</option>
+                                                        <option value="Derecha" @if(isset($ad->door)&&$ad->door=='Derecha') selected="selected" @endif >Derecha</option>
+                                                        <option value="Exterior" @if(isset($ad->door)&&$ad->door=='Exterior') selected="selected" @endif >Exterior</option>
+                                                        <option value="Exterior izquierda" @if(isset($ad->door)&&$ad->door=='Exterior izquierda') selected="selected" @endif >Exterior izquierda</option>
+                                                        <option value="Exterior derecha" @if(isset($ad->door)&&$ad->door=='Exterior derecha') selected="selected" @endif >Exterior derecha</option>
+                                                        <option value="Interior" @if(isset($ad->door)&&$ad->door=='Interior') selected="selected" @endif >Interior</option>
+                                                        <option value="Interior izquierda" @if(isset($ad->door)&&$ad->door=='Interior izquierda') selected="selected" @endif >Interior izquierda</option>
+                                                        <option value="Interior derecha" @if(isset($ad->door)&&$ad->door=='Interior derecha') selected="selected" @endif >Interior derecha</option>
+                                                        <option value="Centro" @if(isset($ad->door)&&$ad->door=='Centro') selected="selected" @endif >Centro</option>
+                                                        <option value="Centro izquierda" @if(isset($ad->door)&&$ad->door=='Centro izquierda') selected="selected" @endif >Centro izquierda</option>
+                                                        <option value="Centro derecha" @if(isset($ad->door)&&$ad->door=='Centro derecha') selected="selected" @endif >Centro derecha</option>
                                                     </select>
-                                                    <select name="door_number" class="form-control hidden" style="padding-top:5px;">
+                                                    <select name="door_number" class="form-control @if(!isset($ad->door)||(isset($ad->door)&&!$door_is_number)) hidden @endif " style="padding-top:5px;">
                                                         <option value="">Seleccione</option>
                                                     @for($i = 1; $i < 101; ++$i)
-                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                        <option value="{{ $i }}" @if(isset($ad->door)&&$ad->door==''.$i) selected="selected" @endif >{{ $i }}</option>
                                                     @endfor
                                                     </select>
-                                                    <select name="door_letter" class="form-control hidden" style="padding-top:5px;">
+                                                    <select name="door_letter" class="form-control @if(!isset($ad->door)||(isset($ad->door)&&!$door_is_letter)) hidden @endif " style="padding-top:5px;">
                                                         <option value="">Seleccione</option>
                                                     @foreach(range('A','Z') as $letter)
-                                                        <option value="{{ $letter }}">{{ $letter }}</option>
+                                                        <option value="{{ $letter }}" @if(isset($ad->door)&&$ad->door==''.$letter) selected="selected" @endif >{{ $letter }}</option>
                                                     @endforeach
                                                     </select>
                                                 </div>
@@ -366,12 +369,12 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_block" value="0" data-title="No" checked="checked" />
+                                                            <input type="radio" name="has_block" value="0" data-title="No" @if(!isset($ad->has_block)||(isset($ad->has_block)&&!$ad->has_block)) checked="checked" @endif />
                                                             No </label>
                                                         <label>
-                                                            <input type="radio" name="has_block" value="1" data-title="S&iacute;, bloque/portal:"/>
+                                                            <input type="radio" name="has_block" value="1" data-title="S&iacute;, bloque/portal:" @if(isset($ad->has_block)&&$ad->has_block) checked="checked" @endif />
                                                             S&iacute;, bloque/portal: </label>
-                                                            <input type="text" class="form-control" name="block" disabled=""/>
+                                                            <input type="text" class="form-control" name="block" @if(!isset($ad->has_block)||(isset($ad->has_block)&&!$ad->has_block)) disabled="" @endif @if(isset($ad->block)&&$ad->block) value="{!! $ad->block !!}" @endif />
                                                     </div>
                                                     <div id="form_bloque_error">
                                                     </div>
@@ -384,7 +387,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="residential_area">
+                                                        <input type="text" class="form-control" name="residential_area" @if(isset($ad->residential_area)&&$ad->residential_area) value="{!! $ad->residential_area !!}" @endif>
                                                     </div>
                                                 </div>
                                             </div>
