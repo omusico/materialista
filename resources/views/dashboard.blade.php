@@ -28,7 +28,6 @@
 @endsection
 
 @section('content')
-    <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">
         Panel de control
     </h3>

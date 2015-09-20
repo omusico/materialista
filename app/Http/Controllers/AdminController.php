@@ -39,13 +39,9 @@ class AdminController extends Controller {
     }
 
     public function getEditAd() {
-        $input = \Input::all();
-        $operation = (isset($input['operation'])) ? $input['operation'] : '0';
-        $typology = (isset($input['typology'])) ? $input['typology'] : '0';
-        if($typology=='7'||$typology=='8')
-            $operation = '1';
+        $ads = Ad::all();
 
-        return view('new_ad_form', compact('operation','typology'));
+        return view('ads_list', compact('ads'));
     }
 
     public function checkAddress()

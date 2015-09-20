@@ -62,7 +62,8 @@
             margin: -1px 0 0 4px;
             font-style: italic;
         }
-        .form-inline > button {
+        .form-inline > button,
+        .form-inline > div > button {
             font-weight: bold;
             font-size: 18px;
             line-height: 14px;
@@ -76,26 +77,27 @@
 @endsection
 
 @section('content')
-    <label><input class="hidden" name="_token" value="{{ Session::token() }}"></label>
+    <input class="hidden" name="_token" value="{{ Session::token() }}">
     <div class="container-fluid"  style="height:400px;
             background-image: url('{{ asset('img/frenchhouse.jpg') }}');
             background-position: 0% 50%;
             background-size: cover;">
         <div class="row">
-            <div class="col-xs-12">&nbsp;</div>
+            <div class="col-xs-12">
+            </div>
         </div>
     </div>
     <div class="container" style="padding:20px 20px 0 20px;margin-top:-278px;
             background-color: rgba(206, 206, 206, 0.7);">
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-6 col-sm-3">
                 <ul class="list-group" id="list-operation">
                     <a href="javascript:" data-value="0" data-txt="Comprar" class="list-group-item active">Comprar</a>
                     <a href="javascript:" data-value="1" data-txt="Alquilar" class="list-group-item">Alquilar</a>
                     <a href="javascript:" data-value="2" data-txt="Compartir" class="list-group-item">Compartir</a>
                 </ul>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-6 col-sm-3">
                 <ul class="list-group" id="list-typology">
                     <a href="javascript:" data-value="0" data-txt="Obra nueva" class="list-group-item">Obra nueva</a>
                     <a href="javascript:" data-value="1" data-txt="Vivienda" class="list-group-item active">Viviendas</a>
@@ -107,7 +109,7 @@
                     <a href="javascript:" data-value="7" data-txt="Terreno" class="list-group-item">Terrenos</a>
                 </ul>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-6 col-sm-3">
                 <ul class="list-group" id="list-admin_lvl_2">
                     <?php $i=0; ?>
                     @foreach(\App\HomeLib::getAdminLvl2List(0,1) as $l)
@@ -116,7 +118,7 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-6 col-sm-3">
                 <ul class="list-group" id="list-locality">
                     <?php $i=0; ?>
                     @foreach(\App\HomeLib::getLocalityList(0,1,'Barcelona') as $l)
@@ -128,10 +130,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-9" id="col-i-look-for-txt">
+            <div class="hidden-xs col-sm-9" id="col-i-look-for-txt">
                 Busco <span class="txt-operation">Comprar</span> <span class="txt-typology">Vivienda</span> en <span class="txt-locality">{{ $firstLocality }}</span>
             </div>
-            <div class="col-xs-3 text-right" id="col-btn-search">
+            <div class="col-xs-12 col-sm-3 text-right" id="col-btn-search">
                 <a class="btn btn-primary btn-block" id="btn-search-by-locality" href="javascript:">Buscar</a>
             </div>
         </div>
@@ -139,13 +141,13 @@
     <div class="container" id="container-search-by-proximity" style="padding: 50px 0 150px 0;">
         <div class="row">
             <div class="col-xs-offset-0 col-xs-12 col-lg-offset-2 col-lg-8" id="col-proximity-search">
-                <h4>Buscar por cercanía:</h4>
-                <div class="radio-list" style="padding: 0 0 10px 0;" id="radio-operation">
+                <h4 style="padding-left:5px;">Buscar por cercanía:</h4>
+                <div class="radio-list col-xs-12" style="padding: 0 0 10px 0;" id="radio-operation">
                     <label class="checkbox" style="display: inline;"><input type="radio" name="operation" value="0" data-title="Comprar" checked="checked"> Comprar</label>
                     <label class="checkbox" style="display: inline;"><input type="radio" name="operation" value="1" data-title="Alquilar"> Alquilar</label>
                 </div>
                 <div class="form-inline">
-                    <div class="form-group" style="width:25%;vertical-align: top;">
+                    <div class="form-group col-xs-12 col-sm-3" style="padding:0 5px;vertical-align: top;">
                         <select name="typology" class="form-control" style="width:100%;" id="select-typology">
                             <option value="0">Obra nueva</option>
                             <option value="1">Viviendas</option>
@@ -157,11 +159,13 @@
                             <option value="7">Terrenos</option>
                         </select>
                     </div>
-                    <div class="form-group" style="width:50%;vertical-align: top;">
+                    <div class="form-group col-xs-12 col-sm-6" style="padding:0 5px;vertical-align: top;">
                         <input type="text" placeholder="Escribe la dirección donde centrar la búsqueda" class="form-control" name="customAddress" style="width:100%;">
                         <span class="help-block">Ej.: Calle Mayor 1, Martorell, Barcelona</span>
                     </div>
-                    <button class="btn inline btn-default" id="btn-search-by-proximity" style="width:20%;vertical-align: top;">Buscar</button>
+                    <div class="col-xs-12 col-sm-3" style="padding:0 5px;">
+                        <button class="btn inline btn-default" id="btn-search-by-proximity" style="width: 100%;vertical-align: top;">Buscar</button>
+                    </div>
                 </div>
             </div>
         </div>

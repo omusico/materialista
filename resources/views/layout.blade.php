@@ -19,6 +19,10 @@
             color: #4A4A4A;
             font-size: 14px;
         }
+        #cookieBanner {
+            background-color: #F2F2F2;
+            display: none;
+        }
     </style>
     {{--Page related CSS--}}
     @yield('css')
@@ -41,6 +45,7 @@
     {{--Common JS--}}
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/consent.js') }}"></script>
     {{--Page related JS--}}
     @yield('js')
 </body>
