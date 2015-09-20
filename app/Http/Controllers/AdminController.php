@@ -38,10 +38,57 @@ class AdminController extends Controller {
         return view('new_ad_form', compact('operation','typology'));
     }
 
-    public function getEditAd() {
+    public function getAdsList()
+    {
         $ads = Ad::all();
 
         return view('ads_list', compact('ads'));
+    }
+
+    public function editAd($ad_id)
+    {
+        $Ad = Ad::find($ad_id);
+        $ad = \DB::table($Ad->local_table)->where('id',$Ad->local_id)->first();
+        list($ope,$typ) = explode('_',$Ad->local_table,2);
+        switch($ope) {
+            case 'sell':
+                $operation = 0;
+                break;
+            case 'rent':
+                $operation = 1;
+                break;
+        }
+        switch($typ) {
+            case 'apartment':
+                $typology = 0;
+                break;
+            case 'house':
+                $typology = 1;
+                break;
+            case 'country_house':
+                $typology = 2;
+                break;
+            case 'office':
+                $typology = 3;
+                break;
+            case 'business':
+                $typology = 4;
+                break;
+            case 'garage':
+                $typology = 5;
+                break;
+            case 'land':
+                $typology = 6;
+                break;
+            case 'vacation':
+                $typology = 7;
+                break;
+            case 'room':
+                $typology = 8;
+                break;
+        }
+
+        return view('new_ad_form',compact('Ad','ad','operation','typology'));
     }
 
     public function checkAddress()

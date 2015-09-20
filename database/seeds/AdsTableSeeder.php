@@ -46,10 +46,10 @@ class AdsTableSeeder extends Seeder
             '17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','Puerta única',
             'Izquierda','Derecha','Exterior','Interior','Centro','Exterior izquierda','Exterior derecha',
             'Interior izquierda','Interior derecha','Centro izquierda','Centro derecha'];
-        $floors = ['Planta 1','Planta 2','Planta 3','Planta 4','Planta 5','Planta 6','Planta 7',
-            'Planta 8','Planta 9', 'Planta 10','Planta 11','Planta 12','Planta 13','Planta 14',
-            'Planta 15','Planta 16', 'Planta 17','Planta 18', 'Planta 19','Planta 20','Planta 21',
-            'Planta 22','Planta 23','Planta 24','Planta 25', 'Planta 26','Sótano','Semi-sótano',
+        $floors = ['Planta 1º','Planta 2º','Planta 3º','Planta 4º','Planta 5º','Planta 6º','Planta 7º',
+            'Planta 8º','Planta 9º', 'Planta 10º','Planta 11º','Planta 12º','Planta 13º','Planta 14º',
+            'Planta 15º','Planta 16º', 'Planta 17º','Planta 18º', 'Planta 19º','Planta 20º','Planta 21º',
+            'Planta 22º','Planta 23º','Planta 24º','Planta 25º', 'Planta 26º','Sótano','Semi-sótano',
             'Bajo','Entreplanta','Por debajo de la planta baja (-2)','Por debajo de la planta baja (-1)'];
         $activities = ['Tienda de ropa','Frutería','Panadería','Taller mecánico','Bar','Restaurante',
             'Carnicería','Gestión de residuos industriales','Copistería','Fábrica de papel','Acerería',

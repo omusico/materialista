@@ -41,12 +41,13 @@ Route::get('/anuncio/{id}', ['as'=>'ad.profile','uses'=>'HomeController@adProfil
 //Admin dashboard
 Route::get('/dashboard', ['as'=>'dashboard.home','uses'=>'AdminController@dashboard']);
 
-//New ad form
+//Create and edit ad form
 Route::get('dashboard/newAd', ['as'=>'dashboard.newAd','uses'=>'AdminController@getNewAd']);
-Route::get('dashboard/editAd', ['as'=>'dashboard.editAd','uses'=>'AdminController@getEditAd']);
+Route::get('dashboard/editAd', ['as'=>'dashboard.editAd','uses'=>'AdminController@getAdsList']);
 Route::get('check_address', 'AdminController@checkAddress');
 Route::post('new_ad', ['as'=>'new.ad','uses'=>'AdminController@doNewAd']);
 Route::post('upload_img',['as'=>'upload.img','uses'=>'AdminController@uploadImage']);
+Route::get('dashboard/editAd/{ad_id}', ['as'=>'dashboard.editAd.id','uses'=>'AdminController@editAd']);
 
 //Development: view tables
 Route::get('table/{table_name}', ['as'=>'view.table','uses'=>'DeveloperController@showTable']);

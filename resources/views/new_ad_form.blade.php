@@ -53,6 +53,12 @@
                     <div class="portlet-body form">
                         <form action="{{ route('new.ad') }}" class="form-horizontal" id="submit_form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ \Session::token() }}">
+                            @if(isset($Ad)&&isset($ad))
+                                <input type="hidden" name="ad_id" value="{{ $Ad->id }}">
+                                <input type="hidden" name="local_id" value="{{ $ad->id }}">
+                                <input type="hidden" name="operation" value="{{ $operation }}">
+                                <input type="hidden" name="typology" value="{{ $typology }}">
+                            @endif
                             <div class="form-wizard">
                                 <div class="form-body">
 
@@ -109,7 +115,7 @@
 													* </span>
                                                 </label>
                                                 <div class="col-md-4">
-                                                    <select name="typology" class="form-control">
+                                                    <select name="typology" class="form-control" @if(isset($Ad)&&isset($ad)) disabled="disabled" @endif >
                                                         <option value="">Seleccione</option>
                                                         <option value="0" @if($typology=='0') selected="selected" @endif >Piso</option>
                                                         <option value="1" @if($typology=='1') selected="selected" @endif >Casa o chalet</option>
@@ -130,10 +136,10 @@
                                                 <div class="col-md-4">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="operation" value="0" data-title="Venta" @if($operation=='0'&&($typology!='7'&&$typology!='8')) checked="checked" @endif @if($typology=='7'||$typology=='8') disabled="disabled" @endif />
+                                                            <input type="radio" name="operation" value="0" data-title="Venta" @if($operation=='0'&&($typology!='7'&&$typology!='8')) checked="checked" @endif @if($typology=='7'||$typology=='8'||(isset($Ad)&&isset($ad))) disabled="disabled" @endif />
                                                             Venta </label>
                                                         <label>
-                                                            <input type="radio" name="operation" value="1" data-title="Alquiler" @if($operation=='1'||($typology=='7'||$typology=='8')) checked="checked" @endif />
+                                                            <input type="radio" name="operation" value="1" data-title="Alquiler" @if($operation=='1'||($typology=='7'||$typology=='8')) checked="checked" @endif @if(isset($Ad)&&isset($ad)) disabled="disabled" @endif  />
                                                             Alquiler </label>
                                                     </div>
                                                     <div id="form_operation_error"></div>
@@ -146,7 +152,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="price"/>
+                                                        <input type="text" class="form-control" name="price" @if(isset($ad->price)) value="{!! $ad->price !!}" @endif />
                                                         @if($operation=='0')
                                                             <span class="input-group-addon">&euro;</span>
                                                         @elseif($operation=='1')
@@ -166,7 +172,7 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_transfer" value="1" data-title="Es un traspaso"/> Es un traspaso</label>
+                                                            <input type="checkbox" name="is_transfer" value="1" data-title="Es un traspaso" @if(isset($ad->is_transfer)&&$ad->is_transfer) checked="checked" @endif /> Es un traspaso</label>
                                                     </div>
                                                     <div id="form_is_transfer_error">
                                                     </div>
@@ -180,7 +186,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="community_cost"/>
+                                                        <input type="text" class="form-control" name="community_cost" @if(isset($ad->community_cost)) value="{!! $ad->community_cost !!}" @endif />
                                                         <span class="input-group-addon">&euro;/mes</span>
                                                     </div>
                                                     <div id="form_community_cost">
@@ -197,13 +203,13 @@
                                                 <div class="col-md-4">
                                                     <select name="deposit" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="Sin fianza">Sin fianza</option>
-                                                        <option value="1 mes">1 mes</option>
-                                                        <option value="2 meses">2 meses</option>
-                                                        <option value="3 meses">3 meses</option>
-                                                        <option value="4 meses">4 meses</option>
-                                                        <option value="5 meses">5 meses</option>
-                                                        <option value="6 meses o m&aacute;s">6 meses o m&aacute;s</option>
+                                                        <option value="Sin fianza" @if(isset($ad->deposit)&&$ad->deposit=='Sin fianza') selected=selected @endif >Sin fianza</option>
+                                                        <option value="1 mes" @if(isset($ad->deposit)&&$ad->deposit=='1 mes') selected="selected" @endif >1 mes</option>
+                                                        <option value="2 meses" @if(isset($ad->deposit)&&$ad->deposit=='2 meses') selected="selected" @endif >2 meses</option>
+                                                        <option value="3 meses" @if(isset($ad->deposit)&&$ad->deposit=='3 meses') selected="selected" @endif >3 meses</option>
+                                                        <option value="4 meses" @if(isset($ad->deposit)&&$ad->deposit=='4 meses') selected="selected" @endif >4 meses</option>
+                                                        <option value="5 meses" @if(isset($ad->deposit)&&$ad->deposit=='5 meses') selected="selected" @endif >5 meses</option>
+                                                        <option value="6 meses o m&aacute;s" @if(isset($ad->deposit)&&$ad->deposit=='6 meses o más') selected="selected" @endif >6 meses o m&aacute;s</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -216,15 +222,15 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_bank_agency" value="1" data-title="Es de un banco o caja"/> Es de un banco o caja</label>
+                                                            <input type="checkbox" name="is_bank_agency" value="1" data-title="Es de un banco o caja" @if(isset($ad->is_bank_agency)&&$ad->is_bank_agency) checked="checked" @endif /> Es de un banco o caja</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_state_subsidized" value="1" data-title="Es vivienda de protección oficial"/> Es vivienda de protección oficial</label>
+                                                            <input type="checkbox" name="is_state_subsidized" value="1" data-title="Es vivienda de protección oficial" @if(isset($ad->is_state_subsidized)&&$ad->is_state_subsidized) checked="checked" @endif /> Es vivienda de protección oficial</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_new_development" value="1" data-title="Es nueva promoción"/> Es nueva promoción</label>
+                                                            <input type="checkbox" name="is_new_development" value="1" data-title="Es nueva promoción" @if(isset($ad->is_new_development)&&$ad->is_new_development) checked="checked" @endif /> Es nueva promoción</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_new_development_finished" value="1" data-title="Es nueva promoción terminada"/> Es nueva promoción terminada</label>
+                                                            <input type="checkbox" name="is_new_development_finished" value="1" data-title="Es nueva promoción terminada" @if(isset($ad->is_new_development_finished)&&$ad->is_new_development_finished) checked="checked" @endif /> Es nueva promoción terminada</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_rent_to_own" value="1" data-title="Es alquiler con opción a compra"/> Es alquiler con opción a compra</label>
+                                                            <input type="checkbox" name="is_rent_to_own" value="1" data-title="Es alquiler con opción a compra" @if(isset($ad->is_rent_to_own)&&$ad->is_rent_to_own) checked="checked" @endif /> Es alquiler con opción a compra</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,22 +242,22 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <label class="control-label">Localidad</label>
-                                                    <input type="text" class="form-control" name="municipio" value=""/>
+                                                    <input type="text" class="form-control" name="municipio" value="@if(isset($ad->locality)) {{ $ad->locality }} @endif"/>
                                                     <label class="control-label">Nombre de la v&iacute;a</label>
-                                                    <input type="text" class="form-control" name="via" value=""/>
+                                                    <input type="text" class="form-control" name="via" value="@if(isset($ad->route)) {{ $ad->route }} @endif"/>
                                                     <label class="control-label">N&uacute;mero de la v&iacute;a @if($typology=='6') o Km @endif</label>
-                                                    <input type="text" class="form-control" name="via_num" value=""/>
+                                                    <input type="text" class="form-control" name="via_num" value="@if(isset($ad->street_number)) {{ $ad->street_number }} @endif"/>
                                                     <input type="hidden" class="form-control" name="address_confirmed" value="0"/>
-                                                    <input type="hidden" class="form-control" name="lat" value=""/>
-                                                    <input type="hidden" class="form-control" name="lng" value=""/>
-                                                    <input type="hidden" class="form-control" name="formatted_address" value=""/>
-                                                    <input type="hidden" class="form-control" name="street_number" value=""/>
-                                                    <input type="hidden" class="form-control" name="route" value=""/>
-                                                    <input type="hidden" class="form-control" name="locality" value=""/>
-                                                    <input type="hidden" class="form-control" name="admin_area_lvl2" value=""/>
-                                                    <input type="hidden" class="form-control" name="admin_area_lvl1" value=""/>
-                                                    <input type="hidden" class="form-control" name="postal_code" value=""/>
-                                                    <input type="hidden" class="form-control" name="country" value=""/>
+                                                    <input type="hidden" class="form-control" name="lat" value="@if(isset($ad->lat)) {{ $ad->lat }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="lng" value="@if(isset($ad->lng)) {{ $ad->lng }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="formatted_address" value="@if(isset($ad->formatted_address)) {{ $ad->formatted_address }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="street_number" value="@if(isset($ad->street_number)) {{ $ad->street_number }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="route" value="@if(isset($ad->route)) {{ $ad->route }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="locality" value="@if(isset($ad->locality)) {{ $ad->locality }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="admin_area_lvl2" value="@if(isset($ad->admin_area_lvl2)) {{ $ad->admin_area_lvl2 }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="admin_area_lvl1" value="@if(isset($ad->admin_area_lvl1)) {{ $ad->admin_area_lvl1 }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="postal_code" value="@if(isset($ad->postal_code)) {{ $ad->postal_code }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="country" value="@if(isset($ad->country)) {{ $ad->country }} @endif"/>
                                                     <a href="javascript:" id="check-address" class="btn btn-primary" style="margin-top:10px">Comprobar direcci&oacute;n</a>
                                                     <span><img id="check-in-progress" class="hidden" src="{{ asset('img/loading-spinner-grey.gif') }}"/></span>
                                                     <div id="check-address-success" class="alert alert-success hidden" style="margin-top:10px">
@@ -280,7 +286,7 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="hide_address" value="1" data-title="Ocultar direcci&oacute;n"/> Ocultar direcci&oacute;n</label>
+                                                            <input type="checkbox" name="hide_address" value="1" data-title="Ocultar direcci&oacute;n" @if(isset($ad->hide_address)&&$ad->hide_address) checked="checked" @endif /> Ocultar direcci&oacute;n</label>
                                                     </div>
                                                     <div id="form_hide_address_error">
                                                     </div>
@@ -294,20 +300,20 @@
                                                 <div class="col-md-4">
                                                     <select name="floor_number" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="Por debajo de la planta baja (-2)">Por debajo de la planta baja (-2)</option>
-                                                        <option value="Por debajo de la planta baja (-1)">Por debajo de la planta baja (-1)</option>
-                                                        <option value="S&oacute;tano">S&oacute;tano</option>
-                                                        <option value="Semi-s&oacute;tano">Semi-s&oacute;tano</option>
-                                                        <option value="Bajo">Bajo</option>
-                                                        <option value="Entreplanta">Entreplanta</option>
+                                                        <option value="Por debajo de la planta baja (-2)" @if(isset($ad->floor_number)&&$ad->floor_number=='Por debajo de la planta baja (-2)') selected="selected" @endif >Por debajo de la planta baja (-2)</option>
+                                                        <option value="Por debajo de la planta baja (-1)" @if(isset($ad->floor_number)&&$ad->floor_number=='Por debajo de la planta baja (-1)') selected="selected" @endif >Por debajo de la planta baja (-1)</option>
+                                                        <option value="S&oacute;tano" @if(isset($ad->floor_number)&&$ad->floor_number=='Sótano') selected="selected" @endif >S&oacute;tano</option>
+                                                        <option value="Semi-s&oacute;tano" @if(isset($ad->floor_number)&&$ad->floor_number=='Semi-sótano') selected="selected" @endif >Semi-s&oacute;tano</option>
+                                                        <option value="Bajo" @if(isset($ad->floor_number)&&$ad->floor_number=='Bajo') selected="selected" @endif >Bajo</option>
+                                                        <option value="Entreplanta" @if(isset($ad->floor_number)&&$ad->floor_number=='Entreplanta') selected="selected" @endif >Entreplanta</option>
                                                     @for($i = 1; $i < 101; ++$i)
-                                                        <option value="Planta {{ $i }}&ordm;">Planta {{ $i }}&ordm;</option>
+                                                        <option value="Planta {{ $i }}&ordm;" @if(isset($ad->floor_number)&&$ad->floor_number=='Planta '.$i.'º') selected="selected" @endif >Planta {{ $i }}&ordm;</option>
                                                     @endfor
                                                     </select>
                                                     @if($typology!='3'&&$typology!='4')
                                                     <div class="checkbox-list" style="padding-top:4px;">
                                                         <label>
-                                                            <input type="checkbox" name="is_last_floor" value="1" data-title="Es la &uacute;ltima planta del bloque"/>Es la &uacute;ltima planta del bloque</label>
+                                                            <input type="checkbox" name="is_last_floor" value="1" data-title="Es la &uacute;ltima planta del bloque" @if(isset($ad->is_last_floor)&&$ad->is_last_floor) checked="checked" @endif />Es la &uacute;ltima planta del bloque</label>
                                                     </div>
                                                     @endif
                                                     <div id="form_floor_number_error">
@@ -319,6 +325,9 @@
                                                 <label class="control-label col-md-3">Puerta
                                                 </label>
                                                 <div class="col-md-4">
+                                                    <?php
+                                                        
+                                                    ?>
                                                     <select name="door" class="form-control">
                                                         <option value="">Seleccione</option>
                                                         <option value="0">Letra (A, B, C...)</option>

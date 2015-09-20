@@ -85,7 +85,7 @@
                 <td>{{ $ad->updated_at->format('d/m/Y h:i:s') }}</td>
                 <td>
                     <a href="{{ url('/anuncio/'.$ad->id) }}" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-search"></i> Ver anuncio </a>
-                    <a href="javascript:;" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i> Editar </a>
+                    <a href="{{ url('/dashboard/editAd/'.$ad->id) }}" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i> Editar </a>
                 </td>
             </tr>
         @endforeach
