@@ -147,8 +147,8 @@
     </script>
 
     @if(Session::has('success'))
-        <input type="hidden" name="Stitle" value="{{ session('success')['title'] }}">
-        <input type="hidden" name="Smsg" value="{{ session('success')['msg'] }}">
+        <input type="hidden" name="Stitle" value="{{ session('success')['Stitle'] }}">
+        <input type="hidden" name="Smsg" value="{{ session('success')['Smsg'] }}">
         <script>
             jQuery(document).ready(function() {
                 var sessionTitle = $('input[name=Stitle]').val();
@@ -170,9 +170,9 @@
             });
         </script>
     @endif
-    @if(Session::has('info'))
-        <input type="hidden" name="Ititle" value="{{ session('info')['title'] }}">
-        <input type="hidden" name="Imsg" value="{{ session('info')['msg'] }}">
+    @if(\Session::has('info'))
+        <input type="hidden" name="Ititle" value="{{ session('info')['Ititle'] }}">
+        <input type="hidden" name="Imsg" value="{{ session('info')['Imsg'] }}">
         <script>
             jQuery(document).ready(function() {
                 var sessionTitle = $('input[name=Ititle]').val();
@@ -194,9 +194,9 @@
             });
         </script>
     @endif
-    @if (Session::get('warning'))
-        <input type="hidden" name="Wtitle" value="{{ session('warning')['title'] }}">
-        <input type="hidden" name="Wmsg" value="{{ session('warning')['msg'] }}">
+    @if (\Session::get('warning'))
+        <input type="hidden" name="Wtitle" value="{{ session('warning')['Wtitle'] }}">
+        <input type="hidden" name="Wmsg" value="{{ session('warning')['Wmsg'] }}">
         <script>
             jQuery(document).ready(function() {
                 var sessionTitle = $('input[name=Wtitle]').val();
@@ -218,9 +218,9 @@
             });
         </script>
     @endif
-    @if (Session::get('error'))
-        <input type="hidden" name="title" value="{{ session('error')['title'] }}">
-        <input type="hidden" name="msg" value="{{ session('error')['msg'] }}">
+    @if (\Session::get('error'))
+        <input type="hidden" name="title" value="{{ session('error')['Etitle'] }}">
+        <input type="hidden" name="msg" value="{{ session('error')['Emsg'] }}">
         <script>
             jQuery(document).ready(function() {
                 var sessionTitle = $('input[name=title]').val();

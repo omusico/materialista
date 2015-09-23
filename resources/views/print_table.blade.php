@@ -39,6 +39,26 @@
             </div>
         </div>
     </div>
+    <div class="container" style="padding: 25px;">
+        <div class="row">
+            <div class="col-xs-12 text-left">
+                <h4>Save variables pattern:</h4>
+                @foreach($columns as $c)
+                    {{ '$old->'.$c.' = ;' }}<br/>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding: 25px;">
+        <div class="row">
+            <div class="col-xs-12 text-left">
+                <h4>Array pattern:</h4>
+                @foreach($columns as $c)
+                    {{ '\''.$c.'\' => ,' }}<br/>
+                @endforeach
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')

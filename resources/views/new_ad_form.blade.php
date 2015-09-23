@@ -51,7 +51,7 @@
                 <div class="portlet" id="form_wizard_1">
                     {{-- FORM --}}
                     <div class="portlet-body form">
-                        <form action="{{ route('new.ad') }}" class="form-horizontal" id="submit_form" method="POST" enctype="multipart/form-data">
+                        <form @if(isset($Ad)&&isset($ad)) action="{{ route('edit.ad') }}" @else action="{{ route('new.ad') }}" @endif class="form-horizontal" id="submit_form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ \Session::token() }}">
                             @if(isset($Ad)&&isset($ad))
                                 <input type="hidden" name="ad_id" value="{{ $Ad->id }}">
@@ -104,7 +104,7 @@
                                         </div>
                                         <div class="alert alert-success common-success display-none">
                                             <button class="close" data-dismiss="alert"></button>
-                                            ¡Formulario validado satisfactoriamente!
+                                            ¡Formulario validado satisfactoriamente! Guardando formulario... Espere unos segundos.
                                         </div>
 
                                         {{--STEP 1--}}
@@ -405,13 +405,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_regular" value="1" data-title="Piso"/> Piso</label>
+                                                            <input type="checkbox" name="is_regular" value="1" data-title="Piso" @if(isset($ad->is_regular)&&$ad->is_regular) checked="checked" @endif /> Piso</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_penthouse" value="1" data-title="&Aacute;tico"/> &Aacute;tico</label>
+                                                            <input type="checkbox" name="is_penthouse" value="1" data-title="&Aacute;tico" @if(isset($ad->is_penthouse)&&$ad->is_penthouse) checked="checked" @endif /> &Aacute;tico</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_duplex" value="1" data-title="D&uacute;plex"/> D&uacute;plex</label>
+                                                            <input type="checkbox" name="is_duplex" value="1" data-title="D&uacute;plex" @if(isset($ad->is_duplex)&&$ad->is_duplex) checked="checked" @endif /> D&uacute;plex</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_studio" value="1" data-title="Estudio/loft"/> Estudio/loft</label>
+                                                            <input type="checkbox" name="is_studio" value="1" data-title="Estudio/loft" @if(isset($ad->is_studio)&&$ad->is_studio) checked="checked" @endif /> Estudio/loft</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -424,13 +424,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="category_house_id" value="1" data-title="Casa o chalet independiente"/>
+                                                            <input type="radio" name="category_house_id" value="1" data-title="Casa o chalet independiente" @if(isset($ad->category_house_id)&&$ad->category_house_id=='1') checked="checked" @endif />
                                                             Casa o chalet independiente </label>
                                                         <label>
-                                                            <input type="radio" name="category_house_id" value="2" data-title="Chalet pareado"/>
+                                                            <input type="radio" name="category_house_id" value="2" data-title="Chalet pareado" @if(isset($ad->category_house_id)&&$ad->category_house_id=='2') checked="checked" @endif />
                                                             Chalet pareado </label>
                                                         <label>
-                                                            <input type="radio" name="category_house_id" value="3" data-title="Chalet adosado"/>
+                                                            <input type="radio" name="category_house_id" value="3" data-title="Chalet adosado" @if(isset($ad->category_house_id)&&$ad->category_house_id=='3') checked="checked" @endif />
                                                             Chalet adosado </label>
                                                     </div>
                                                 </div>
@@ -444,16 +444,16 @@
                                                 <div class="col-md-4">
                                                     <select name="category_country_house_id" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="1">Finca r&uacute;stica</option>
-                                                        <option value="2">Castillo</option>
-                                                        <option value="3">Palacio</option>
-                                                        <option value="4">Mas&iacute;a</option>
-                                                        <option value="5">Cortijo</option>
-                                                        <option value="6">Casa rural</option>
-                                                        <option value="7">Casa de pueblo</option>
-                                                        <option value="8">Casa terrera</option>
-                                                        <option value="9">Torre</option>
-                                                        <option value="10">Caser&oacute;n</option>
+                                                        <option value="1" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='1') selected="selected" @endif >Finca r&uacute;stica</option>
+                                                        <option value="2" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='2') selected="selected" @endif >Castillo</option>
+                                                        <option value="3" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='3') selected="selected" @endif >Palacio</option>
+                                                        <option value="4" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='4') selected="selected" @endif >Mas&iacute;a</option>
+                                                        <option value="5" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='5') selected="selected" @endif >Cortijo</option>
+                                                        <option value="6" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='6') selected="selected" @endif >Casa rural</option>
+                                                        <option value="7" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='7') selected="selected" @endif >Casa de pueblo</option>
+                                                        <option value="8" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='8') selected="selected" @endif >Casa terrera</option>
+                                                        <option value="9" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='9') selected="selected" @endif >Torre</option>
+                                                        <option value="10" @if(isset($ad->category_country_house_id)&&$ad->category_country_house_id=='10') selected="selected" @endif >Caser&oacute;n</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -466,10 +466,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="category_business_id" value="1" data-title="Local comercial"/>
+                                                            <input type="radio" name="category_business_id" value="1" data-title="Local comercial" @if(isset($ad->category_business_id)&&$ad->category_business_id=='1') checked="checked" @endif />
                                                             Local comercial </label>
                                                         <label>
-                                                            <input type="radio" name="category_business_id" value="2" data-title="Nave industrial"/>
+                                                            <input type="radio" name="category_business_id" value="2" data-title="Nave industrial" @if(isset($ad->category_business_id)&&$ad->category_business_id=='2') checked="checked" @endif />
                                                             Nave industrial </label>
                                                     </div>
                                                 </div>
@@ -483,19 +483,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="garage_capacity_id" value="1" data-title="Coche pequeño"/>
+                                                            <input type="radio" name="garage_capacity_id" value="1" data-title="Coche pequeño" @if(isset($ad->garage_capacity_id)&&$ad->garage_capacity_id=='1') checked="checked" @endif />
                                                             Coche pequeño </label>
                                                         <label>
-                                                            <input type="radio" name="garage_capacity_id" value="2" data-title="Coche grande"/>
+                                                            <input type="radio" name="garage_capacity_id" value="2" data-title="Coche grande" @if(isset($ad->garage_capacity_id)&&$ad->garage_capacity_id=='2') checked="checked" @endif />
                                                             Coche grande </label>
                                                         <label>
-                                                            <input type="radio" name="garage_capacity_id" value="3" data-title="Moto"/>
+                                                            <input type="radio" name="garage_capacity_id" value="3" data-title="Moto" @if(isset($ad->garage_capacity_id)&&$ad->garage_capacity_id=='3') checked="checked" @endif />
                                                             Moto </label>
                                                         <label>
-                                                            <input type="radio" name="garage_capacity_id" value="4" data-title="Coche y moto"/>
+                                                            <input type="radio" name="garage_capacity_id" value="4" data-title="Coche y moto" @if(isset($ad->garage_capacity_id)&&$ad->garage_capacity_id=='4') checked="checked" @endif />
                                                             Coche y moto </label>
                                                         <label>
-                                                            <input type="radio" name="garage_capacity_id" value="5" data-title="Dos coches o más"/>
+                                                            <input type="radio" name="garage_capacity_id" value="5" data-title="Dos coches o más" @if(isset($ad->garage_capacity_id)&&$ad->garage_capacity_id=='5') checked="checked" @endif />
                                                             Dos coches o más </label>
                                                     </div>
                                                 </div>
@@ -509,13 +509,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="category_land_id" value="1" data-title="Urbano"/>
+                                                            <input type="radio" name="category_land_id" value="1" data-title="Urbano" @if(isset($ad->category_land_id)&&$ad->category_land_id=='1') checked="checked" @endif />
                                                             Urbano </label>
                                                         <label>
-                                                            <input type="radio" name="category_land_id" value="2" data-title="Urbanizable"/>
+                                                            <input type="radio" name="category_land_id" value="2" data-title="Urbanizable" @if(isset($ad->category_land_id)&&$ad->category_land_id=='2') checked="checked" @endif />
                                                             Urbanizable </label>
                                                         <label>
-                                                            <input type="radio" name="category_land_id" value="3" data-title="No urbanizable"/>
+                                                            <input type="radio" name="category_land_id" value="3" data-title="No urbanizable" @if(isset($ad->category_land_id)&&$ad->category_land_id=='3') checked="checked" @endif />
                                                             No urbanizable </label>
                                                     </div>
                                                 </div>
@@ -529,10 +529,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="category_room_id" value="1" data-title=""/>
+                                                            <input type="radio" name="category_room_id" value="1" data-title="Piso compartido" @if(isset($ad->category_room_id)&&$ad->category_room_id=='1') checked="checked" @endif />
                                                             Piso compartido </label>
                                                         <label>
-                                                            <input type="radio" name="category_room_id" value="2" data-title=""/>
+                                                            <input type="radio" name="category_room_id" value="2" data-title="Chalet compartido" @if(isset($ad->category_room_id)&&$ad->category_room_id=='2') checked="checked" @endif />
                                                             Chalet compartido </label>
                                                     </div>
                                                     <div id="form_category_room_id_error">
@@ -545,7 +545,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_room" />
+                                                        <input type="text" class="form-control" name="area_room" @if(isset($ad->area_room)&&$ad->area_room) value="{!! $ad->area_room !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -556,7 +556,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_people" />
+                                                        <input type="text" class="form-control" name="n_people" @if(isset($ad->n_people)&&$ad->n_people) value="{!! $ad->n_people !!}" @endif  />
                                                     </div>
                                                     <div id="form_n_people_error">
                                                     </div>
@@ -572,7 +572,7 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="needs_restoration" value="1" data-title="Necesita reformas"/> Necesita reformas</label>
+                                                            <input type="checkbox" name="needs_restoration" value="1" data-title="Necesita reformas" @if(isset($ad->needs_restoration)&&$ad->needs_restoration) checked="checked" @endif /> Necesita reformas</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -583,7 +583,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_constructed" />
+                                                        <input type="text" class="form-control" name="area_constructed" @if(isset($ad->area_constructed)&&$ad->area_constructed) value="{!! $ad->area_constructed !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -594,7 +594,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_usable" />
+                                                        <input type="text" class="form-control" name="area_usable" @if(isset($ad->area_usable)&&$ad->area_usable) value="{!! $ad->area_usable !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -607,7 +607,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_land" />
+                                                        <input type="text" class="form-control" name="area_land" @if(isset($ad->area_land)&&$ad->area_land) value="{!! $ad->area_land !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -620,7 +620,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_total" />
+                                                        <input type="text" class="form-control" name="area_total" @if(isset($ad->area_total)&&$ad->area_total) value="{!! $ad->area_total !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -631,7 +631,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_building_land" />
+                                                        <input type="text" class="form-control" name="area_building_land" @if(isset($ad->area_building_land)&&$ad->area_building_land) value="{!! $ad->area_building_land !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -644,7 +644,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_min_for_sale" />
+                                                        <input type="text" class="form-control" name="area_min_for_sale" @if(isset($ad->area_min_for_sale)&&$ad->area_min_for_sale) value="{!! $ad->area_min_for_sale !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -658,19 +658,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="business_distribution_id" value="1" data-title="Di&aacute;fana"/>
+                                                            <input type="radio" name="business_distribution_id" value="1" data-title="Di&aacute;fana" @if(isset($ad->business_distribution_id)&&$ad->business_distribution_id=='1') checked="checked" @endif />
                                                             Di&aacute;fana </label>
                                                         <label>
-                                                            <input type="radio" name="business_distribution_id" value="2" data-title="1-2 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="2" data-title="1-2 estancias" @if(isset($ad->business_distribution_id)&&$ad->business_distribution_id=='2') checked="checked" @endif />
                                                             1-2 estancias </label>
                                                         <label>
-                                                            <input type="radio" name="business_distribution_id" value="3" data-title="3-5 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="3" data-title="3-5 estancias" @if(isset($ad->business_distribution_id)&&$ad->business_distribution_id=='3') checked="checked" @endif />
                                                             3-5 estancias </label>
                                                         <label>
-                                                            <input type="radio" name="business_distribution_id" value="4" data-title="5-10 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="4" data-title="5-10 estancias" @if(isset($ad->business_distribution_id)&&$ad->business_distribution_id=='4') checked="checked" @endif />
                                                             5-10 estancias </label>
                                                         <label>
-                                                            <input type="radio" name="business_distribution_id" value="5" data-title="M&aacute; de 10 estancias"/>
+                                                            <input type="radio" name="business_distribution_id" value="5" data-title="M&aacute; de 10 estancias" @if(isset($ad->business_distribution_id)&&$ad->business_distribution_id=='5') checked="checked" @endif />
                                                             M&aacute;s de 10 estancias </label>
                                                     </div>
                                                 </div>
@@ -682,19 +682,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="business_facade_id" value="1" data-title="Sin fachada"/>
+                                                            <input type="radio" name="business_facade_id" value="1" data-title="Sin fachada" @if(isset($ad->business_facade_id)&&$ad->business_facade_id=='1') checked="checked" @endif />
                                                             Sin fachada </label>
                                                         <label>
-                                                            <input type="radio" name="business_facade_id" value="2" data-title="1 a 4 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="2" data-title="1 a 4 metros" @if(isset($ad->business_facade_id)&&$ad->business_facade_id=='2') checked="checked" @endif />
                                                             1 a 4 metros </label>
                                                         <label>
-                                                            <input type="radio" name="business_facade_id" value="3" data-title="5 a 8 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="3" data-title="5 a 8 metros" @if(isset($ad->business_facade_id)&&$ad->business_facade_id=='3') checked="checked" @endif />
                                                             5 a 8 metros </label>
                                                         <label>
-                                                            <input type="radio" name="business_facade_id" value="4" data-title="9 a 12 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="4" data-title="9 a 12 metros" @if(isset($ad->business_facade_id)&&$ad->business_facade_id=='4') checked="checked" @endif />
                                                             9 a 12 metros </label>
                                                         <label>
-                                                            <input type="radio" name="business_facade_id" value="5" data-title="M&aacute; de 12 metros"/>
+                                                            <input type="radio" name="business_facade_id" value="5" data-title="M&aacute; de 12 metros" @if(isset($ad->business_facade_id)&&$ad->business_facade_id=='5') checked="checked" @endif />
                                                             M&aacute; de 12 metros </label>
                                                     </div>
                                                 </div>
@@ -705,7 +705,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_shop_windows" value="" />
+                                                        <input type="text" class="form-control" name="n_shop_windows" @if(isset($ad->n_shop_windows)&&$ad->n_shop_windows) value="{!! $ad->n_shop_windows !!}" @endif />
                                                     </div>
                                                     <div id="form_n_shop_windows">
                                                     </div>
@@ -719,19 +719,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="business_location_id" value="1" data-title="En centro comercial"/>
+                                                            <input type="radio" name="business_location_id" value="1" data-title="En centro comercial"  @if(isset($ad->business_location_id)&&$ad->business_location_id=='1') checked="checked" @endif />
                                                             En centro comercial </label>
                                                         <label>
-                                                            <input type="radio" name="business_location_id" value="2" data-title="A pie de calle"/>
+                                                            <input type="radio" name="business_location_id" value="2" data-title="A pie de calle" @if(isset($ad->business_location_id)&&$ad->business_location_id=='2') checked="checked" @endif />
                                                             A pie de calle </label>
                                                         <label>
-                                                            <input type="radio" name="business_location_id" value="3" data-title="Entreplanta"/>
+                                                            <input type="radio" name="business_location_id" value="3" data-title="Entreplanta" @if(isset($ad->business_location_id)&&$ad->business_location_id=='3') checked="checked" @endif />
                                                             Entreplanta </label>
                                                          <label>
-                                                            <input type="radio" name="business_location_id" value="4" data-title="Subterr&aacute;neo"/>
+                                                            <input type="radio" name="business_location_id" value="4" data-title="Subterr&aacute;neo" @if(isset($ad->business_location_id)&&$ad->business_location_id=='4') checked="checked" @endif />
                                                              Subterr&aacute;neo </label>
                                                         <label>
-                                                            <input type="radio" name="business_location_id" value="5" data-title="Otros"/>
+                                                            <input type="radio" name="business_location_id" value="5" data-title="Otros" @if(isset($ad->business_location_id)&&$ad->business_location_id=='5') checked="checked" @endif />
                                                             Otros </label>
                                                     </div>
                                                 </div>
@@ -742,7 +742,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="last_activity" value="" />
+                                                        <input type="text" class="form-control" name="last_activity" @if(isset($ad->last_activity)&&$ad->last_activity) value="{!! $ad->last_activity !!}" @endif />
                                                     </div>
                                                     <span class="help-block"></span>
                                                 </div>
@@ -755,7 +755,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_floors" value="" />
+                                                        <input type="text" class="form-control" name="n_floors" @if(isset($ad->n_floors)&&$ad->n_floors) value="{!! $ad->n_floors !!}" @endif />
                                                     </div>
                                                     <div id="form_n_floors_error"></div>
                                                     <span class="help-block"></span>
@@ -769,7 +769,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_bedrooms" />
+                                                        <input type="text" class="form-control" name="n_bedrooms" @if(isset($ad->n_bedrooms)&&$ad->n_bedrooms) value="{!! $ad->n_bedrooms !!}" @endif />
                                                     </div>
                                                     <div id="form_n_bedrooms_error">
                                                     </div>
@@ -784,7 +784,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_bathrooms" />
+                                                        <input type="text" class="form-control" name="n_bathrooms" @if(isset($ad->n_bathrooms)&&$ad->n_bathrooms) value="{!! $ad->n_bathrooms !!}" @endif />
                                                     </div>
                                                     <div id="form_n_bathrooms_error">
                                                     </div>
@@ -799,7 +799,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_restrooms" />
+                                                        <input type="text" class="form-control" name="n_restrooms" @if(isset($ad->n_restrooms)&&$ad->n_restrooms) value="{!! $ad->n_restrooms !!}" @endif />
                                                     </div>
                                                     <div id="form_n_restrooms_error">
                                                     </div>
@@ -815,9 +815,9 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_bathrooms" value="1" data-title="Disponen de baño"/> Disponen de baño</label>
+                                                            <input type="checkbox" name="has_bathrooms" value="1" data-title="Disponen de baño" @if(isset($ad->has_bathrooms)&&$ad->has_bathrooms) checked="checked" @endif /> Disponen de baño</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_bathrooms_inside" value="1" data-title="Están dentro de las oficinas"/> Están dentro de las oficinas</label>
+                                                            <input type="checkbox" name="has_bathrooms_inside" value="1" data-title="Están dentro de las oficinas" @if(isset($ad->has_bathrooms_inside)&&$ad->has_bathrooms_inside) checked="checked" @endif /> Están dentro de las oficinas</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -830,10 +830,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="is_exterior" value="1" data-title="Exterior"/>
+                                                            <input type="radio" name="is_exterior" value="1" data-title="Exterior" @if(isset($ad->is_exterior)&&$ad->is_exterior) checked="checked" @endif />
                                                             Exterior </label>
                                                         <label>
-                                                            <input type="radio" name="is_exterior" value="0" data-title="Interior"/>
+                                                            <input type="radio" name="is_exterior" value="0" data-title="Interior" @if(isset($ad->is_exterior)&&!$ad->is_exterior) checked="checked" @endif />
                                                             Interior </label>
                                                     </div>
                                                 </div>
@@ -847,13 +847,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="office_distribution_id" value="1" data-title="Di&aacute;fana"/>
+                                                            <input type="radio" name="office_distribution_id" value="1" data-title="Di&aacute;fana" @if(isset($ad->office_distribution_id)&&$ad->office_distribution_id=='1') checked="checked" @endif />
                                                             Di&aacute;fana </label>
                                                         <label>
-                                                            <input type="radio" name="office_distribution_id" value="2" data-title="Dividida con mamparas"/>
+                                                            <input type="radio" name="office_distribution_id" value="2" data-title="Dividida con mamparas" @if(isset($ad->office_distribution_id)&&$ad->office_distribution_id=='2') checked="checked" @endif />
                                                             Dividida con mamparas </label>
                                                         <label>
-                                                            <input type="radio" name="office_distribution_id" value="3" data-title="Dividida con tabiques"/>
+                                                            <input type="radio" name="office_distribution_id" value="3" data-title="Dividida con tabiques" @if(isset($ad->office_distribution_id)&&$ad->office_distribution_id=='3') checked="checked" @endif />
                                                             Dividida con tabiques </label>
                                                     </div>
                                                 </div>
@@ -865,10 +865,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_offices_only" value="1" data-title="S&iacute;"/>
+                                                            <input type="radio" name="has_offices_only" value="1" data-title="S&iacute;" @if(isset($ad->has_offices_only)&&$ad->has_offices_only) checked="checked" @endif />
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="has_offices_only" value="0" data-title="No"/>
+                                                            <input type="radio" name="has_offices_only" value="0" data-title="No" @if(isset($ad->has_offices_only)&&!$ad->has_offices_only) checked="checked" @endif />
                                                             No </label>
                                                     </div>
                                                 </div>
@@ -882,13 +882,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="current_tenants_gender_id" value="1" data-title="Chico(s) y chica(s)"/>
+                                                            <input type="radio" name="current_tenants_gender_id" value="1" data-title="Chico(s) y chica(s)" @if(isset($ad->current_tenants_gender_id)&&$ad->current_tenants_gender_id=='1') checked="checked" @endif />
                                                             Chico(s) y chica(s) </label>
                                                         <label>
-                                                            <input type="radio" name="current_tenants_gender_id" value="2" data-title="S&oacute;lo chico(s)"/>
+                                                            <input type="radio" name="current_tenants_gender_id" value="2" data-title="S&oacute;lo chico(s)" @if(isset($ad->current_tenants_gender_id)&&$ad->current_tenants_gender_id=='2') checked="checked" @endif />
                                                             S&oacute;lo chico(s) </label>
                                                         <label>
-                                                            <input type="radio" name="current_tenants_gender_id" value="3" data-title="S&oacute;lo chica(s)"/>
+                                                            <input type="radio" name="current_tenants_gender_id" value="3" data-title="S&oacute;lo chica(s)" @if(isset($ad->current_tenants_gender_id)&&$ad->current_tenants_gender_id=='3') checked="checked" @endif />
                                                             S&oacute;lo chica(s) </label>
                                                     </div>
                                                     <div id="form_currrent_tenants_gender_id_error"></div>
@@ -903,10 +903,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="is_smoking_allowed" value="1" data-title="S&iacute;"/>
+                                                            <input type="radio" name="is_smoking_allowed" value="1" data-title="S&iacute;" @if(isset($ad->is_smoking_allowed)&&$ad->is_smoking_allowed) checked="checked" @endif />
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="is_smoking_allowed" value="0" data-title="No"/>
+                                                            <input type="radio" name="is_smoking_allowed" value="0" data-title="No" @if(isset($ad->is_smoking_allowed)&&!$ad->is_smoking_allowed) checked="checked" @endif />
                                                             No </label>
                                                     </div>
                                                     <div id="form_is_smoking_allowed_error">
@@ -920,10 +920,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="is_pet_allowed" value="1" data-title="S&iacute;"/>
+                                                            <input type="radio" name="is_pet_allowed" value="1" data-title="S&iacute;" @if(isset($ad->is_pet_allowed)&&$ad->is_pet_allowed) checked="checked" @endif />
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="is_pet_allowed" value="0" data-title="No"/>
+                                                            <input type="radio" name="is_pet_allowed" value="0" data-title="No" @if(isset($ad->is_pet_allowed)&&!$ad->is_pet_allowed) checked="checked" @endif />
                                                             No </label>
                                                     </div>
                                                     <div id="form_is_pet_allowed_error"></div>
@@ -937,7 +937,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="min_current_tenants_age"/>
+                                                        <input type="text" class="form-control" name="min_current_tenants_age" @if(isset($ad->min_current_tenants_age)&&$ad->min_current_tenants_age) value="{!! $ad->min_current_tenants_age !!}" @endif />
                                                         <span class="input-group-addon">a&ntilde;os</span>
                                                         <span class="help-block"></span>
                                                     </div>
@@ -949,7 +949,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="max_current_tenants_age"/>
+                                                        <input type="text" class="form-control" name="max_current_tenants_age" @if(isset($ad->max_current_tenants_age)&&$ad->max_current_tenants_age) value="{!! $ad->max_current_tenants_age !!}" @endif />
                                                         <span class="input-group-addon">a&ntilde;os</span>
                                                         <span class="help-block"></span>
                                                     </div>
@@ -964,9 +964,9 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_equipped_kitchen" value="1" data-title="Cocina completamente equipada"/> Cocina completamente equipada</label>
+                                                            <input type="checkbox" name="has_equipped_kitchen" value="1" data-title="Cocina completamente equipada" @if(isset($ad->has_equipped_kitchen)&&$ad->has_equipped_kitchen) checked="checked" @endif /> Cocina completamente equipada</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_furniture" value="1" data-title="Vivienda amueblada"/> Vivienda amueblada</label>
+                                                            <input type="checkbox" name="has_furniture" value="1" data-title="Vivienda amueblada" @if(isset($ad->has_furniture)&&$ad->has_furniture) checked="checked" @endif /> Vivienda amueblada</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -979,10 +979,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_elevator" value="1" data-title="S&iacute;"/>
+                                                            <input type="radio" name="has_elevator" value="1" data-title="S&iacute;" @if(isset($ad->has_elevator)&&$ad->has_elevator) checked="checked" @endif />
                                                             S&iacute; </label>
                                                         <label>
-                                                            <input type="radio" name="has_elevator" value="0" data-title="No"/>
+                                                            <input type="radio" name="has_elevator" value="0" data-title="No" @if(isset($ad->has_elevator)&&!$ad->has_elevator) checked="checked" @endif />
                                                             No </label>
                                                     </div>
                                                     <div id="form_has_elevator_error"></div>
@@ -996,7 +996,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_elevators" />
+                                                        <input type="text" class="form-control" name="n_elevators" @if(isset($ad->n_elevators)&&$ad->n_elevators) value="{!! $ad->n_elevators !!}" @endif />
                                                     </div>
                                                     <div id="form_n_elevators_error">
                                                     </div>
@@ -1012,16 +1012,16 @@
                                                 <div class="col-md-4">
                                                     <select name="energy_certification_id" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="1">A&uacute;n no dispone</option>
-                                                        <option value="2">A</option>
-                                                        <option value="3">B</option>
-                                                        <option value="4">C</option>
-                                                        <option value="5">D</option>
-                                                        <option value="6">E</option>
-                                                        <option value="7">F</option>
-                                                        <option value="8">G</option>
-                                                        <option value="9">Inmueble exento</option>
-                                                        <option value="10">En tr&aacute;mite</option>
+                                                        <option value="1" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='1') selected="selected" @endif >A&uacute;n no dispone</option>
+                                                        <option value="2" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='2') selected="selected" @endif >A</option>
+                                                        <option value="3" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='3') selected="selected" @endif >B</option>
+                                                        <option value="4" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='4') selected="selected" @endif >C</option>
+                                                        <option value="5" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='5') selected="selected" @endif >D</option>
+                                                        <option value="6" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='6') selected="selected" @endif >E</option>
+                                                        <option value="7" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='7') selected="selected" @endif >F</option>
+                                                        <option value="8" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='8') selected="selected" @endif >G</option>
+                                                        <option value="9" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='9') selected="selected" @endif >Inmueble exento</option>
+                                                        <option value="10" @if(isset($ad->energy_certification_id)&&$ad->energy_certification_id=='10') selected="selected" @endif >En tr&aacute;mite</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1031,7 +1031,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="energy_performance" />
+                                                        <input type="text" class="form-control" name="energy_performance" @if(isset($ad->energy_performance)&&$ad->energy_performance) value="{!! $ad->energy_performance !!}" @endif />
                                                         <span class="input-group-addon">kWh/m&sup2;</span>
                                                     </div>
                                                 </div>
@@ -1045,13 +1045,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="faces_north" value="1" data-title="Norte"/> Norte</label>
+                                                            <input type="checkbox" name="faces_north" value="1" data-title="Norte" @if(isset($ad->faces_north)&&$ad->faces_north) checked="checked" @endif /> Norte</label>
                                                         <label>
-                                                            <input type="checkbox" name="faces_south" value="1" data-title="Sur"/> Sur</label>
+                                                            <input type="checkbox" name="faces_south" value="1" data-title="Sur" @if(isset($ad->faces_south)&&$ad->faces_south) checked="checked" @endif /> Sur</label>
                                                         <label>
-                                                            <input type="checkbox" name="faces_east" value="1" data-title="Este"/> Este</label>
+                                                            <input type="checkbox" name="faces_east" value="1" data-title="Este" @if(isset($ad->faces_east)&&$ad->faces_east) checked="checked" @endif /> Este</label>
                                                         <label>
-                                                            <input type="checkbox" name="faces_west" value="1" data-title="Oeste"/> Oeste</label>
+                                                            <input type="checkbox" name="faces_west" value="1" data-title="Oeste" @if(isset($ad->faces_west)&&$ad->faces_west) checked="checked" @endif /> Oeste</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1062,19 +1062,21 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_builtin_closets" value="1" data-title="Armarios empotrados"/> Armarios empotrados</label>
+                                                            <input type="checkbox" name="has_builtin_closets" value="1" data-title="Armarios empotrados" @if(isset($ad->has_builtin_closets)&&$ad->has_builtin_closets) checked="checked" @endif /> Armarios empotrados</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado" @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) checked="checked" @endif /> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_terrace" value="1" data-title="Terraza"/> Terraza</label>
+                                                            <input type="checkbox" name="has_terrace" value="1" data-title="Terraza" @if(isset($ad->has_terrace)&&$ad->has_terrace) checked="checked" @endif /> Terraza</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_box_room" value="1" data-title="Trastero"/> Trastero</label>
+                                                            <input type="checkbox" name="has_box_room" value="1" data-title="Trastero" @if(isset($ad->has_box_room)&&$ad->has_box_room) checked="checked" @endif /> Trastero</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_parking_space" value="1" data-title="Plaza de garaje @if($operation=='0') incluida en el precio @endif "/> Plaza de garaje
+                                                            <input type="checkbox" name="has_parking_space" value="1" data-title="Plaza de garaje @if($operation=='0') incluida en el precio @endif " @if(isset($ad->has_parking_space)&&$ad->has_parking_space) checked="checked" @endif /> Plaza de garaje
                                                             @if($operation=='0') incluida en el precio @endif
                                                         </label>
+                                                        @if($typology!='0')
                                                         <label>
-                                                            <input type="checkbox" name="has_fireplace" value="1" data-title="Chimenea"/> Chimenea</label>
+                                                            <input type="checkbox" name="has_fireplace" value="1" data-title="Chimenea" @if(isset($ad->has_fireplace)&&$ad->has_fireplace) checked="checked" @endif /> Chimenea</label>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -1085,9 +1087,9 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_swimming_pool" value="1" data-title="Piscina"/> Piscina</label>
+                                                            <input type="checkbox" name="has_swimming_pool" value="1" data-title="Piscina" @if(isset($ad->has_swimming_pool)&&$ad->has_swimming_pool) checked="checked" @endif /> Piscina</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_garden" value="1" data-title="Zona verde"/> Zona verde</label>
+                                                            <input type="checkbox" name="has_garden" value="1" data-title="Zona verde" @if(isset($ad->has_garden)&&$ad->has_garden) checked="checked" @endif /> Zona verde</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1099,7 +1101,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_parking_spaces" />
+                                                        <input type="text" class="form-control" name="n_parking_spaces" @if(isset($ad->n_parking_spaces)&&$ad->n_parking_spaces) value="{!! $ad->n_parking_spaces !!}" @endif />
                                                     </div>
                                                     <div id="form_n_parking_error">
                                                     </div>
@@ -1113,23 +1115,23 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_steel_door" value="1" data-title="Puerta de seguridad"/> Puerta de seguridad</label>
+                                                            <input type="checkbox" name="has_steel_door" value="1" data-title="Puerta de seguridad" @if(isset($ad->has_steel_door)&&$ad->has_steel_door) checked="checked" @endif /> Puerta de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_security_system" value="1" data-title="Sistema de alarma/circuito cerrado de seguridad"/> Sistema de alarma/circuito cerrado de seguridad</label>
+                                                            <input type="checkbox" name="has_security_system" value="1" data-title="Sistema de alarma/circuito cerrado de seguridad" @if(isset($ad->has_security_system)&&$ad->has_security_system) checked="checked" @endif /> Sistema de alarma/circuito cerrado de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_access_control" value="1" data-title="Control de accesos"/> Control de accesos</label>
+                                                            <input type="checkbox" name="has_access_control" value="1" data-title="Control de accesos" @if(isset($ad->has_access_control)&&$ad->has_access_control) checked="checked" @endif /> Control de accesos</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fire_detectors" value="1" data-title="Detectores de icendios"/> Detectores de icendios</label>
+                                                            <input type="checkbox" name="has_fire_detectors" value="1" data-title="Detectores de icendios" @if(isset($ad->has_fire_detectors)&&$ad->has_fire_detectors) checked="checked" @endif /> Detectores de icendios</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fire_extinguishers" value="1" data-title="Extintores"/> Extintores</label>
+                                                            <input type="checkbox" name="has_fire_extinguishers" value="1" data-title="Extintores" @if(isset($ad->has_fire_extinguishers)&&$ad->has_fire_extinguishers) checked="checked" @endif /> Extintores</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fire_sprinklers" value="1" data-title="Aspersores"/> Aspersores</label>
+                                                            <input type="checkbox" name="has_fire_sprinklers" value="1" data-title="Aspersores" @if(isset($ad->has_fire_sprinklers)&&$ad->has_fire_sprinklers) checked="checked" @endif /> Aspersores</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fireproof_doors" value="1" data-title="Puerta cortafuegos"/> Puerta cortafuegos</label>
+                                                            <input type="checkbox" name="has_fireproof_doors" value="1" data-title="Puerta cortafuegos" @if(isset($ad->has_fireproof_doors)&&$ad->has_fireproof_doors) checked="checked" @endif /> Puerta cortafuegos</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_emergency_lights" value="1" data-title="Luces de salida de emergencia"/> Luces de salida de emergencia</label>
+                                                            <input type="checkbox" name="has_emergency_lights" value="1" data-title="Luces de salida de emergencia" @if(isset($ad->has_emergency_lights)&&$ad->has_emergency_lights) checked="checked" @endif /> Luces de salida de emergencia</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_doorman" value="1" data-title="Conserje/portero/seguridad"/> Conserje/portero/seguridad</label>
+                                                            <input type="checkbox" name="has_doorman" value="1" data-title="Conserje/portero/seguridad" @if(isset($ad->has_doorman)&&$ad->has_doorman) checked="checked" @endif /> Conserje/portero/seguridad</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1140,13 +1142,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado" @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) checked="checked" @endif /> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning_preinstallation" value="1" data-title="Preinstalación de aire acondicionado"/> Preinstalación de aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning_preinstallation" value="1" data-title="Preinstalación de aire acondicionado" @if(isset($ad->has_air_conditioning_preinstallation)&&$ad->has_air_conditioning_preinstallation) checked="checked" @endif /> Preinstalación de aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_heating" value="1" data-title="Calefacción"/> Calefacción</label>
+                                                            <input type="checkbox" name="has_heating" value="1" data-title="Calefacción" @if(isset($ad->has_heating)&&$ad->has_heating) checked="checked" @endif /> Calefacción</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_hot_water" value="1" data-title="Agua caliente"/> Agua caliente</label>
+                                                            <input type="checkbox" name="has_hot_water" value="1" data-title="Agua caliente" @if(isset($ad->has_hot_water)&&$ad->has_hot_water) checked="checked" @endif /> Agua caliente</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1157,15 +1159,15 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_kitchen" value="1" data-title="Cocina/office"/> Cocina/office</label>
+                                                            <input type="checkbox" name="has_kitchen" value="1" data-title="Cocina/office" @if(isset($ad->has_kitchen)&&$ad->has_kitchen) checked="checked" @endif /> Cocina/office</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_archive" value="1" data-title="Almac&eacute;n"/> Almac&eacute;n</label>
+                                                            <input type="checkbox" name="has_archive" value="1" data-title="Almac&eacute;n" @if(isset($ad->has_archive)&&$ad->has_archive) checked="checked" @endif /> Almac&eacute;n</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_double_windows" value="1" data-title="Doble acristalamiento"/> Doble acristalamiento</label>
+                                                            <input type="checkbox" name="has_double_windows" value="1" data-title="Doble acristalamiento" @if(isset($ad->has_double_windows)&&$ad->has_double_windows) checked="checked" @endif /> Doble acristalamiento</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_suspended_ceiling" value="1" data-title="Falso techo"/> Falso techo</label>
+                                                            <input type="checkbox" name="has_suspended_ceiling" value="1" data-title="Falso techo" @if(isset($ad->has_suspended_ceiling)&&$ad->has_suspended_ceiling) checked="checked" @endif /> Falso techo</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_suspended_floor" value="1" data-title="Suelo t&eacute;cnico"/> Suelo t&eacute;cnico</label>
+                                                            <input type="checkbox" name="has_suspended_floor" value="1" data-title="Suelo t&eacute;cnico" @if(isset($ad->has_suspended_floor)&&$ad->has_suspended_floor) checked="checked" @endif /> Suelo t&eacute;cnico</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1176,7 +1178,7 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_handicapped_adapted" value="1" data-title="Adaptado a personas con movilidad reducida"/> Adaptado a personas con movilidad reducida</label>
+                                                            <input type="checkbox" name="is_handicapped_adapted" value="1" data-title="Adaptado a personas con movilidad reducida" @if(isset($ad->is_handicapped_adapted)&&$ad->is_handicapped_adapted) checked="checked" @endif /> Adaptado a personas con movilidad reducida</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1189,23 +1191,23 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_archive" value="1" data-title="Almac&eacute;n"/> Almac&eacute;n</label>
+                                                            <input type="checkbox" name="has_archive" value="1" data-title="Almac&eacute;n" @if(isset($ad->has_archive)&&$ad->has_archive) checked="checked" @endif /> Almac&eacute;n</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_smoke_extractor" value="1" data-title="Salida de humos"/> Salida de humos</label>
+                                                            <input type="checkbox" name="has_smoke_extractor" value="1" data-title="Salida de humos" @if(isset($ad->has_smoke_extractor)&&$ad->has_smoke_extractor) checked="checked" @endif /> Salida de humos</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_fully_equipped_kitchen" value="1" data-title="Cocina completamente equipada"/> Cocina completamente equipada</label>
+                                                            <input type="checkbox" name="has_fully_equipped_kitchen" value="1" data-title="Cocina completamente equipada" @if(isset($ad->has_fully_equipped_kitchen)&&$ad->has_fully_equipped_kitchen) checked="checked" @endif /> Cocina completamente equipada</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_steel_door" value="1" data-title="Puerta de seguridad"/> Puerta de seguridad</label>
+                                                            <input type="checkbox" name="has_steel_door" value="1" data-title="Puerta de seguridad" @if(isset($ad->has_steel_door)&&$ad->has_steel_door) checked="checked" @endif /> Puerta de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_alarm" value="1" data-title="Sistema de alarma"/> Sistema de alarma</label>
+                                                            <input type="checkbox" name="has_alarm" value="1" data-title="Sistema de alarma" @if(isset($ad->has_alarm)&&$ad->has_alarm) checked="checked" @endif /> Sistema de alarma</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado" @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) checked="checked" @endif /> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_heating" value="1" data-title="Calefacci&oacute;n"/> Calefacci&oacute;n</label>
+                                                            <input type="checkbox" name="has_heating" value="1" data-title="Calefacci&oacute;n" @if(isset($ad->has_heating)&&$ad->has_heating) checked="checked" @endif /> Calefacci&oacute;n</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_security_camera" value="1" data-title="Circuito cerrado de seguridad"/> Circuito cerrado de seguridad</label>
+                                                            <input type="checkbox" name="has_security_camera" value="1" data-title="Circuito cerrado de seguridad" @if(isset($ad->has_security_camera)&&$ad->has_security_camera) checked="checked" @endif /> Circuito cerrado de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_corner_located" value="1" data-title="Hace esquina"/> Hace esquina</label>
+                                                            <input type="checkbox" name="is_corner_located" value="1" data-title="Hace esquina" @if(isset($ad->is_corner_located)&&$ad->is_corner_located) checked="checked" @endif /> Hace esquina</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1218,17 +1220,17 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_covered" value="1" data-title="Cubierto"/> Cubierto</label>
+                                                            <input type="checkbox" name="is_covered" value="1" data-title="Cubierto" @if(isset($ad->is_covered)&&$ad->is_covered) checked="checked" @endif /> Cubierto</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_automatic_door" value="1" data-title="Puerta automática"/> Puerta automática</label>
+                                                            <input type="checkbox" name="has_automatic_door" value="1" data-title="Puerta automática" @if(isset($ad->has_automatic_door)&&$ad->has_automatic_door) checked="checked" @endif /> Puerta automática</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_lift" value="1" data-title="Ascensor"/> Ascensor</label>
+                                                            <input type="checkbox" name="has_lift" value="1" data-title="Ascensor" @if(isset($ad->has_lift)&&$ad->has_lift) checked="checked" @endif /> Ascensor</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_alarm" value="1" data-title="Sistema de alarma"/> Sistema de alarma</label>
+                                                            <input type="checkbox" name="has_alarm" value="1" data-title="Sistema de alarma" @if(isset($ad->has_alarm)&&$ad->has_alarm) checked="checked" @endif /> Sistema de alarma</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_security_camera" value="1" data-title="Circuito cerrado de seguridad"/> Circuito cerrado de seguridad</label>
+                                                            <input type="checkbox" name="has_security_camera" value="1" data-title="Circuito cerrado de seguridad" @if(isset($ad->has_security_camera)&&$ad->has_security_camera) checked="checked" @endif /> Circuito cerrado de seguridad</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_security_guard" value="1" data-title="Vigilante/seguridad"/> Vigilante/seguridad</label>
+                                                            <input type="checkbox" name="has_security_guard" value="1" data-title="Vigilante/seguridad" @if(isset($ad->has_security_guard)&&$ad->has_security_guard) checked="checked" @endif /> Vigilante/seguridad</label>
                                                    </div>
                                                 </div>
                                             </div>
@@ -1241,21 +1243,21 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_residential_block" value="1" data-title="Residencial en altura (bloques)"/> Residencial en altura (bloques)</label>
+                                                            <input type="checkbox" name="is_classified_residential_block" value="1" data-title="Residencial en altura (bloques)" @if(isset($ad->is_classified_residential_block)&&$ad->is_classified_residential_block) checked="checked" @endif /> Residencial en altura (bloques)</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_residential_house" value="1" data-title="Residencial unifamiliar (chalets)"/> Residencial unifamiliar (chalets)</label>
+                                                            <input type="checkbox" name="is_classified_residential_house" value="1" data-title="Residencial unifamiliar (chalets)" @if(isset($ad->is_classified_residential_house)&&$ad->is_classified_residential_house) checked="checked" @endif /> Residencial unifamiliar (chalets)</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_office" value="1" data-title="Terciario oficinas"/> Terciario oficinas</label>
+                                                            <input type="checkbox" name="is_classified_office" value="1" data-title="Terciario oficinas" @if(isset($ad->is_classified_office)&&$ad->is_classified_office) checked="checked" @endif /> Terciario oficinas</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_commercial" value="1" data-title="Terciario comercial"/> Terciario comercial</label>
+                                                            <input type="checkbox" name="is_classified_commercial" value="1" data-title="Terciario comercial" @if(isset($ad->is_classified_commercial)&&$ad->is_classified_commercial) checked="checked" @endif /> Terciario comercial</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_hotel" value="1" data-title="Terciario hoteles"/> Terciario hoteles</label>
+                                                            <input type="checkbox" name="is_classified_hotel" value="1" data-title="Terciario hoteles" @if(isset($ad->is_classified_hotel)&&$ad->is_classified_hotel) checked="checked" @endif /> Terciario hoteles</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_industrial" value="1" data-title="Industrial"/> Industrial</label>
+                                                            <input type="checkbox" name="is_classified_industrial" value="1" data-title="Industrial" @if(isset($ad->is_classified_industrial)&&$ad->is_classified_industrial) checked="checked" @endif /> Industrial</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_public_service" value="1" data-title="Dotaciones (hospitales, escuelas, museos)"/> Dotaciones (hospitales, escuelas, museos)</label>
+                                                            <input type="checkbox" name="is_classified_public_service" value="1" data-title="Dotaciones (hospitales, escuelas, museos)" @if(isset($ad->is_classified_public_service)&&$ad->is_classified_public_service) checked="checked" @endif /> Dotaciones (hospitales, escuelas, museos)</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_classified_others" value="1" data-title="Otras"/> Otras</label>
+                                                            <input type="checkbox" name="is_classified_others" value="1" data-title="Otras" @if(isset($ad->is_classified_others)&&$ad->is_classified_others) checked="checked" @endif /> Otras</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1265,7 +1267,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="max_floors_allowed" />
+                                                        <input type="text" class="form-control" name="max_floors_allowed" @if(isset($ad->max_floors_allowed)&&$ad->max_floors_allowed) value="{!! $ad->max_floors_allowed !!}" @endif />
                                                     </div>
                                                     <div id="form_max_floors_allowed_error">
                                                     </div>
@@ -1279,10 +1281,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_road_access" value="1" data-title="S&iacute;, tiene"/>
+                                                            <input type="radio" name="has_road_access" value="1" data-title="S&iacute;, tiene" @if(isset($ad->has_road_access)&&$ad->has_road_access) checked="checked" @endif />
                                                             S&iacute;,tiene</label>
                                                         <label>
-                                                            <input type="radio" name="has_road_access" value="0" data-title="No disponible"/>
+                                                            <input type="radio" name="has_road_access" value="0" data-title="No disponible" @if(isset($ad->has_road_access)&&!$ad->has_road_access) checked="checked" @endif />
                                                             No disponible</label>
                                                     </div>
                                                     <div id="form_has_road_access_error">
@@ -1296,14 +1298,14 @@
                                                 <div class="col-md-4">
                                                     <select name="nearest_town_distance_id" class="form-control">
                                                         <option value="">Seleccione</option>
-                                                        <option value="1">No lo sé</option>
-                                                        <option value="2">En núcleo urbano</option>
-                                                        <option value="3">Menos de 500 m</option>
-                                                        <option value="4">Entre 500 m y 1 km</option>
-                                                        <option value="5">De 1 a 2 km</option>
-                                                        <option value="6">De 2 a 5 km</option>
-                                                        <option value="7">De 5 a 10 km</option>
-                                                        <option value="8">Más de 10 km</option>
+                                                        <option value="1" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='1') selected="selected" @endif >No lo sé</option>
+                                                        <option value="2" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='2') selected="selected" @endif >En núcleo urbano</option>
+                                                        <option value="3" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='3') selected="selected" @endif >Menos de 500 m</option>
+                                                        <option value="4" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='4') selected="selected" @endif >Entre 500 m y 1 km</option>
+                                                        <option value="5" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='5') selected="selected" @endif >De 1 a 2 km</option>
+                                                        <option value="6" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='6') selected="selected" @endif >De 2 a 5 km</option>
+                                                        <option value="7" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='7') selected="selected" @endif >De 5 a 10 km</option>
+                                                        <option value="8" @if(isset($ad->nearest_town_distance_id)&&$ad->nearest_town_distance_id=='8') selected="selected" @endif >Más de 10 km</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1314,17 +1316,17 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_water" value="1" data-title="Agua"/> Agua</label>
+                                                            <input type="checkbox" name="has_water" value="1" data-title="Agua" @if(isset($ad->has_water)&&$ad->has_water) checked="checked" @endif /> Agua</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_electricity" value="1" data-title="Luz"/> Luz</label>
+                                                            <input type="checkbox" name="has_electricity" value="1" data-title="Luz" @if(isset($ad->has_electricity)&&$ad->has_electricity) checked="checked" @endif /> Luz</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_sewer_system" value="1" data-title="Alcantarillado"/> Alcantarillado</label>
+                                                            <input type="checkbox" name="has_sewer_system" value="1" data-title="Alcantarillado" @if(isset($ad->has_sewer_system)&&$ad->has_sewer_system) checked="checked" @endif /> Alcantarillado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_natural_gas" value="1" data-title="Gas natural"/> Gas natural</label>
+                                                            <input type="checkbox" name="has_natural_gas" value="1" data-title="Gas natural" @if(isset($ad->has_natural_gas)&&$ad->has_natural_gas) checked="checked" @endif /> Gas natural</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_street_lighting" value="1" data-title="Alumbrado público"/> Alumbrado público</label>
+                                                            <input type="checkbox" name="has_street_lighting" value="1" data-title="Alumbrado público" @if(isset($ad->has_street_lighting)&&$ad->has_street_lighting) checked="checked" @endif /> Alumbrado público</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_sidewalks" value="1" data-title="Aceras"/> Aceras</label>
+                                                            <input type="checkbox" name="has_sidewalks" value="1" data-title="Aceras" @if(isset($ad->has_sidewalks)&&$ad->has_sidewalks) checked="checked" @endif /> Aceras</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1337,9 +1339,9 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_furniture" value="1" data-title="Amueblada"/> Amueblada</label>
+                                                            <input type="checkbox" name="has_furniture" value="1" data-title="Amueblada" @if(isset($ad->has_furniture)&&$ad->has_furniture) checked="checked" @endif /> Amueblada</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_builtin_closets" value="1" data-title="Armario empotrado"/> Armario empotrado</label>
+                                                            <input type="checkbox" name="has_builtin_closets" value="1" data-title="Armario empotrado" @if(isset($ad->has_builtin_closets)&&$ad->has_builtin_closets) checked="checked" @endif /> Armario empotrado</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1350,11 +1352,11 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                            <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado" @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) checked="checked" @endif /> Aire acondicionado</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_internet" value="1" data-title="Conexi&oacute;n a internet"/> Conexi&oacute;n a internet</label>
+                                                            <input type="checkbox" name="has_internet" value="1" data-title="Conexi&oacute;n a internet" @if(isset($ad->has_internet)&&$ad->has_internet) checked="checked" @endif /> Conexi&oacute;n a internet</label>
                                                         <label>
-                                                            <input type="checkbox" name="has_house_keeper" value="1" data-title="Asistente/a del hogar"/> Asistente/a del hogar</label>
+                                                            <input type="checkbox" name="has_house_keeper" value="1" data-title="Asistente/a del hogar" @if(isset($ad->has_house_keeper)&&$ad->has_house_keeper) checked="checked" @endif /> Asistente/a del hogar</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1366,55 +1368,55 @@
                                                     <div class="radio-list">
                                                         <label>Chico/chica</label>
                                                         <label>
-                                                            <input type="radio" name="tenant_gender_id" value="1" data-title="Da igual"/>
+                                                            <input type="radio" name="tenant_gender_id" value="1" data-title="Da igual" @if(isset($ad->tenant_gender_id)&&$ad->tenant_gender_id=='1') checked="checked" @endif />
                                                             Da igual </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_gender_id" value="2" data-title="Chico"/>
+                                                            <input type="radio" name="tenant_gender_id" value="2" data-title="Chico" @if(isset($ad->tenant_gender_id)&&$ad->tenant_gender_id=='2') checked="checked" @endif />
                                                             Chico </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_gender_id" value="3" data-title="Chica"/>
+                                                            <input type="radio" name="tenant_gender_id" value="3" data-title="Chica" @if(isset($ad->tenant_gender_id)&&$ad->tenant_gender_id=='3') checked="checked" @endif />
                                                             Chica </label>
                                                     </div>
                                                     <div class="radio-list">
                                                         <label style="padding-top:5px;">Ocupaci&oacute;n</label>
-                                                        <label>
-                                                            <input type="radio" name="tenant_occupation_id" value="1" data-title="Da igual"/>
+                                                        <label>tenant_occupation_id
+                                                            <input type="radio" name="tenant_occupation_id" value="1" data-title="Da igual" @if(isset($ad->tenant_occupation_id)&&$ad->tenant_occupation_id=='1') checked="checked" @endif />
                                                             Da igual </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_occupation_id" value="2" data-title="Estudiante"/>
+                                                            <input type="radio" name="tenant_occupation_id" value="2" data-title="Estudiante" @if(isset($ad->tenant_occupation_id)&&$ad->tenant_occupation_id=='2') checked="checked" @endif />
                                                             Estudiante </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_occupation_id" value="3" data-title="Con trabajo"/>
+                                                            <input type="radio" name="tenant_occupation_id" value="3" data-title="Con trabajo" @if(isset($ad->tenant_occupation_id)&&$ad->tenant_occupation_id=='3') checked="checked" @endif />
                                                             Con trabajo </label>
                                                     </div>
                                                     <div class="radio-list">
                                                         <label style="padding-top:5px;">Orientaci&oacute;n</label>
                                                         <label>
-                                                            <input type="radio" name="tenant_sexual_orientation_id" value="1" data-title="Da igual"/>
+                                                            <input type="radio" name="tenant_sexual_orientation_id" value="1" data-title="Da igual" @if(isset($ad->tenant_sexual_orientation_id)&&$ad->tenant_sexual_orientation_id=='1') checked="checked" @endif />
                                                             Da igual </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_sexual_orientation_id" value="2" data-title="Gay friendly"/>
+                                                            <input type="radio" name="tenant_sexual_orientation_id" value="2" data-title="Gay friendly" @if(isset($ad->tenant_sexual_orientation_id)&&$ad->tenant_sexual_orientation_id=='2') checked="checked" @endif />
                                                             Gay friendly </label>
                                                     </div>
                                                     <div class="radio-list">
                                                         <label style="padding-top:5px;">Estancia m&iacute;nima</label>
                                                         <label>
-                                                            <input type="radio" name="tenant_min_stay_id" value="1" data-title="1 mes"/>
+                                                            <input type="radio" name="tenant_min_stay_id" value="1" data-title="1 mes" @if(isset($ad->tenant_min_stay_id)&&$ad->tenant_min_stay_id=='1') checked="checked" @endif />
                                                             1 mes </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_min_stay_id" value="2" data-title="2 meses"/>
+                                                            <input type="radio" name="tenant_min_stay_id" value="2" data-title="2 meses" @if(isset($ad->tenant_min_stay_id)&&$ad->tenant_min_stay_id=='2') checked="checked" @endif />
                                                             2 meses </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_min_stay_id" value="3" data-title="3 meses"/>
+                                                            <input type="radio" name="tenant_min_stay_id" value="3" data-title="3 meses" @if(isset($ad->tenant_min_stay_id)&&$ad->tenant_min_stay_id=='3') checked="checked" @endif />
                                                             3 meses </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_min_stay_id" value="4" data-title="4 meses"/>
+                                                            <input type="radio" name="tenant_min_stay_id" value="4" data-title="4 meses" @if(isset($ad->tenant_min_stay_id)&&$ad->tenant_min_stay_id=='4') checked="checked" @endif />
                                                             4 meses </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_min_stay_id" value="5" data-title="5 meses"/>
+                                                            <input type="radio" name="tenant_min_stay_id" value="5" data-title="5 meses" @if(isset($ad->tenant_min_stay_id)&&$ad->tenant_min_stay_id=='5') checked="checked" @endif />
                                                             5 meses </label>
                                                         <label>
-                                                            <input type="radio" name="tenant_min_stay_id" value="6" data-title="6 o más meses"/>
+                                                            <input type="radio" name="tenant_min_stay_id" value="6" data-title="6 o más meses" @if(isset($ad->tenant_min_stay_id)&&$ad->tenant_min_stay_id=='6') checked="checked" @endif />
                                                             6 o más meses </label>
                                                     </div>
                                                 </div>
@@ -1428,16 +1430,16 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="surroundings_id" value="1" data-title="Entorno de playa"/>
+                                                            <input type="radio" name="surroundings_id" value="1" data-title="Entorno de playa" @if(isset($ad->surroundings_id)&&$ad->surroundings_id=='1') checked="checked" @endif />
                                                             Entorno de playa </label>
                                                         <label>
-                                                            <input type="radio" name="surroundings_id" value="2" data-title="Entorno de esquí"/>
+                                                            <input type="radio" name="surroundings_id" value="2" data-title="Entorno de esquí" @if(isset($ad->surroundings_id)&&$ad->surroundings_id=='2') checked="checked" @endif />
                                                             Entorno de esquí </label>
                                                         <label>
-                                                            <input type="radio" name="surroundings_id" value="3" data-title="Entorno rural"/>
+                                                            <input type="radio" name="surroundings_id" value="3" data-title="Entorno rural" @if(isset($ad->surroundings_id)&&$ad->surroundings_id=='3') checked="checked" @endif />
                                                             Entorno rural </label>
                                                         <label>
-                                                            <input type="radio" name="surroundings_id" value="4" data-title="Entorno de ciudad"/>
+                                                            <input type="radio" name="surroundings_id" value="4" data-title="Entorno de ciudad" @if(isset($ad->surroundings_id)&&$ad->surroundings_id=='4') checked="checked" @endif />
                                                             Entorno de ciudad </label>
                                                     </div>
                                                 </div>
@@ -1449,13 +1451,13 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="category_lodging_id" value="1" data-title="Apartamento"/>
+                                                            <input type="radio" name="category_lodging_id" value="1" data-title="Apartamento" @if(isset($ad->category_lodging_id)&&$ad->category_lodging_id=='1') checked="checked" @endif />
                                                             Apartamento </label>
                                                         <label>
-                                                            <input type="radio" name="category_lodging_id" value="2" data-title="Casa"/>
+                                                            <input type="radio" name="category_lodging_id" value="2" data-title="Casa" @if(isset($ad->category_lodging_id)&&$ad->category_lodging_id=='2') checked="checked" @endif />
                                                             Casa </label>
                                                         <label>
-                                                            <input type="radio" name="category_lodging_id" value="3" data-title="Villa"/>
+                                                            <input type="radio" name="category_lodging_id" value="3" data-title="Villa" @if(isset($ad->category_lodging_id)&&$ad->category_lodging_id=='3') checked="checked" @endif />
                                                             Villa </label>
                                                     </div>
                                                 </div>
@@ -1467,10 +1469,10 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_multiple_lodgings" value="0" data-title="No, es un alojamiento"/>
+                                                            <input type="radio" name="has_multiple_lodgings" value="0" data-title="No, es un alojamiento" @if(isset($ad->has_multiple_lodgings)&&!$ad->has_multiple_lodgings) checked="checked" @endif />
                                                             No, es un alojamiento </label>
                                                         <label>
-                                                            <input type="radio" name="has_multiple_lodgings" value="1" data-title="Sí, son varios"/>
+                                                            <input type="radio" name="has_multiple_lodgings" value="1" data-title="Sí, son varios" @if(isset($ad->has_multiple_lodgings)&&$ad->has_multiple_lodgings) checked="checked" @endif />
                                                             Sí, son varios </label>
                                                     </div>
                                                 </div>
@@ -1481,7 +1483,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_total"/>
+                                                        <input type="text" class="form-control" name="area_total" @if(isset($ad->area_total)&&$ad->area_total) value="{!! $ad->area_total !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                     <div id="form_area_total_error">
@@ -1495,7 +1497,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_garden"/>
+                                                        <input type="text" class="form-control" name="area_garden" @if(isset($ad->area_garden)&&$ad->area_garden) value="{!! $ad->area_garden !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                     <div id="form_area_garden_error">
@@ -1509,7 +1511,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="area_terrace"/>
+                                                        <input type="text" class="form-control" name="area_terrace" @if(isset($ad->area_terrace)&&$ad->area_terrace) value="{!! $ad->area_terrace !!}" @endif />
                                                         <span class="input-group-addon">m&sup2;</span>
                                                     </div>
                                                     <div id="form_area_terrace_error">
@@ -1524,10 +1526,10 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="is_american_kitchen" value="0" data-title="Cocina independiente"/>
+                                                            <input type="radio" name="is_american_kitchen" value="0" data-title="Cocina independiente" @if(isset($ad->is_american_kitchen)&&!$ad->is_american_kitchen) checked="checked" @endif />
                                                             Cocina independiente </label>
                                                         <label>
-                                                            <input type="radio" name="is_american_kitchen" value="1" data-title="Cocina americana"/>
+                                                            <input type="radio" name="is_american_kitchen" value="1" data-title="Cocina americana" @if(isset($ad->is_american_kitchen)&&$ad->is_american_kitchen) checked="checked" @endif />
                                                             Cocina americana </label>
                                                     </div>
                                                 </div>
@@ -1559,6 +1561,69 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tbody-seasons">
+                                                        @if(isset($ad->id)&&\App\SeasonPrice::where('rent_vacation_id',$ad->id)->count())
+                                                            @foreach(\App\SeasonPrice::where('rent_vacation_id',$ad->id)->get() as $season)
+                                                                <tr data-season="{!! $season->n_season !!}">
+                                                                @if($season->n_season == '1')
+                                                                    <td><input name="n_season-{!! $season->n_season !!}" class="hidden" value="{!! $season->n_season !!}">Resto del a&ntilde;o</td>
+                                                                    <td><input name="from_date-{!! $season->n_season !!}" class="hidden" value="1/1/1900">-</td>
+                                                                    <td><input name="to_date-{!! $season->n_season !!}" class="hidden" value="1/1/2999">-</td>
+                                                                @else
+                                                                    <td><input name="n_season-{!! $season->n_season !!}" class="hidden" value="{!! $season->n_season !!}"></td>
+                                                                    <td>
+                                                                        <div class="bfh-datepicker" data-name="from_date-{!! $season->n_season !!}" @if(isset($season->from_date)&&$season->from_date=!'0000-00-00 00:00:00') value="{{ date('d/m/Y', strtotime($season->from_date) ) }}" @endif ></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="bfh-datepicker" data-name="to_date-{!! $season->n_season !!}" @if(isset($season->to_date)&&$season->to_date=!'0000-00-00 00:00:00') value="{{ date('d/m/Y', strtotime($season->to_date) ) }}" @endif ></div>
+                                                                    </td>  
+                                                                @endif
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="p_one_night-{!! $season->n_season !!}" @if(isset($season->p_one_night)&&$season->p_one_night) value="{!! $season->p_one_night !!}"" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="p_weekend_night-{!! $season->n_season !!}" @if(isset($season->p_weekend_night)&&$season->p_weekend_night) value="{!! $season->p_weekend_night !!}" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="p_one_week-{!! $season->n_season !!}" @if(isset($season->p_one_week)&&$season->p_one_week) value="{!! $season->p_one_week !!}" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="p_half_month-{!! $season->n_season !!}" @if(isset($season->p_half_month)&&$season->p_half_month) value="{!! $season->p_half_month !!}" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="p_one_month-{!! $season->n_season !!}" @if(isset($season->p_one_month)&&$season->p_one_month) value="{!! $season->p_one_month !!}" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="p_extra_guest_per_night-{!! $season->n_season !!}" @if(isset($season->p_extra_guest_per_night)&&$season->p_extra_guest_per_night) value="{!! $season->p_extra_guest_per_night !!}" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="n_min_nights-{!! $season->n_season !!}" @if(isset($season->n_min_nights)&&$season->n_min_nights) value="{!! $season->n_min_nights !!}" @endif />
+                                                                        </div>
+                                                                    </td>
+                                                                    @if($season->n_season == '1')
+                                                                    <td>
+                                                                        &nbsp;
+                                                                    </td>
+                                                                    @else
+                                                                    <td>
+                                                                        <a href="javascript:" class="btn btn-danger btn-delete-season"><i class="fa fa-times"></i></a>
+                                                                    </td>
+                                                                    @endif
+                                                                </tr>
+                                                            @endforeach
+                                                        @else
                                                             <tr data-season="0">
                                                                 <td><input name="n_season-0" class="hidden" value="0">Resto del a&ntilde;o</td>
                                                                 <td><input name="from_date-0" class="hidden" value="1/1/1900">-</td>
@@ -1647,6 +1712,7 @@
                                                                     <a href="javascript:" class="btn btn-danger btn-delete-season"><i class="fa fa-times"></i></a>
                                                                 </td>
                                                             </tr>
+                                                        @endif
                                                         </tbody>
                                                     </table>
                                                     <a href="javascript:" id="btn-add-season" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i> A&ntilde;adir temporada</a>
@@ -1659,20 +1725,20 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_booking" value="0" data-title="No requerida"/>
+                                                            <input type="radio" name="has_booking" value="0" data-title="No requerida" @if(isset($ad->has_booking)&&$ad->has_booking=='0') checked="checked" @endif />
                                                             No requerida </label>
                                                         <label>
-                                                            <input type="radio" name="has_booking" value="1" data-title="En porcentaje:"/>
+                                                            <input type="radio" name="has_booking" value="1" data-title="En porcentaje:" @if(isset($ad->has_booking)&&$ad->has_booking=='1') checked="checked" @endif />
                                                             En porcentaje:
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="booking-percentage" disabled="disabled"/>
+                                                                <input type="text" class="form-control" name="booking-percentage" @if(!isset($ad->has_booking)||(isset($ad->has_booking)&&!$ad->has_booking=='1')) disabled="disabled" @elseif(isset($ad->has_booking)&&$ad->has_booking=='1'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                                 <span class="input-group-addon">%</span>
                                                             </div></label>
                                                         <label>
-                                                            <input type="radio" name="has_booking" value="2" data-title="En euros:"/>
+                                                            <input type="radio" name="has_booking" value="2" data-title="En euros:" @if(isset($ad->has_booking)&&$ad->has_booking=='2') checked="checked" @endif />
                                                             En euros: </label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" name="booking-euros" disabled="disabled"/>
+                                                            <input type="text" class="form-control" name="booking-euros" @if(!isset($ad->has_booking)||(isset($ad->has_booking)&&!$ad->has_booking=='2')) disabled="disabled" @elseif(isset($ad->has_booking)&&$ad->has_booking=='2'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                             <span class="input-group-addon">&euro;</span>
                                                         </div>
                                                     </div>
@@ -1684,14 +1750,14 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <select name="payment_day_id" class="form-control">
-                                                        <option value="1">A la entrega de llaves</option>
-                                                        <option value="2">Días antes de la entrada</option>
-                                                        <option value="3">El día de entrada</option>
-                                                        <option value="4">El día de salida</option>
+                                                        <option value="1" @if(isset($ad->payment_day_id)&&$ad->payment_day_id=='1') selected="selected" @endif >A la entrega de llaves</option>
+                                                        <option value="2" @if(isset($ad->payment_day_id)&&$ad->payment_day_id=='2') selected="selected" @endif >Días antes de la entrada</option>
+                                                        <option value="3" @if(isset($ad->payment_day_id)&&$ad->payment_day_id=='3') selected="selected" @endif >El día de entrada</option>
+                                                        <option value="4" @if(isset($ad->payment_day_id)&&$ad->payment_day_id=='4') selected="selected" @endif >El día de salida</option>
                                                     </select>
                                                     <label class="control-label">Número de días antes: </label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="n_days_before" disabled="disabled" value="" />
+                                                        <input type="text" class="form-control" name="n_days_before" disabled="disabled" @if(isset($ad->n_days_before)&&$ad->n_days_before) value="{!! $ad->n_days_before !!}" @endif />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1702,20 +1768,20 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_deposit" value="0" data-title="No requerida"/>
+                                                            <input type="radio" name="has_deposit" value="0" data-title="No requerida" @if(isset($ad->has_deposit)&&$ad->has_deposit=='0') checked="checked" @endif />
                                                             No requerida </label>
                                                         <label>
-                                                            <input type="radio" name="has_deposit" value="1" data-title="En porcentaje:"/>
+                                                            <input type="radio" name="has_deposit" value="1" data-title="En porcentaje:" @if(isset($ad->has_deposit)&&$ad->has_deposit=='1') checked="checked" @endif />
                                                             En porcentaje:
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="deposit-percentage" disabled="disabled"/>
+                                                                <input type="text" class="form-control" name="deposit-percentage" @if(!isset($ad->has_deposit)||(isset($ad->has_deposit)&&!$ad->has_deposit=='1')) disabled="disabled" @elseif(isset($ad->has_deposit)&&$ad->has_deposit=='1'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                                 <span class="input-group-addon">%</span>
                                                             </div></label>
                                                         <label>
-                                                            <input type="radio" name="has_deposit" value="2" data-title="En euros:"/>
+                                                            <input type="radio" name="has_deposit" value="2" data-title="En euros:" @if(isset($ad->has_deposit)&&$ad->has_deposit=='2') checked="checked" @endif />
                                                             En euros: </label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" name="deposit-euros" disabled="disabled"/>
+                                                            <input type="text" class="form-control" name="deposit-euros" @if(!isset($ad->has_deposit)||(isset($ad->has_deposit)&&!$ad->has_deposit=='2')) disabled="disabled" @elseif(isset($ad->has_deposit)&&$ad->has_deposit=='2'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                             <span class="input-group-addon">&euro;</span>
                                                         </div>
                                                     </div>
@@ -1728,13 +1794,13 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_cleaning" value="0" data-title="Incluida en el precio"/>
+                                                            <input type="radio" name="has_cleaning" value="0" data-title="Incluida en el precio" @if(isset($ad->has_cleaning)&&$ad->has_cleaning) checked="checked" @endif />
                                                             Incluida en el precio </label>
                                                         <label>
-                                                            <input type="radio" name="has_cleaning" value="1" data-title="No incluida. En euros:"/>
+                                                            <input type="radio" name="has_cleaning" value="1" data-title="No incluida. En euros:" @if(isset($ad->has_cleaning)&&!$ad->has_cleaning) checked="checked" @endif />
                                                             No incluida. En euros: </label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" name="cleaning" disabled="disabled"/>
+                                                            <input type="text" class="form-control" name="cleaning" @if(!isset($ad->has_cleaning)||(isset($ad->has_cleaning)&&$ad->has_cleaning)) disabled="disabled" @elseif(isset($ad->has_cleaning)&&!$ad->has_cleaning&&isset($ad->cleaning)&&$ad->cleaning) value="{!! $ad->cleaning !!}" @endif />
                                                             <span class="input-group-addon">&euro;</span>
                                                         </div>
                                                     </div>
@@ -1747,10 +1813,10 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_included_towels" value="1" data-title="Incluidas en el precio"/>
+                                                            <input type="radio" name="has_included_towels" value="1" data-title="Incluidas en el precio" @if(isset($ad->has_included_towels)&&$ad->has_included_towels) checked="checked" @endif />
                                                             Incluidas en el precio </label>
                                                         <label>
-                                                            <input type="radio" name="has_included_towels" value="0" data-title="No incluidas"/>
+                                                            <input type="radio" name="has_included_towels" value="0" data-title="No incluidas" @if(isset($ad->has_included_towels)&&!$ad->has_included_towels) checked="checked" @endif />
                                                             No incluidas </label>
                                                     </div>
                                                 </div>
@@ -1762,10 +1828,10 @@
                                                 <div class="col-md-4" style="padding-top:8px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_included_expenses" value="1" data-title="Incluidos en el precio"/>
+                                                            <input type="radio" name="has_included_expenses" value="1" data-title="Incluidos en el precio" @if(isset($ad->has_included_expenses)&&$ad->has_included_expenses) checked="checked" @endif />
                                                             Incluidos en el precio </label>
                                                         <label>
-                                                            <input type="radio" name="has_included_expenses" value="0" data-title="No incluidas"/>
+                                                            <input type="radio" name="has_included_expenses" value="0" data-title="No incluidas" @if(isset($ad->has_included_expenses)&&!$ad->has_included_expenses) checked="checked" @endif />
                                                             No incluidas </label>
                                                     </div>
                                                 </div>
@@ -1779,21 +1845,21 @@
                                                         <div class="col-md-4">
                                                             <label>A la playa</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_beach"/>
+                                                                <input type="text" class="form-control" name="distance_to_beach" @if(isset($ad->distance_to_beach)&&$ad->distance_to_beach) value="{!! $ad->distance_to_beach !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Al centro</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_town_center"/>
+                                                                <input type="text" class="form-control" name="distance_to_town_center" @if(isset($ad->distance_to_town_center)&&$ad->distance_to_town_center) value="{!! $ad->distance_to_town_center !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>A estanción de esquí</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_ski_area"/>
+                                                                <input type="text" class="form-control" name="distance_to_ski_area" @if(isset($ad->distance_to_ski_area)&&$ad->distance_to_ski_area) value="{!! $ad->distance_to_ski_area !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
@@ -1802,21 +1868,21 @@
                                                         <div class="col-md-4">
                                                             <label>Al supermercado</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_supermarket"/>
+                                                                <input type="text" class="form-control" name="distance_to_supermarket" @if(isset($ad->distance_to_supermarket)&&$ad->distance_to_supermarket) value="{!! $ad->distance_to_supermarket !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Al aeropuerto</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_airport"/>
+                                                                <input type="text" class="form-control" name="distance_to_airport" @if(isset($ad->distance_to_airport)&&$ad->distance_to_airport) value="{!! $ad->distance_to_airport !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Al campo de golf</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_golf_course"/>
+                                                                <input type="text" class="form-control" name="distance_to_golf_course" @if(isset($ad->distance_to_golf_course)&&$ad->distance_to_golf_course) value="{!! $ad->distance_to_golf_course !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
@@ -1824,21 +1890,21 @@
                                                         <div class="col-md-4">
                                                             <label>Al río o lago</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_river_or_lake"/>
+                                                                <input type="text" class="form-control" name="distance_to_river_or_lake" @if(isset($ad->distance_to_river_or_lake)&&$ad->distance_to_river_or_lake) value="{!! $ad->distance_to_river_or_lake !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Al puerto deportivo</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_marina"/>
+                                                                <input type="text" class="form-control" name="distance_to_marina" @if(isset($ad->distance_to_marina)&&$ad->distance_to_marina) value="{!! $ad->distance_to_marina !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Al centro ecuestre</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_horse_riding_area"/>
+                                                                <input type="text" class="form-control" name="distance_to_horse_riding_area" @if(isset($ad->distance_to_horse_riding_area)&&$ad->distance_to_horse_riding_area) value="{!! $ad->distance_to_horse_riding_area !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
@@ -1847,21 +1913,21 @@
                                                         <div class="col-md-4">
                                                             <label>A la estación de tren</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_train_station"/>
+                                                                <input type="text" class="form-control" name="distance_to_train_station" @if(isset($ad->distance_to_train_station)&&$ad->distance_to_train_station) value="{!! $ad->distance_to_train_station !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>A la estación de autobuses</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_bus_station"/>
+                                                                <input type="text" class="form-control" name="distance_to_bus_station" @if(isset($ad->distance_to_bus_station)&&$ad->distance_to_bus_station) value="{!! $ad->distance_to_bus_station !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>A escuela de submarinismo</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_scuba_diving_area"/>
+                                                                <input type="text" class="form-control" name="distance_to_scuba_diving_area" @if(isset($ad->distance_to_scuba_diving_area)&&$ad->distance_to_scuba_diving_area) value="{!! $ad->distance_to_scuba_diving_area !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
@@ -1870,14 +1936,14 @@
                                                         <div class="col-md-4">
                                                             <label>Al hospital</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_hospital"/>
+                                                                <input type="text" class="form-control" name="distance_to_hospital" @if(isset($ad->distance_to_hospital)&&$ad->distance_to_hospital) value="{!! $ad->distance_to_hospital !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>A rutas de senderismo</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="distance_to_hiking_area"/>
+                                                                <input type="text" class="form-control" name="distance_to_hiking_area" @if(isset($ad->distance_to_hiking_area)&&$ad->distance_to_hiking_area) value="{!! $ad->distance_to_hiking_area !!}" @endif />
                                                                 <span class="input-group-addon">metros</span>
                                                             </div>
                                                         </div>
@@ -1893,19 +1959,19 @@
                                                         <div class="col-md-4">
                                                             <label>Con cama de matrimonio</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_double_bedroom"/>
+                                                                <input type="text" class="form-control" name="n_double_bedroom" @if(isset($ad->n_double_bedroom)&&$ad->n_double_bedroom) value="{!! $ad->n_double_bedroom !!}" @endif />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Con dos camas</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_two_beds_room"/>
+                                                                <input type="text" class="form-control" name="n_two_beds_room" @if(isset($ad->n_two_beds_room)&&$ad->n_two_beds_room) value="{!! $ad->n_two_beds_room !!}" @endif />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Con una cama</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_single_bed_room"/>
+                                                                <input type="text" class="form-control" name="n_single_bed_room" @if(isset($ad->n_single_bed_room)&&$ad->n_single_bed_room) value="{!! $ad->n_single_bed_room !!}" @endif />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1913,13 +1979,13 @@
                                                         <div class="col-md-4">
                                                             <label>Con tres camas</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_three_beds_room"/>
+                                                                <input type="text" class="form-control" name="n_three_beds_room" @if(isset($ad->n_three_beds_room)&&$ad->n_three_beds_room) value="{!! $ad->n_three_beds_room !!}" @endif />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Con cuatro camas</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_four_beds_room"/>
+                                                                <input type="text" class="form-control" name="n_four_beds_room" @if(isset($ad->n_four_beds_room)&&$ad->n_four_beds_room) value="{!! $ad->n_four_beds_room !!}" @endif />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1934,19 +2000,19 @@
                                                         <div class="col-md-4">
                                                             <label>Sofá cama (tama&ntilde;o individual)</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_sofa_bed"/>
+                                                                <input type="text" class="form-control" name="n_sofa_bed" @if(isset($ad->n_sofa_bed)&&$ad->n_sofa_bed) value="{!! $ad->n_sofa_bed !!}" @endif />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Sofá cama (tama&ntilde;o matrimonio)</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_double_sofa_bed"/>
+                                                                <input type="text" class="form-control" name="n_double_sofa_bed" @if(isset($ad->n_double_sofa_bed)&&$ad->n_double_sofa_bed) value="{!! $ad->n_double_sofa_bed !!}" @endif />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Cama auxiliar (tama&ntilde;o individual)</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="n_extra_bed"/>
+                                                                <input type="text" class="form-control" name="n_extra_bed" @if(isset($ad->n_extra_bed)&&$ad->n_extra_bed) value="{!! $ad->n_extra_bed !!}" @endif />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1958,7 +2024,7 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="min_capacity" />
+                                                        <input type="text" class="form-control" name="min_capacity" @if(isset($ad->min_capacity)&&$ad->min_capacity) value="{!! $ad->min_capacity !!}" @endif />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1968,12 +2034,10 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="max_capacity" />
+                                                        <input type="text" class="form-control" name="max_capacity" @if(isset($ad->max_capacity)&&$ad->max_capacity) value="{!! $ad->max_capacity !!}" @endif />
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            {{--TODO: prices table--}}
 
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Formas de pago aceptadas
@@ -1981,19 +2045,19 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="accepts_cash" value="1" data-title="En efectivo"/> En efectivo</label>
+                                                            <input type="checkbox" name="accepts_cash" value="1" data-title="En efectivo" @if(isset($ad->accepts_cash)&&$ad->accepts_cash) checked="checked" @endif /> En efectivo</label>
                                                         <label>
-                                                            <input type="checkbox" name="accepts_transfer" value="1" data-title="Transferencia bancaria"/> Transferencia bancaria</label>
+                                                            <input type="checkbox" name="accepts_transfer" value="1" data-title="Transferencia bancaria" @if(isset($ad->accepts_transfer)&&$ad->accepts_transfer) checked="checked" @endif /> Transferencia bancaria</label>
                                                         <label>
-                                                            <input type="checkbox" name="accepts_credit_card" value="1" data-title="Tarjeta de crédito"/> Tarjeta de crédito</label>
+                                                            <input type="checkbox" name="accepts_credit_card" value="1" data-title="Tarjeta de crédito" @if(isset($ad->accepts_credit_card)&&$ad->accepts_credit_card) checked="checked" @endif /> Tarjeta de crédito</label>
                                                         <label>
-                                                            <input type="checkbox" name="accepts_paypal" value="1" data-title="Paypal"/> Paypal</label>
+                                                            <input type="checkbox" name="accepts_paypal" value="1" data-title="Paypal" @if(isset($ad->accepts_paypal)&&$ad->accepts_paypal) checked="checked" @endif /> Paypal</label>
                                                         <label>
-                                                            <input type="checkbox" name="accepts_check" value="1" data-title="Cheque"/> Cheque</label>
+                                                            <input type="checkbox" name="accepts_check" value="1" data-title="Cheque" @if(isset($ad->accepts_check)&&$ad->accepts_check) checked="checked" @endif /> Cheque</label>
                                                         <label>
-                                                            <input type="checkbox" name="accepts_western_union" value="1" data-title="Western Union"/> Western Union</label>
+                                                            <input type="checkbox" name="accepts_western_union" value="1" data-title="Western Union" @if(isset($ad->accepts_western_union)&&$ad->accepts_western_union) checked="checked" @endif /> Western Union</label>
                                                         <label>
-                                                            <input type="checkbox" name="accepts_money_gram" value="1" data-title="Money Gram"/> Money Gram</label>
+                                                            <input type="checkbox" name="accepts_money_gram" value="1" data-title="Money Gram" @if(isset($ad->accepts_money_gram)&&$ad->accepts_money_gram) checked="checked" @endif /> Money Gram</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2006,39 +2070,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_private_garden" value="1" data-title="Jardín individual"/> Jardín individual</label>
+                                                                    <input type="checkbox" name="has_private_garden" value="1" data-title="Jardín individual" @if(isset($ad->has_private_garden)&&$ad->has_private_garden) checked="checked" @endif /> Jardín individual</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_shared_garden" value="1" data-title="Jardín compartido"/> Jardín compartido</label>
+                                                                    <input type="checkbox" name="has_shared_garden" value="1" data-title="Jardín compartido" @if(isset($ad->has_shared_garden)&&$ad->has_shared_garden) checked="checked" @endif /> Jardín compartido</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_furnished_garden" value="1" data-title="Muebles de jardín"/> Muebles de jardín</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_barbecue" value="1" data-title="Barbacoa"/> Barbacoa</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_parking_space" value="1" data-title="Aparcamiento"/> Aparcamiento</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_playground" value="1" data-title="Parque infantil"/> Parque infantil</label>
+                                                                    <input type="checkbox" name="has_furnished_garden" value="1" data-title="Muebles de jardín" @if(isset($ad->has_furnished_garden)&&$ad->has_furnished_garden) checked="checked" @endif /> Muebles de jardín</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2046,20 +2090,40 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_terrace" value="1" data-title="Terraza"/> Terraza</label>
+                                                                    <input type="checkbox" name="has_barbecue" value="1" data-title="Barbacoa" @if(isset($ad->has_barbecue)&&$ad->has_barbecue) checked="checked" @endif /> Barbacoa</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_sea_sights" value="1" data-title="Vistas al mar"/> Vistas al mar</label>
+                                                                    <input type="checkbox" name="has_parking_space" value="1" data-title="Aparcamiento" @if(isset($ad->has_parking_space)&&$ad->has_parking_space) checked="checked" @endif /> Aparcamiento</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_playground" value="1" data-title="Parque infantil" @if(isset($ad->has_playground)&&$ad->has_playground) checked="checked" @endif /> Parque infantil</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_terrace" value="1" data-title="Terraza" @if(isset($ad->has_terrace)&&$ad->has_terrace) checked="checked" @endif /> Terraza</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_sea_sights" value="1" data-title="Vistas al mar" @if(isset($ad->has_sea_sights)&&$ad->has_sea_sights) checked="checked" @endif /> Vistas al mar</label>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_mountain_sights" value="1" data-title="Vistas a la monta&ntilde;a"/> Vistas a la monta&ntilde;a</label>
+                                                                    <input type="checkbox" name="has_mountain_sights" value="1" data-title="Vistas a la monta&ntilde;a" @if(isset($ad->has_mountain_sights)&&$ad->has_mountain_sights) checked="checked" @endif /> Vistas a la monta&ntilde;a</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2067,19 +2131,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_private_swimming_pool" value="1" data-title="Piscina individual"/> Piscina individual</label>
+                                                                    <input type="checkbox" name="has_private_swimming_pool" value="1" data-title="Piscina individual" @if(isset($ad->has_private_swimming_pool)&&$ad->has_private_swimming_pool) checked="checked" @endif /> Piscina individual</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_shared_swimming_pool" value="1" data-title="Piscina compartida"/> Piscina compartida</label>
+                                                                    <input type="checkbox" name="has_shared_swimming_pool" value="1" data-title="Piscina compartida" @if(isset($ad->has_shared_swimming_pool)&&$ad->has_shared_swimming_pool) checked="checked" @endif /> Piscina compartida</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_indoor_swimming_pool" value="1" data-title="Piscina cubierta"/> Piscina cubierta</label>
+                                                                    <input type="checkbox" name="has_indoor_swimming_pool" value="1" data-title="Piscina cubierta" @if(isset($ad->has_indoor_swimming_pool)&&$ad->has_indoor_swimming_pool) checked="checked" @endif /> Piscina cubierta</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2094,39 +2158,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_tv" value="1" data-title="TV"/> TV</label>
+                                                                    <input type="checkbox" name="has_tv" value="1" data-title="TV" @if(isset($ad->has_tv)&&$ad->has_tv) checked="checked" @endif /> TV</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_cable_tv" value="1" data-title="TV por cable/satélite"/> TV por cable/satélite</label>
+                                                                    <input type="checkbox" name="has_cable_tv" value="1" data-title="TV por cable/satélite" @if(isset($ad->has_cable_tv)&&$ad->has_cable_tv) checked="checked" @endif /> TV por cable/satélite</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_internet" value="1" data-title="Internet/wifi"/> Internet/wifi</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_jacuzzi" value="1" data-title="Jacuzzi"/> Jacuzzi</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_fireplace" value="1" data-title="Chimenea"/> Chimenea</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_cradle" value="1" data-title="Cuna"/> Cuna</label>
+                                                                    <input type="checkbox" name="has_internet" value="1" data-title="Internet/wifi" @if(isset($ad->has_internet)&&$ad->has_internet) checked="checked" @endif /> Internet/wifi</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2134,19 +2178,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_fan" value="1" data-title="Ventilador"/> Ventilador</label>
+                                                                    <input type="checkbox" name="has_jacuzzi" value="1" data-title="Jacuzzi" @if(isset($ad->has_jacuzzi)&&$ad->has_jacuzzi) checked="checked" @endif /> Jacuzzi</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_heating" value="1" data-title="Calefacción"/> Calefacción</label>
+                                                                    <input type="checkbox" name="has_fireplace" value="1" data-title="Chimenea" @if(isset($ad->has_fireplace)&&$ad->has_fireplace) checked="checked" @endif /> Chimenea</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado"/> Aire acondicionado</label>
+                                                                    <input type="checkbox" name="has_cradle" value="1" data-title="Cuna" @if(isset($ad->has_cradle)&&$ad->has_cradle) checked="checked" @endif /> Cuna</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2154,7 +2198,27 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_hairdryer" value="1" data-title="Secador de pelo"/> Secador de pelo</label>
+                                                                    <input type="checkbox" name="has_fan" value="1" data-title="Ventilador" @if(isset($ad->has_fan)&&$ad->has_fan) checked="checked" @endif /> Ventilador</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_heating" value="1" data-title="Calefacción" @if(isset($ad->has_heating)&&$ad->has_heating) checked="checked" @endif /> Calefacción</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_air_conditioning" value="1" data-title="Aire acondicionado" @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) checked="checked" @endif /> Aire acondicionado</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_hairdryer" value="1" data-title="Secador de pelo" @if(isset($ad->has_hairdryer)&&$ad->has_hairdryer) checked="checked" @endif /> Secador de pelo</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2169,39 +2233,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_dishwasher" value="1" data-title="Lavavajillas"/> Lavavajillas</label>
+                                                                    <input type="checkbox" name="has_dishwasher" value="1" data-title="Lavavajillas" @if(isset($ad->has_dishwasher)&&$ad->has_dishwasher) checked="checked" @endif /> Lavavajillas</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_dryer" value="1" data-title="Secadora"/> Secadora</label>
+                                                                    <input type="checkbox" name="has_dryer" value="1" data-title="Secadora" @if(isset($ad->has_dryer)&&$ad->has_dryer) checked="checked" @endif /> Secadora</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_fridge" value="1" data-title="Nevera"/> Nevera</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_washer" value="1" data-title="Lavadora"/> Lavadora</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_oven" value="1" data-title="Horno"/> Horno</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_iron" value="1" data-title="Plancha"/> Plancha</label>
+                                                                    <input type="checkbox" name="has_fridge" value="1" data-title="Nevera" @if(isset($ad->has_fridge)&&$ad->has_fridge) checked="checked" @endif /> Nevera</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2209,13 +2253,33 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_microwave" value="1" data-title="Microondas"/> Microondas</label>
+                                                                    <input type="checkbox" name="has_washer" value="1" data-title="Lavadora" @if(isset($ad->has_washer)&&$ad->has_washer) checked="checked" @endif /> Lavadora</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_coffee_maker" value="1" data-title="Cafetera"/> Cafetera</label>
+                                                                    <input type="checkbox" name="has_oven" value="1" data-title="Horno" @if(isset($ad->has_oven)&&$ad->has_oven) checked="checked" @endif /> Horno</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_iron" value="1" data-title="Plancha" @if(isset($ad->has_iron)&&$ad->has_iron) checked="checked" @endif /> Plancha</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_microwave" value="1" data-title="Microondas" @if(isset($ad->has_microwave)&&$ad->has_microwave) checked="checked" @endif /> Microondas</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_coffee_maker" value="1" data-title="Cafetera" @if(isset($ad->has_coffee_maker)&&$ad->has_coffee_maker) checked="checked" @endif /> Cafetera</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2230,39 +2294,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="is_out_town_center" value="1" data-title="Fuera del casco urbano"/> Fuera del casco urbano</label>
+                                                                    <input type="checkbox" name="is_out_town_center" value="1" data-title="Fuera del casco urbano" @if(isset($ad->is_out_town_center)&&$ad->is_out_town_center) checked="checked" @endif /> Fuera del casco urbano</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="is_gayfriendly_area" value="1" data-title="Ambiente gay-friendly"/> Ambiente gay-friendly</label>
+                                                                    <input type="checkbox" name="is_gayfriendly_area" value="1" data-title="Ambiente gay-friendly" @if(isset($ad->is_gayfriendly_area)&&$ad->is_gayfriendly_area) checked="checked" @endif /> Ambiente gay-friendly</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="is_isolated" value="1" data-title="Aislado"/> Aislado</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="is_family_tourism_area" value="1" data-title="Turismo familiar"/> Turismo familiar</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="is_bar_area" value="1" data-title="Zona de bares"/> Zona de bares</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="is_luxury_area" value="1" data-title="Alojamiento de lujo"/> Alojamiento de lujo</label>
+                                                                    <input type="checkbox" name="is_isolated" value="1" data-title="Aislado" @if(isset($ad->is_isolated)&&$ad->is_isolated) checked="checked" @endif /> Aislado</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2270,13 +2314,33 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="is_nudist_area" value="1" data-title="Turismo nudista"/> Turismo nudista</label>
+                                                                    <input type="checkbox" name="is_family_tourism_area" value="1" data-title="Turismo familiar" @if(isset($ad->is_family_tourism_area)&&$ad->is_family_tourism_area) checked="checked" @endif /> Turismo familiar</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="is_charming" value="1" data-title="Alojamiento con encanto"/> Alojamiento con encanto</label>
+                                                                    <input type="checkbox" name="is_bar_area" value="1" data-title="Zona de bares" @if(isset($ad->is_bar_area)&&$ad->is_bar_area) checked="checked" @endif /> Zona de bares</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="is_luxury_area" value="1" data-title="Alojamiento de lujo" @if(isset($ad->is_luxury_area)&&$ad->is_luxury_area) checked="checked" @endif /> Alojamiento de lujo</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="is_nudist_area" value="1" data-title="Turismo nudista" @if(isset($ad->is_nudist_area)&&$ad->is_nudist_area) checked="checked" @endif /> Turismo nudista</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="is_charming" value="1" data-title="Alojamiento con encanto" @if(isset($ad->is_charming)&&$ad->is_charming) checked="checked" @endif /> Alojamiento con encanto</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2291,39 +2355,19 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_bicycle_rental" value="1" data-title="Alquiler de bicicleta"/> Alquiler de bicicleta</label>
+                                                                    <input type="checkbox" name="has_bicycle_rental" value="1" data-title="Alquiler de bicicleta" @if(isset($ad->has_bicycle_rental)&&$ad->has_bicycle_rental) checked="checked" @endif /> Alquiler de bicicleta</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_car_rental" value="1" data-title="Alquiler de coche"/> Alquiler de coche</label>
+                                                                    <input type="checkbox" name="has_car_rental" value="1" data-title="Alquiler de coche" @if(isset($ad->has_car_rental)&&$ad->has_car_rental) checked="checked" @endif /> Alquiler de coche</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_adventure_activities" value="1" data-title="Actividades multi-aventura"/> Actividades multi-aventura</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_tennis_court" value="1" data-title="Pistas de tenis"/> Pistas de tenis</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_kindergarten" value="1" data-title="Guardería"/> Guardería</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="checkbox-list">
-                                                                <label>
-                                                                    <input type="checkbox" name="has_paddle_court" value="1" data-title="Pistas de pádel"/> Pistas de pádel</label>
+                                                                    <input type="checkbox" name="has_adventure_activities" value="1" data-title="Actividades multi-aventura" @if(isset($ad->has_adventure_activities)&&$ad->has_adventure_activities) checked="checked" @endif /> Actividades multi-aventura</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2331,13 +2375,33 @@
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_sauna" value="1" data-title="Sauna"/> Sauna</label>
+                                                                    <input type="checkbox" name="has_tennis_court" value="1" data-title="Pistas de tenis" @if(isset($ad->has_tennis_court)&&$ad->has_tennis_court) checked="checked" @endif /> Pistas de tenis</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="checkbox-list">
                                                                 <label>
-                                                                    <input type="checkbox" name="has_gym" value="1" data-title="Gimnasio"/> Gimnasio</label>
+                                                                    <input type="checkbox" name="has_kindergarten" value="1" data-title="Guardería" @if(isset($ad->has_kindergarten)&&$ad->has_kindergarten) checked="checked" @endif /> Guardería</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_paddle_court" value="1" data-title="Pistas de pádel" @if(isset($ad->has_paddle_court)&&$ad->has_paddle_court) checked="checked" @endif /> Pistas de pádel</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_sauna" value="1" data-title="Sauna" @if(isset($ad->has_sauna)&&$ad->has_sauna) checked="checked" @endif /> Sauna</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="checkbox-list">
+                                                                <label>
+                                                                    <input type="checkbox" name="has_gym" value="1" data-title="Gimnasio" @if(isset($ad->has_gym)&&$ad->has_gym) checked="checked" @endif /> Gimnasio</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2350,9 +2414,9 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
                                                         <label>
-                                                            <input type="checkbox" name="is_handicapped_adapted" value="1" data-title="Adaptado para discapacitados"/> Adaptado para discapacitados</label>
+                                                            <input type="checkbox" name="is_handicapped_adapted" value="1" data-title="Adaptado para discapacitados" @if(isset($ad->is_handicapped_adapted)&&$ad->is_handicapped_adapted) checked="checked" @endif /> Adaptado para discapacitados</label>
                                                         <label>
-                                                            <input type="checkbox" name="is_car_recommended" value="1" data-title="Recomendable disponer de coche"/> Recomendable disponer de coche</label>
+                                                            <input type="checkbox" name="is_car_recommended" value="1" data-title="Recomendable disponer de coche" @if(isset($ad->is_car_recommended)&&$ad->is_car_recommended) checked="checked" @endif /> Recomendable disponer de coche</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2361,12 +2425,18 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Descripción y otros detalles</label>
                                                 <div class="col-md-4">
-                                                    <textarea class="form-control" rows="4" name="description"></textarea>
+                                                    <textarea class="form-control" rows="4" name="description">@if(isset($ad->description)&&$ad->description) {!! $ad->description !!} @endif</textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         {{--END STEP 2--}}
-                                        <div id="uploaded_images" class="hidden"></div>
+                                        <div id="uploaded_images" class="hidden">
+                                        @if(isset($Ad)&&\App\AdPic::where('ad_id',$Ad->id)->count())
+                                            @foreach(\App\AdPic::where('ad_id',$Ad->id)->get() as $pic)
+                                                <input type="hidden" name="pictures_{!! $pic->filename !!}" value="{!! $pic->filename !!}"/>
+                                            @endforeach
+                                        @endif
+                                        </div>
 
                                         {{--STEP 3--}}
                                         <div class="tab-pane" id="tab3">
@@ -2396,6 +2466,43 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody id="tbody_images">
+                                                        @if(isset($Ad)&&\App\AdPic::where('ad_id',$Ad->id)->count())
+                                                            @foreach(\App\AdPic::where('ad_id',$Ad->id)->get() as $pic)
+                                                            <tr>
+                                                                <td>
+                                                                    @if(substr($pic->filename, 0, 4) === 'http')
+                                                                        <img width="100" src="{!! $pic->filename !!}">
+                                                                    @else
+                                                                        <img width="100" src="/ads/thumbnails/thumb_{!! $pic->filename !!}">
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    {!! $pic->filename !!}
+                                                                </td>
+                                                                <td>
+                                                                    @if(substr($pic->filename, 0, 4) === 'http')
+                                                                    640 x 480
+                                                                    @else
+                                                                    <?php list($pic_width, $pic_height) = getimagesize('ads/pictures/'.$pic->filename); ?>
+                                                                    {{ $pic_width }} x {{ $pic_height }}
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if(substr($pic->filename, 0, 4) === 'http')
+                                                                        {{ mt_rand(150,400) }} kB
+                                                                    @else
+                                                                        {{ (filesize('ads/pictures/'.$pic->filename) * 0.001) + 0 }} kB
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    {!! $pic->created_at !!}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="btn btn-sm red btn-delete-image"><i class="fa fa-times"></i> Eliminar</span>
+                                                                </td>
+                                                            </tr>    
+                                                            @endforeach
+                                                        @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -2670,7 +2777,8 @@
                     $('input[name=admin_area_lvl2]').val(data['address_components'][3]['long_name']); //Provincia
                     $('input[name=admin_area_lvl1]').val(data['address_components'][4]['long_name']); //Comunidad autónoma
                     $('input[name=country]').val(data['address_components'][5]['long_name']);
-                    $('input[name=postal_code]').val(data['address_components'][6]['long_name']);
+                    if(typeof(data['address_components'][6]) != "undefined")
+                        $('input[name=postal_code]').val(data['address_components'][6]['long_name']);
                     $('#check-address-warning').removeClass('hidden');
                 }).fail(function() {
                     $('#check-in-progress').addClass('hidden');

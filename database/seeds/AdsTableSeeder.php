@@ -1087,11 +1087,11 @@ class AdsTableSeeder extends Seeder
             $n_seasons_prices = mt_rand(1,4);
             for($j=0; $j<$n_seasons_prices; $j++) {
                 $from_date = \Carbon\Carbon::createFromDate(null, mt_rand(1,12), 1);
-                $to_date = $from_date->addMonths(mt_rand(1,3));
+                $to_date = $from_date->addMonths(mt_rand(1,6));
                 $newSeasonPrice = \App\SeasonPrice::create([
-                    'n_season' => $j+1,
-                    'from_date' => $from_date,
-                    'to_date' => $to_date,
+                    'n_season' => $j,
+                    'from_date' => ($j==0) ? Carbon::createFromFormat('d/m/Y','1/1/1900'), : $from_date,
+                    'to_date' => ($j==0) ? Carbon::createFromFormat('d/m/Y','1/1/2999'), : $to_date,
                     'p_one_night' => mt_rand(15,100),
                     'p_weekend_night' => mt_rand(30,200),
                     'p_one_week' => mt_rand(80,700),

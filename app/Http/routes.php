@@ -46,6 +46,7 @@ Route::get('dashboard/newAd', ['as'=>'dashboard.newAd','uses'=>'AdminController@
 Route::get('dashboard/editAd', ['as'=>'dashboard.editAd','uses'=>'AdminController@getAdsList']);
 Route::get('check_address', 'AdminController@checkAddress');
 Route::post('new_ad', ['as'=>'new.ad','uses'=>'AdminController@doNewAd']);
+Route::post('edit_ad', ['as'=>'edit.ad','uses'=>'AdminController@doEditAd']);
 Route::post('upload_img',['as'=>'upload.img','uses'=>'AdminController@uploadImage']);
 Route::get('dashboard/editAd/{ad_id}', ['as'=>'dashboard.editAd.id','uses'=>'AdminController@editAd']);
 
