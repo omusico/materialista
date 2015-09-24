@@ -32,29 +32,39 @@
         .login .content {
             margin: 10px auto 10px;
         }
-
         .login {
             background-color: rgb(255, 255, 255) !important;
         }
-
         .login .content {
             background-color: rgb(239, 239, 239);
         }
-
         .login .content h3 {
             color: #959595;
         }
-
         .login .content .form-control {
             background-color: #ffffff;
             height: 43px;
             color: #111111;
             border: 1px solid #919399;
         }
-
         .login .content .form-actions {
             border-width: 0;
         }
+        .btn-warning {
+            background-color: #F26721;
+            border-color: #F26721;
+        }
+
+        .btn-warning:hover,
+        .btn-warning:focus,
+        .btn-warning.focus,
+        .btn-warning:active,
+        .btn-warning.active,
+        .open > .dropdown-toggle.btn-warning {
+            background-color: #ca561c !important;
+            border-color: #ca561c !important;
+        }
+
         @if(\App::environment() == 'local')
         #logo {
             text-decoration:none;

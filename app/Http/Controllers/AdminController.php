@@ -345,7 +345,7 @@ class AdminController extends Controller {
                         $old->is_last_floor = (isset($input['is_last_floor'])&&$input['is_last_floor']) ? true : false;
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->is_regular = (isset($input['is_regular'])&&$input['is_regular']) ? true : false;
                         $old->is_penthouse = (isset($input['is_penthouse'])&&$input['is_penthouse']) ? true : false;
@@ -484,7 +484,7 @@ class AdminController extends Controller {
                         $old->floor_number = $input['floor_number'];
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->needs_restoration = (isset($input['needs_restoration'])&&$input['needs_restoration']) ? true : false;
                         $old->area_constructed = $input['area_constructed'];
@@ -541,7 +541,7 @@ class AdminController extends Controller {
                         $old->floor_number = $input['floor_number'];
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->category_business_id = $input['category_business_id'];
                         $old->needs_restoration = (isset($input['needs_restoration'])&&$input['needs_restoration']) ? true : false;
@@ -661,7 +661,7 @@ class AdminController extends Controller {
                         $old->is_last_floor = (isset($input['is_last_floor'])&&$input['is_last_floor']) ? true : false;
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->is_regular = (isset($input['is_regular'])&&$input['is_regular']) ? true : false;
                         $old->is_penthouse = (isset($input['is_penthouse'])&&$input['is_penthouse']) ? true : false;
@@ -806,7 +806,7 @@ class AdminController extends Controller {
                         $old->floor_number = $input['floor_number'];
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->needs_restoration = (isset($input['needs_restoration'])&&$input['needs_restoration']) ? true : false;
                         $old->area_constructed = $input['area_constructed'];
@@ -864,7 +864,7 @@ class AdminController extends Controller {
                         $old->floor_number = $input['floor_number'];
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->category_business_id = $input['category_business_id'];
                         $old->needs_restoration = (isset($input['needs_restoration'])&&$input['needs_restoration']) ? true : false;
@@ -974,7 +974,7 @@ class AdminController extends Controller {
                         $old->is_last_floor = (isset($input['is_last_floor'])&&$input['is_last_floor']) ? true : false;
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->surroundings_id = $input['surroundings_id'];
                         $old->category_lodging_id = $input['category_lodging_id'];
@@ -1120,7 +1120,7 @@ class AdminController extends Controller {
                         $old->is_last_floor = (isset($input['is_last_floor'])&&$input['is_last_floor']) ? true : false;
                         $old->door = $input['door'];
                         $old->has_block = (isset($input['has_block'])&&$input['has_block']) ? true : false;
-                        $old->block = $input['block'];
+                        $old->block = (isset($input['has_block'])&&$input['has_block']&&isset($input['block'])) ? $input['block'] : null;
                         $old->residential_area = $input['residential_area'];
                         $old->category_room_id = $input['category_room_id'];
                         $old->area_room = $input['area_room'];

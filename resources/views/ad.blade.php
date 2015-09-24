@@ -236,7 +236,7 @@
                             @if(isset($ad->n_bathrooms)&&$ad->n_bathrooms) <p>{{$ad->n_bathrooms}} wc</p> @endif
                             @if(isset($ad->area_land)&&$ad->area_land) <p>{{$ad->area_land}} m&sup2; parcela</p> @endif
                             @if(isset($ad->needs_restoration)&&$ad->needs_restoration) <p>A reformar</p> @elseif(!$ad->needs_restoration&&(!isset($ad->is_new_development)||!$ad->is_new_development)&&(!isset($ad->is_new_development_finished)||!$ad->is_new_development_finished)) <p>Segunda mano/buen estado</p> @endif
-                            @if(isset($ad->faces_north)||isset($ad->faces_south)||isset($ad->faces_east)||isset($ad->faces_west)) <p class="orientacion">Orientación @if(isset($ad->faces_north)&&$ad->faces_north) <span>Norte</span> @endif @if(isset($ad->faces_south)&&$ad->faces_south) <span>Sur</span> @endif @if(isset($ad->faces_east)&&$ad->faces_east) <span>Este</span> @endif @if(isset($ad->faces_west)&&$ad->faces_west) <span>Oeste</span> @endif </p> @endif
+                            @if((isset($ad->faces_north)&&$ad->faces_north)||(isset($ad->faces_south)&&$ad->faces_south)||(isset($ad->faces_east)&&$ad->faces_east)||(isset($ad->faces_west)&&$ad->faces_west)) <p class="orientacion">Orientación @if(isset($ad->faces_north)&&$ad->faces_north) <span>Norte</span> @endif @if(isset($ad->faces_south)&&$ad->faces_south) <span>Sur</span> @endif @if(isset($ad->faces_east)&&$ad->faces_east) <span>Este</span> @endif @if(isset($ad->faces_west)&&$ad->faces_west) <span>Oeste</span> @endif </p> @endif
 
                             @if((isset($ad->is_new_development)&&$ad->is_new_development)||(isset($ad->is_new_development_finished)&&$ad->is_new_development_finished))
                             <h4>Construcción</h4>
