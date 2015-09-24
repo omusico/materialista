@@ -586,20 +586,20 @@
                             <p>
                             @if(isset($ad->is_out_town_center)&&$ad->is_out_town_center) <span>Fuera del casco urbano</span> @endif
                             @if(isset($ad->is_isolated)&&$ad->is_isolated) <span>Aislado</span> @endif
-                            @if(isset($ad->distance_to_beach)&&$ad->distance_to_beach) <span>{{ $ad->distance_to_beach }} m a la playa</span> @endif
-                            @if(isset($ad->distance_to_town_center)&&$ad->distance_to_town_center) <span>{{ $ad->distance_to_town_center }} m al centro de la localidad</span> @endif
-                            @if(isset($ad->distance_to_ski_area)&&$ad->distance_to_ski_area) <span>{{ $ad->distance_to_ski_area }} m a pistas de ski</span> @endif
-                            @if(isset($ad->distance_to_golf_course)&&$ad->distance_to_golf_course) <span>{{ $ad->distance_to_golf_course }} m a campo de golf</span> @endif
-                            @if(isset($ad->distance_to_airport)&&$ad->distance_to_airport) <span>{{ $ad->distance_to_airport }} m al aeropuerto</span> @endif
-                            @if(isset($ad->distance_to_supermarket)&&$ad->distance_to_supermarket) <span>{{ $ad->distance_to_supermarket }} m al supermercado</span> @endif
-                            @if(isset($ad->distance_to_river_or_lake)&&$ad->distance_to_river_or_lake) <span>{{ $ad->distance_to_river_or_lake }} m al río o lago</span> @endif
-                            @if(isset($ad->distance_to_marina)&&$ad->distance_to_marina) <span>{{ $ad->distance_to_marina }} m al puerto deportivo</span> @endif
-                            @if(isset($ad->distance_to_horse_riding_area)&&$ad->distance_to_horse_riding_area) <span>{{ $ad->distance_to_horse_riding_area }} m a centro ecuestre</span> @endif
-                            @if(isset($ad->distance_to_scuba_diving_area)&&$ad->distance_to_scuba_diving_area) <span>{{ $ad->distance_to_scuba_diving_area }} m a escuela de submarinismo</span> @endif
-                            @if(isset($ad->distance_to_train_station)&&$ad->distance_to_train_station) <span>{{ $ad->distance_to_train_station }} m a estación de tren</span> @endif
-                            @if(isset($ad->distance_to_bus_station)&&$ad->distance_to_bus_station) <span>{{ $ad->distance_to_bus_station }} m a estación de autobús</span> @endif
-                            @if(isset($ad->distance_to_hospital)&&$ad->distance_to_hospital) <span>{{ $ad->distance_to_hospital }} m al hospital</span> @endif
-                            @if(isset($ad->distance_to_hiking_area)&&$ad->distance_to_hiking_area) <span>{{ $ad->distance_to_hiking_area }} m a ruta de senderismo</span> @endif
+                            @if(isset($ad->distance_to_beach)&&$ad->distance_to_beach) <span>@if($ad->distance_to_beach>1000) {{ number_format((float) $ad->distance_to_beach/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_beach,0,',','.') }} m @endif a la playa</span> @endif
+                            @if(isset($ad->distance_to_town_center)&&$ad->distance_to_town_center) <span>@if($ad->distance_to_town_center>1000) {{ number_format((float) $ad->distance_to_town_center/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_town_center,0,',','.') }} m @endif al centro de la localidad</span> @endif
+                            @if(isset($ad->distance_to_ski_area)&&$ad->distance_to_ski_area) <span>@if($ad->distance_to_ski_area>1000) {{ number_format((float) $ad->distance_to_ski_area/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_ski_area,0,',','.') }} m @endif a pistas de ski</span> @endif
+                            @if(isset($ad->distance_to_golf_course)&&$ad->distance_to_golf_course) <span>@if($ad->distance_to_golf_course>1000) {{ number_format((float) $ad->distance_to_golf_course/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_golf_course,0,',','.') }} m @endif a campo de golf</span> @endif
+                            @if(isset($ad->distance_to_airport)&&$ad->distance_to_airport) <span>@if($ad->distance_to_airport>1000) {{ number_format((float) $ad->distance_to_airport/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_airport,0,',','.') }} m @endif al aeropuerto</span> @endif
+                            @if(isset($ad->distance_to_supermarket)&&$ad->distance_to_supermarket) <span>@if($ad->distance_to_supermarket>1000) {{ number_format((float) $ad->distance_to_supermarket/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_supermarket,0,',','.') }} m @endif al supermercado</span> @endif
+                            @if(isset($ad->distance_to_river_or_lake)&&$ad->distance_to_river_or_lake) <span>@if($ad->distance_to_river_or_lake>1000) {{ number_format((float) $ad->distance_to_river_or_lake/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_river_or_lake,0,',','.') }} m @endif al río o lago</span> @endif
+                            @if(isset($ad->distance_to_marina)&&$ad->distance_to_marina) <span>@if($ad->distance_to_marina>1000) {{ number_format((float) $ad->distance_to_marina/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_marina,0,',','.') }} m @endif al puerto deportivo</span> @endif
+                            @if(isset($ad->distance_to_horse_riding_area)&&$ad->distance_to_horse_riding_area) <span>@if($ad->distance_to_horse_riding_area>1000) {{ number_format((float) $ad->distance_to_horse_riding_area/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_horse_riding_area,0,',','.') }} m @endif a centro ecuestre</span> @endif
+                            @if(isset($ad->distance_to_scuba_diving_area)&&$ad->distance_to_scuba_diving_area) <span>@if($ad->distance_to_scuba_diving_area>1000) {{ number_format((float) $ad->distance_to_scuba_diving_area/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_scuba_diving_area,0,',','.') }} m @endif a escuela de submarinismo</span> @endif
+                            @if(isset($ad->distance_to_train_station)&&$ad->distance_to_train_station) <span>@if($ad->distance_to_train_station>1000) {{ number_format((float) $ad->distance_to_train_station/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_train_station,0,',','.') }} m @endif a estación de tren</span> @endif
+                            @if(isset($ad->distance_to_bus_station)&&$ad->distance_to_bus_station) <span>@if($ad->distance_to_bus_station>1000) {{ number_format((float) $ad->distance_to_bus_station/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_bus_station,0,',','.') }} m @endif a estación de autobús</span> @endif
+                            @if(isset($ad->distance_to_hospital)&&$ad->distance_to_hospital) <span>@if($ad->distance_to_hospital>1000) {{ number_format((float) $ad->distance_to_hospital/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_hospital,',','.') }} m @endif al hospital</span> @endif
+                            @if(isset($ad->distance_to_hiking_area)&&$ad->distance_to_hiking_area) <span>@if($ad->distance_to_hiking_area>1000) {{ number_format((float) $ad->distance_to_hiking_area/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_hiking_area,0,',','.') }} m @endif a ruta de senderismo</span> @endif
                             @if(isset($ad->is_nudist_area)&&$ad->is_nudist_area) <span>Turismo nudista</span> @endif
                             @if(isset($ad->is_bar_area)&&$ad->is_bar_area) <span>Zona de bares</span> @endif
                             @if(isset($ad->is_gayfriendly_area)&&$ad->is_gayfriendly_area) <span>Ambiente gayfriendly</span> @endif
@@ -621,19 +621,19 @@
                             </p>
                         @endif
 
-                        <h4>Actualizado el {{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('d') + 0 }} de
-                            @if(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='01') Enero
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='02') Febrero
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='03') Marzo
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='04') Abril
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='05') Mayo
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='06') Junio
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='07') Julio
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='08') Agosto
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='09') Septiembre
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='10') Octubre
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='11') Noviembre
-                            @elseif(\Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$ad->updated_at)->format('m')=='12') Diciembre
+                        <h4>Actualizado el {{ (int) $ad->updated_at->format('d') }} de
+                            @if($ad->updated_at->format('m')=='01') Enero
+                            @elseif($ad->updated_at->format('m')=='02') Febrero
+                            @elseif($ad->updated_at->format('m')=='03') Marzo
+                            @elseif($ad->updated_at->format('m')=='04') Abril
+                            @elseif($ad->updated_at->format('m')=='05') Mayo
+                            @elseif($ad->updated_at->format('m')=='06') Junio
+                            @elseif($ad->updated_at->format('m')=='07') Julio
+                            @elseif($ad->updated_at->format('m')=='08') Agosto
+                            @elseif($ad->updated_at->format('m')=='09') Septiembre
+                            @elseif($ad->updated_at->format('m')=='10') Octubre
+                            @elseif($ad->updated_at->format('m')=='11') Noviembre
+                            @elseif($ad->updated_at->format('m')=='12') Diciembre
                             @endif
                         </h4>
 

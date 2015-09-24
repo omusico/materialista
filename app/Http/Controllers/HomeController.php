@@ -23,7 +23,22 @@ use App\OptionTenantGender;
 use App\OptionTenantMinStay;
 use App\OptionTenantOccupation;
 use App\OptionTenantSexualOrientation;
+use App\RentApartment;
+use App\RentBusiness;
+use App\RentCountryHouse;
+use App\RentGarage;
+use App\RentHouse;
+use App\RentLand;
+use App\RentOffice;
+use App\Room;
 use App\SeasonPrice;
+use App\SellApartment;
+use App\SellBusiness;
+use App\SellCountryHouse;
+use App\SellGarage;
+use App\SellHouse;
+use App\SellLand;
+use App\SellOffice;
 
 class HomeController extends Controller {
 
@@ -578,11 +593,69 @@ class HomeController extends Controller {
 
     public function adProfile($id)
     {
-        $Ad = Ad::find($id);
-        $ad = \DB::table($Ad->local_table)->where('id',$Ad->local_id)->first();
+        $Ad = Ad::findOrFail($id);
 
         //specific operation and typology codes for the profile page
         $txt = explode('_',$Ad->local_table,2);
+        switch($txt[0]) {
+            case 'sell':
+                switch($txt[1]) {
+                    case 'house':
+                        $ad = SellHouse::findOrFail($Ad->local_id);
+                        break;
+                    case 'apartment':
+                        $ad = SellApartment::findOrFail($Ad->local_id);
+                        break;
+                    case 'country_house':
+                        $ad = SellCountryHouse::findOrFail($Ad->local_id);
+                        break;
+                    case 'business':
+                        $ad = SellBusiness::findOrFail($Ad->local_id);
+                        break;
+                    case 'office':
+                        $ad = SellOffice::findOrFail($Ad->local_id);
+                        break;
+                    case 'garage':
+                        $ad = SellGarage::findOrFail($Ad->local_id);
+                        break;
+                    case 'land':
+                        $ad = SellLand::findOrFail($Ad->local_id);
+                        break;
+                }
+                break;
+            case 'rent':
+                switch($txt[1]) {
+                    case 'house':
+                        $ad = RentHouse::findOrFail($Ad->local_id);
+                        break;
+                    case 'apartment':
+                        $ad = RentApartment::findOrFail($Ad->local_id);
+                        break;
+                    case 'country_house':
+                        $ad = RentCountryHouse::findOrFail($Ad->local_id);
+                        break;
+                    case 'business':
+                        $ad = RentBusiness::findOrFail($Ad->local_id);
+                        break;
+                    case 'office':
+                        $ad = RentOffice::findOrFail($Ad->local_id);
+                        break;
+                    case 'garage':
+                        $ad = RentGarage::findOrFail($Ad->local_id);
+                        break;
+                    case 'land':
+                        $ad = RentLand::findOrFail($Ad->local_id);
+                        break;
+                    case 'room':
+                        $ad = Room::findOrFail($Ad->local_id);
+                        break;
+                    case 'vacation':
+                        $ad = Lodging::findOrFail($Ad->local_id);
+                        break;
+                }
+                break;
+        }
+
         switch($txt[0]) {
             case 'sell':
                 $operation = 0;
