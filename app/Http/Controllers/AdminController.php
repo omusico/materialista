@@ -1152,12 +1152,10 @@ class AdminController extends Controller {
         if(isset($old)&&$old->save()) {
             $Ad->touch();
             return redirect('dashboard')
-                ->with('success',['Stitle'=>'Editar anuncio','Smsg'=>'Los datos del anuncio ha sido actualizados satisfactoriamente.']);
+                ->with('success',['Stitle'=>'Editar anuncio','Smsg'=>'Los datos del anuncio han sido actualizados satisfactoriamente.']);
         }
         return redirect('dashboard')
-            ->with('error', ['Etitle'=>'Editar anuncio', 'Emsg'=>'Se produjo un error al tratar de actualizar los datos del anuncio #'.$old->id.'. Si el problema persiste póngase en contacto con el Servicio Técnico de la aplicación.']);
-
-
+            ->with('error', ['Etitle'=>'Editar anuncio', 'Emsg'=>'Se produjo un error al tratar de actualizar los datos del anuncio. Si el problema persiste póngase en contacto con el servicio técnico de la aplicación.']);
     }
 
     public function uploadImage()
