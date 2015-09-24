@@ -954,7 +954,7 @@ class AdsTableSeeder extends Seeder
             $has_cleaning = mt_rand(0,1);
             if($has_booking==1) { $booking = mt_rand(1,100); } elseif($has_booking==2) { $booking = mt_rand(250,550); } else { $booking = null; }
             if($has_deposit==1) { $deposit = mt_rand(1,100); } elseif($has_deposit==2) { $deposit = mt_rand(350,1550); } else { $deposit = null; }
-            $cleaning = ($has_cleaning) ? mt_rand(50,350) : null;
+            $cleaning = (!$has_cleaning) ? mt_rand(50,350) : null;
             $area_total = mt_rand(45,300);
             $area_garden = intval(0.4 * $area_total);
             $area_terrace = intval(0.2 * $area_total);
@@ -1090,8 +1090,8 @@ class AdsTableSeeder extends Seeder
                 $to_date = $from_date->addMonths(mt_rand(1,6));
                 $newSeasonPrice = \App\SeasonPrice::create([
                     'n_season' => $j,
-                    'from_date' => ($j==0) ? Carbon::createFromFormat('d/m/Y','1/1/1900'), : $from_date,
-                    'to_date' => ($j==0) ? Carbon::createFromFormat('d/m/Y','1/1/2999'), : $to_date,
+                    'from_date' => ($j==0) ? Carbon::createFromFormat('d/m/Y','1/1/1900') : $from_date,
+                    'to_date' => ($j==0) ? Carbon::createFromFormat('d/m/Y','1/1/2999') : $to_date,
                     'p_one_night' => mt_rand(15,100),
                     'p_weekend_night' => mt_rand(30,200),
                     'p_one_week' => mt_rand(80,700),

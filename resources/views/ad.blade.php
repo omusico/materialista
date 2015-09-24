@@ -245,9 +245,9 @@
 
                             <h4>Equipamiento</h4>
                             @if(isset($ad->has_box_room)&&$ad->has_box_room) <p>Trastero</p> @endif
-                            @if(isset($ad->has_terrace)&&$ad->has_terrace) <p>{{$ad->has_terrace}} Terraza</p> @endif
-                            @if(isset($ad->has_fireplace)&&$ad->has_fireplace) <p>{{$ad->has_fireplace}} Chimenea</p> @endif
-                            @if(isset($ad->has_parking_space)&&$ad->has_parking_space) <p>{{$ad->has_parking_space}} Plaza de garaje incluida en el precio</p> @endif
+                            @if(isset($ad->has_terrace)&&$ad->has_terrace) <p>Terraza</p> @endif
+                            @if(isset($ad->has_fireplace)&&$ad->has_fireplace) <p>Chimenea</p> @endif
+                            @if(isset($ad->has_parking_space)&&$ad->has_parking_space) <p>Plaza de garaje incluida en el precio</p> @endif
                             @if(isset($ad->has_builtin_closets)&&$ad->has_builtin_closets) <p>Armarios empotrados</p> @endif
                             @if(isset($ad->has_furniture)&&$ad->has_furniture) <p>Amueblada</p> @endif
                             @if(isset($ad->has_equipped_kitchen)&&$ad->has_equipped_kitchen) <p>Cocina equipada</p> @endif
@@ -489,7 +489,7 @@
 
                             <h4>Precios</h4>
                             @if(isset($ad->season_prices)&&$ad->season_prices->count())
-                                @if(isset($ad->min_capacity)&&$ad->min_capacity) <p>Precios para una capacidad de {{ $ad->min_capacity }} plazas @if(isset($ad->max_capacity)&&($ad->min_capacity<$ad->max_capacity)) y un máximo de {{ ($ad->max_capacity - $ad->min_capacity) }} @choice('huésped|huéspedes',($ad->max_capacity - $ad->min_capacity)) extra. @endif &lbrack;Precios con IVA incluido&rbrack;</p> @endif
+                                @if(isset($ad->min_capacity)&&$ad->min_capacity) <p>Precios para una capacidad de {{ $ad->min_capacity }} plazas @if(isset($ad->max_capacity)&&($ad->min_capacity<$ad->max_capacity)) y un máximo de {{ ($ad->max_capacity - $ad->min_capacity) }} @choice('huésped|huéspedes',($ad->max_capacity - $ad->min_capacity)) extra. @endif Precios con IVA incluido</p> @endif
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr style="font-size:12px;">
@@ -509,7 +509,7 @@
                                             @if($season->n_season=='1')
                                                 <td style="vertical-align:middle;">Precio básico</td>
                                             @else
-                                                <td style="vertical-align:middle;">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$season->from_date)->format('d M') }} a {{ \Carbon\Carbon::createFromFormat('Y-m-d H:m:s',$season->to_date)->format('d M') }}</td>
+                                                <td style="vertical-align:middle;">{{ ($season->from_date->format('d') + 0).' '.$season->from_date->format('M') }} a {{ ($season->to_date->format('d') + 0).' '.$season->to_date->format('M') }}</td>
                                             @endif
                                                 <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_one_night)&&$season->p_one_night) {{ $season->p_one_night }} &euro; @else - @endif</td>
                                                 <td style="text-align:center;vertical-align:middle;">@if(isset($season->p_weekend_night)&&$season->p_weekend_night) {{ $season->p_weekend_night }} &euro; @else - @endif</td>
@@ -557,7 +557,7 @@
                                     </tr>
                                     <tr>
                                         <td width="160">Limpieza final:</td>
-                                        <td>@if(isset($ad->has_cleaning)&&$ad->has_cleaning) No incluida: {{$ad->cleaning }} &euro; @else Incluida @endif</td>
+                                        <td>@if(isset($ad->has_cleaning)&&!$ad->has_cleaning&&isset($ad->cleaning)) No incluida: {{ $ad->cleaning }} &euro; @else Incluida @endif</td>
                                     </tr>
                                     <tr>
                                         <td width="160">Sábanas y toallas:</td>

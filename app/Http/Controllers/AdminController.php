@@ -322,7 +322,6 @@ class AdminController extends Controller {
                 switch ($input['typology']) {
                     case '0': //apartment
                         $old = SellApartment::find($input['local_id']);
-                        $table = 'sell_apartment';
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
@@ -375,7 +374,6 @@ class AdminController extends Controller {
                         break;
                     case '1': //house
                         $old = SellHouse::findOrFail($input['local_id']);
-                        $table = 'sell_house';
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
@@ -421,7 +419,6 @@ class AdminController extends Controller {
                         break;
                     case '2': //country house
                         $old = SellCountryHouse::findOrFail($input['local_id']);
-                        $table = 'sell_country_house';
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
@@ -467,7 +464,6 @@ class AdminController extends Controller {
                         break;
                     case '3': //office
                         $old = SellOffice::findOrFail($input['local_id']);
-                        $table = 'sell_office';
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
                         $old->lat = $input['lat'];
@@ -524,7 +520,6 @@ class AdminController extends Controller {
                         break;
                     case '4': //business
                         $old = SellBusiness::findOrFail($input['local_id']);
-                        $table = 'sell_business';
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
                         $old->lat = $input['lat'];
@@ -569,7 +564,6 @@ class AdminController extends Controller {
                         break;
                     case '5': //garage
                         $old = SellGarage::findOrFail($input['local_id']);
-                        $table = 'sell_garage';
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
                         $old->lat = $input['lat'];
@@ -595,7 +589,6 @@ class AdminController extends Controller {
                         break;
                     case '6': //land
                         $old = SellLand::findOrFail($input['local_id']);
-                        $table = 'sell_land';
                         $old->price = $input['price'];
                         $old->lat = $input['lat'];
                         $old->lng = $input['lng'];
@@ -638,7 +631,6 @@ class AdminController extends Controller {
                 switch ($input['typology']) {
                     case '0': //apartment
                         $old = RentApartment::findOrFail($input['local_id']);
-                        $table = 'rent_apartment';
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
@@ -693,7 +685,6 @@ class AdminController extends Controller {
                         break;
                     case '1': //house
                         $old = RentHouse::findOrFail($input['local_id']);
-                        $table = 'rent_house';
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
@@ -741,7 +732,6 @@ class AdminController extends Controller {
                         break;
                     case '2': //country house
                         $old = RentCountryHouse::findOrFail($input['local_id']);
-                        $table = 'rent_country_house';
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
@@ -789,7 +779,6 @@ class AdminController extends Controller {
                         break;
                     case '3': //office
                         $old = RentOffice::findOrFail($input['local_id']);
-                        $table = 'rent_office';
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->lat = $input['lat'];
@@ -846,7 +835,6 @@ class AdminController extends Controller {
                         break;
                     case '4': //business
                         $old = RentBusiness::findOrFail($input['local_id']);
-                        $table = 'rent_business';
                         $old->price = $input['price'];
                         $old->is_transfer = (isset($input['is_transfer'])&&$input['is_transfer']) ? true : false;
                         $old->deposit = $input['deposit'];
@@ -892,7 +880,6 @@ class AdminController extends Controller {
                         break;
                     case '5': //garage
                         $old = RentGarage::findOrFail($input['local_id']);
-                        $table = 'rent_garage';
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->lat = $input['lat'];
@@ -918,7 +905,6 @@ class AdminController extends Controller {
                         break;
                     case '6': //land
                         $old = RentLand::findOrFail($input['local_id']);
-                        $table = 'rent_land';
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->lat = $input['lat'];
@@ -958,7 +944,6 @@ class AdminController extends Controller {
                         break;
                     case '7': //vacation (lodging)
                         $old = Lodging::findOrFail($input['local_id']);
-                        $table = 'rent_vacation';
                         $old->lat = $input['lat'];
                         $old->lng = $input['lng'];
                         $old->formatted_address = $input['formatted_address'];
@@ -991,7 +976,7 @@ class AdminController extends Controller {
                         $old->distance_to_supermarket = $input['distance_to_supermarket'];
                         $old->distance_to_river_or_lake = $input['distance_to_river_or_lake'];
                         $old->distance_to_marina = $input['distance_to_marina'];
-                        $old->distance_to_horse_riding_area = $input['distance_to_house_diving_area'];
+                        $old->distance_to_horse_riding_area = $input['distance_to_horse_riding_area'];
                         $old->distance_to_scuba_diving_area = $input['distance_to_scuba_diving_area'];
                         $old->distance_to_train_station = $input['distance_to_train_station'];
                         $old->distance_to_bus_station = $input['distance_to_bus_station'];
@@ -1001,7 +986,7 @@ class AdminController extends Controller {
                         $old->n_two_beds_room = $input['n_two_beds_room'];
                         $old->n_single_bed_room = $input['n_single_bed_room'];
                         $old->n_three_beds_room = $input['n_three_beds_room'];
-                        $old->n_four_beds_room = $input['n_fours_beds_room'];
+                        $old->n_four_beds_room = $input['n_four_beds_room'];
                         $old->n_sofa_bed = $input['n_sofa_bed'];
                         $old->n_double_sofa_bed = $input['n_double_sofa_bed'];
                         $old->n_extra_bed = $input['n_extra_bed'];
@@ -1012,9 +997,9 @@ class AdminController extends Controller {
                         $old->has_deposit = $input['has_deposit'];
                         $old->deposit = (isset($input['has_deposit'])&&$input['has_deposit']) ? $input['deposit'] : null;
                         $old->payment_day_id = $input['payment_day_id'];
-                        $old->n_days_before = $input['n_days_before'];
-                        $old->has_cleaning = (isset($input['has_cleaning'])&&$input['']) ? true : false;
-                        $old->cleaning = (isset($input['has_cleaning'])&&!$input['has_cleaning']) ? $input['cleaning'] : null;
+                        $old->n_days_before = (isset($input['n_days_before'])) ? $input['n_days_before'] : null;
+                        $old->has_cleaning = (isset($input['has_cleaning'])&&$input['has_cleaning']) ? true : false;
+                        $old->cleaning = (isset($input['has_cleaning'])&&!$input['has_cleaning']&&isset($input['cleaning'])) ? $input['cleaning'] : null;
                         $old->has_included_towels = (isset($input['has_included_towels'])&&$input['has_included_towels']) ? true : false;
                         $old->has_included_expenses = (isset($input['has_included_expenses'])&&$input['has_included_expenses']) ? true : false;
                         $old->accepts_cash = (isset($input['accepts_cash'])&&$input['accepts_cash']) ? true : false;
@@ -1086,8 +1071,8 @@ class AdminController extends Controller {
                             if($exp_key[0] == 'n_season') {
                                 SeasonPrice::create([
                                     'n_season'                  => $value,
-                                    'from_date'                 => Carbon::findOrFailFromFormat('d/m/Y',$input['from_date-'.$value]),
-                                    'to_date'                   => Carbon::findOrFailFromFormat('d/m/Y',$input['to_date-'.$value]),
+                                    'from_date'                 => Carbon::createFromFormat('d/m/Y',$input['from_date-'.$value]),
+                                    'to_date'                   => Carbon::createFromFormat('d/m/Y',$input['to_date-'.$value]),
                                     'p_one_night'               => $input['p_one_night-'.$value],
                                     'p_weekend_night'           => $input['p_weekend_night-'.$value],
                                     'p_one_week'                => $input['p_one_week-'.$value],
@@ -1101,8 +1086,7 @@ class AdminController extends Controller {
                         }
                         break;
                     case '8': //room
-                        $old = Room::findOrFail($input);
-                        $table = 'rent_room';
+                        $old = Room::findOrFail($input['local_id']);
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
                         $old->lat = $input['lat'];

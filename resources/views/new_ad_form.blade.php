@@ -1731,14 +1731,14 @@
                                                             <input type="radio" name="has_booking" value="1" data-title="En porcentaje:" @if(isset($ad->has_booking)&&$ad->has_booking=='1') checked="checked" @endif />
                                                             En porcentaje:
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="booking-percentage" @if(!isset($ad->has_booking)||(isset($ad->has_booking)&&!$ad->has_booking=='1')) disabled="disabled" @elseif(isset($ad->has_booking)&&$ad->has_booking=='1'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
+                                                                <input type="text" class="form-control" name="booking-percentage" @if(!isset($ad->has_booking)||(isset($ad->has_booking)&&$ad->has_booking!='1')) disabled="disabled" @elseif(isset($ad->has_booking)&&$ad->has_booking=='1'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                                 <span class="input-group-addon">%</span>
                                                             </div></label>
                                                         <label>
                                                             <input type="radio" name="has_booking" value="2" data-title="En euros:" @if(isset($ad->has_booking)&&$ad->has_booking=='2') checked="checked" @endif />
                                                             En euros: </label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" name="booking-euros" @if(!isset($ad->has_booking)||(isset($ad->has_booking)&&!$ad->has_booking=='2')) disabled="disabled" @elseif(isset($ad->has_booking)&&$ad->has_booking=='2'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
+                                                            <input type="text" class="form-control" name="booking-euros" @if(!isset($ad->has_booking)||(isset($ad->has_booking)&&$ad->has_booking!='2')) disabled="disabled" @elseif(isset($ad->has_booking)&&$ad->has_booking=='2'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                             <span class="input-group-addon">&euro;</span>
                                                         </div>
                                                     </div>
@@ -1774,14 +1774,14 @@
                                                             <input type="radio" name="has_deposit" value="1" data-title="En porcentaje:" @if(isset($ad->has_deposit)&&$ad->has_deposit=='1') checked="checked" @endif />
                                                             En porcentaje:
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" name="deposit-percentage" @if(!isset($ad->has_deposit)||(isset($ad->has_deposit)&&!$ad->has_deposit=='1')) disabled="disabled" @elseif(isset($ad->has_deposit)&&$ad->has_deposit=='1'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
+                                                                <input type="text" class="form-control" name="deposit-percentage" @if(!isset($ad->has_deposit)||(isset($ad->has_deposit)&&$ad->has_deposit!='1')) disabled="disabled" @elseif(isset($ad->has_deposit)&&$ad->has_deposit=='1'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                                 <span class="input-group-addon">%</span>
                                                             </div></label>
                                                         <label>
                                                             <input type="radio" name="has_deposit" value="2" data-title="En euros:" @if(isset($ad->has_deposit)&&$ad->has_deposit=='2') checked="checked" @endif />
                                                             En euros: </label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" name="deposit-euros" @if(!isset($ad->has_deposit)||(isset($ad->has_deposit)&&!$ad->has_deposit=='2')) disabled="disabled" @elseif(isset($ad->has_deposit)&&$ad->has_deposit=='2'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
+                                                            <input type="text" class="form-control" name="deposit-euros" @if(!isset($ad->has_deposit)||(isset($ad->has_deposit)&&$ad->has_deposit!='2')) disabled="disabled" @elseif(isset($ad->has_deposit)&&$ad->has_deposit=='2'&&isset($ad->booking)&&$ad->booking) value="{!! $ad->booking !!}" @endif />
                                                             <span class="input-group-addon">&euro;</span>
                                                         </div>
                                                     </div>
@@ -1794,10 +1794,10 @@
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="radio-list">
                                                         <label>
-                                                            <input type="radio" name="has_cleaning" value="0" data-title="Incluida en el precio" @if(isset($ad->has_cleaning)&&$ad->has_cleaning) checked="checked" @endif />
+                                                            <input type="radio" name="has_cleaning" value="1" data-title="Incluida en el precio" @if(isset($ad->has_cleaning)&&$ad->has_cleaning) checked="checked" @endif />
                                                             Incluida en el precio </label>
                                                         <label>
-                                                            <input type="radio" name="has_cleaning" value="1" data-title="No incluida. En euros:" @if(isset($ad->has_cleaning)&&!$ad->has_cleaning) checked="checked" @endif />
+                                                            <input type="radio" name="has_cleaning" value="0" data-title="No incluida. En euros:" @if(isset($ad->has_cleaning)&&!$ad->has_cleaning) checked="checked" @endif />
                                                             No incluida. En euros: </label>
                                                         <div class="input-group">
                                                             <input type="text" class="form-control" name="cleaning" @if(!isset($ad->has_cleaning)||(isset($ad->has_cleaning)&&$ad->has_cleaning)) disabled="disabled" @elseif(isset($ad->has_cleaning)&&!$ad->has_cleaning&&isset($ad->cleaning)&&$ad->cleaning) value="{!! $ad->cleaning !!}" @endif />
@@ -2673,7 +2673,7 @@
                 }
             });
             tab2.on('change', 'input[type=radio][name=has_cleaning]', function() {
-                if ($(this).val() == '1') {
+                if ($(this).val() == '0') {
                     $('input[name=cleaning]').removeAttr('disabled');
                 } else {
                     $('input[name=cleaning]').attr("disabled","disabled").val('');

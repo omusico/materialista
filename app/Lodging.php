@@ -34,6 +34,6 @@ class Lodging extends Model
 
     public function prices()
     {
-        return $this->hasMany('App\SeasonPrice');
+        return $this->hasMany('App\SeasonPrice','rent_vacation_id');
     }
 }
