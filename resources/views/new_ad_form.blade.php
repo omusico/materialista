@@ -2491,7 +2491,7 @@
                                                                     @if(substr($pic->filename, 0, 4) === 'http')
                                                                         {{ mt_rand(150,400) }} kB
                                                                     @else
-                                                                        {{ (filesize('ads/pictures/'.$pic->filename) * 0.001) + 0 }} kB
+                                                                        {{ (int) (filesize('ads/pictures/'.$pic->filename) * 0.001) }} kB
                                                                     @endif
                                                                 </td>
                                                                 <td>
