@@ -73,6 +73,39 @@
             color: #FFF;
             background-color: #F26721;
         }
+        #container-search-by-proximity {
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+        #container-servicios-tecnicos {
+            padding-bottom: 50px;
+            background-color: #f8f8f8;
+        }
+        #container-servicios-agrarios {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        .h2-servicios {
+            font-weight: bold;
+            color: #F26721;
+        }
+        .ul-servicios {
+
+        }
+        .ul-servicios > li {
+            color: #4A4A4A;
+            font-size: 18px;
+            line-height: 25px;
+            margin-top: 20px;
+        }
+        .btn-contact-us {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        @media (max-width: 750px) {
+            .h2-servicios, .ul-servicios { padding-left: 10px; }
+            .btn-contact-us { margin-left:10px; }
+        }
     </style>
 @endsection
 
@@ -138,7 +171,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="container-search-by-proximity" style="padding: 50px 0 150px 0;">
+    <div class="container" id="container-search-by-proximity">
         <div class="row">
             <div class="col-xs-offset-0 col-xs-12 col-lg-offset-2 col-lg-8" id="col-proximity-search">
                 <h4 style="padding-left:5px;">Buscar por cercanía:</h4>
@@ -160,11 +193,93 @@
                         </select>
                     </div>
                     <div class="form-group col-xs-12 col-sm-6" style="padding:0 5px;vertical-align: top;">
-                        <input type="text" placeholder="Escribe la dirección donde centrar la búsqueda" class="form-control" name="customAddress" style="width:100%;">
+                        <input type="text" placeholder="Escriba la dirección donde centrar la búsqueda" class="form-control" name="customAddress" style="width:100%;">
                         <span class="help-block">Ej.: Calle Mayor 1, Martorell, Barcelona</span>
                     </div>
                     <div class="col-xs-12 col-sm-3" style="padding:0 5px;">
                         <button class="btn inline btn-default" id="btn-search-by-proximity" style="width: 100%;vertical-align: top;">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="container-servicios-tecnicos">
+        <div class="row hidden-xs" style="height:50px;">&nbsp;</div>
+        <div class="row">
+            <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-4" style="height: 275px;
+                background-image: url('{{ asset('img/appraisal.jpg') }}');
+                background-position: 50% 50%;
+                background-size: cover;">
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="row hidden-sm hidden-md hidden-lg" style="height:20px;">
+                </div>
+                <div class="row">
+                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-11">
+                        <h2 class="h2-servicios">Servicios técnicos</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-5">
+                        <ul class="ul-servicios fa-ul">
+                            <li><i class="fa-li fa fa-check-square"></i>Certificados técnicos</li>
+                            <li><i class="fa-li fa fa-check-square"></i>Tasaciones</li>
+                            <li class="hidden-sm hidden-md hidden-lg"><i class="fa-li fa fa-check-square"></i>Asesoramiento técnico</li>
+                            <li class="hidden-sm hidden-md hidden-lg"><i class="fa-li fa fa-check-square"></i>Proyectos de reformas</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <ul class="ul-servicios fa-ul">
+                            <li class="hidden-xs"><i class="fa-li fa fa-check-square"></i>Asesoramiento técnico</li>
+                            <li class="hidden-xs"><i class="fa-li fa fa-check-square"></i>Proyectos de reformas</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-11" style="margin-top:35px;">
+                        <a href="mailto:contact@valkiria.com" class="hidden-xs btn btn-primary btn-contact-us">Contacte con nuestro equipo experto</a>
+                        <a href="mailto:contact@valkiria.com" class="hidden-sm hidden-md hidden-lg btn btn-primary btn-contact-us">Contáctenos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="container-servicios-agrarios">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-sm-push-7" style="height: 275px;
+                    background-image: url('{{ asset('img/fields.jpg') }}');
+                    background-position: 50% 50%;
+                    background-size: cover;">
+            </div>
+            <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-6 col-sm-pull-4">
+                <div class="row hidden-sm hidden-md hidden-lg" style="height:20px;">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="h2-servicios">Servicios agrarios</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <ul class="ul-servicios fa-ul">
+                            <li><i class="fa-li fa fa-check-square"></i>Levantamientos topográficos</li>
+                            <li><i class="fa-li fa fa-check-square"></i>Nivelaciones</li>
+                            <li><i class="fa-li fa fa-check-square"></i>Trabajos agrícolas</li>
+                            <li class="hidden-sm hidden-md hidden-lg"><i class="fa-li fa fa-check-square"></i>Gestión de purines</li>
+                            <li class="hidden-sm hidden-md hidden-lg"><i class="fa-li fa fa-check-square"></i>Asesoramiento de fincas</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <ul class="ul-servicios fa-ul">
+                            <li class="hidden-xs"><i class="fa-li fa fa-check-square"></i>Gestión de purines</li>
+                            <li class="hidden-xs"><i class="fa-li fa fa-check-square"></i>Asesoramiento de fincas</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="margin-top:35px;">
+                        <a href="mailto:contact@valkiria.com" class="hidden-xs btn btn-primary btn-contact-us">Contacte con nuestro equipo experto</a>
+                        <a href="mailto:contact@valkiria.com" class="hidden-sm hidden-md hidden-lg btn btn-primary btn-contact-us">Contáctenos</a>
                     </div>
                 </div>
             </div>

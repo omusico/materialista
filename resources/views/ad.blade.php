@@ -82,6 +82,12 @@
             color: #666;
         }
         @endif
+        p.cap-first-only {
+            text-transform: lowercase;
+        }
+        p.cap-first-only:first-letter {
+            text-transform: capitalize;
+        }
         p > span:after,
         td > span:after {
             content: ',';
@@ -257,12 +263,21 @@
                             @if(isset($ad->n_floors)&&$ad->n_floors) {{$ad->n_floors}} @choice('planta|plantas',$ad->n_floors) @endif
                             @if(isset($ad->has_elevator)&&$ad->has_elevator) Con ascensor @endif
                             <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
-                            <p>Certificación energética: {{ $certE }}
+                            <p style="line-height:30px">Certificación energética:
+                                @if($certE=='A') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='B') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='C') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='D') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='E') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='F') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='G') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @else {{ $certE }}
+                                @endif
                                 @if(in_array($certE,range('A','G')))
                                     @if(isset($ad->energy_performance)&&$ad->energy_performance)
                                         ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
-                                    @else
-                                        (IPE no indicado)
+                                        @else
+                                        &lbrack;IPE no indicado]
                                     @endif
                                 @endif
                             </p>
@@ -289,7 +304,16 @@
                             @if(isset($ad->n_floors)&&$ad->n_floors) <p>{{$ad->n_floors}} @choice('planta|plantas',$ad->n_floors)</p> @endif
                             @if(isset($ad->facade)&&$ad->facade) <p>{{ $ad->facade }}</p> @endif
                             <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
-                            <p>Certificación energética: {{ $certE }}
+                            <p style="line-height:30px">Certificación energética:
+                                @if($certE=='A') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='B') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='C') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='D') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='E') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='F') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='G') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @else {{ $certE }}
+                                @endif
                                 @if(in_array($certE,range('A','G')))
                                     @if(isset($ad->energy_performance)&&$ad->energy_performance)
                                         ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
@@ -323,12 +347,21 @@
                             @if(isset($ad->n_elevators)&&$ad->n_elevators) <p> {{ $ad->n_elevators }} @choice('ascensor|ascensores',$ad->n_elevators) </p> @endif
                             @if(isset($ad->has_offices_only)&&$ad->has_offices_only) <p>Uso exclusivo de oficinas</p> @endif
                             <?php $certE = \App\EnergyCertification::where('id',$ad->energy_certification_id)->pluck('name'); ?>
-                            <p>Certificación energética: {{ $certE }}
+                            <p style="line-height:30px">Certificación energética:
+                                @if($certE=='A') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='B') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='C') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='D') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='E') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='F') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @elseif($certE=='G') <img src="{{ asset('img/energy-cert-'.$certE.'.png') }}" height="18" width="29"/>
+                                @else {{ $certE }}
+                                @endif
                                 @if(in_array($certE,range('A','G')))
                                     @if(isset($ad->energy_performance)&&$ad->energy_performance)
                                         ({{$ad->energy_performance}} kWh/m&sup2; a&ntilde;o)
-                                    @else
-                                        (IPE no indicado)
+                                        @else
+                                        &lbrack;IPE no indicado]
                                     @endif
                                 @endif
                             </p>
@@ -422,7 +455,7 @@
                         {{--vacation--}}
                             <h4>Características del apartamento</h4>
                             <h5>Exterior</h5>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->has_barbecue)&&$ad->has_barbecue) <span>Barbacoa</span> @endif
                             @if(isset($ad->has_terrace)&&$ad->has_terrace) <span>Terraza</span> @endif
                             @if(isset($ad->has_private_swimming_pool)&&$ad->has_private_swimming_pool) <span>Piscina privada</span>  @endif
@@ -438,7 +471,7 @@
                             </p>
 
                             <h5>Distribución</h5>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->n_double_bedroom)&&$ad->n_double_bedroom) <span>{{ $ad->n_double_bedroom }} @choice('habitación doble|habitaciones dobles',$ad->n_double_bedroom) </span> @endif
                             @if(isset($ad->n_two_beds_room)&&$ad->n_two_beds_room) <span>{{ $ad->n_two_beds_room }} @choice('habitación|habitaciones',$ad->n_two_beds_room) de matrimonio</span> @endif
                             @if(isset($ad->n_single_bed_room)&&$ad->n_single_bed_room) <span>{{ $ad->n_single_bed_room }} @choice('habitación individual|habitaciones individuales',$ad->n_single_bed_room) </span> @endif
@@ -454,7 +487,7 @@
                             </p>
 
                             <h5>Interior</h5>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->has_fireplace)&&$ad->has_fireplace) <span>Chimenea</span> @endif
                             @if(isset($ad->has_air_conditioning)&&$ad->has_air_conditioning) <span>Aire acondicionado</span> @endif
                             @if(isset($ad->has_jacuzzi)&&$ad->has_jacuzzi) <span>Jacuzzi</span> @endif
@@ -468,7 +501,7 @@
                             </p>
 
                             <h5>Cocina y electrodomésticos</h5>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->has_dishwasher)&&$ad->has_dishwasher) <span>Lavavajillas</span> @endif
                             @if(isset($ad->has_fridge)&&$ad->has_fridge) <span>Frigorífico</span> @endif
                             @if(isset($ad->has_oven)&&$ad->has_oven) <span>Horno</span> @endif
@@ -480,7 +513,7 @@
                             </p>
 
                             <h5>Información adicional</h5>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->is_smoking_allowed)&&!$ad->is_smoking_allowed) <span>No se puede fumar</span> @endif
                             @if(isset($ad->is_pet_allowed)&&!$ad->is_pet_allowed) <span>No se admite mascota</span> @endif
                             @if(isset($ad->is_car_recommended)&&$ad->is_car_recommended) <span>Recomendable tener coche</span> @endif
@@ -575,15 +608,15 @@
                         {{--common to all--}}
                         @if(!$ad->hide_address)
                             <h4> @if(isset($ad->route)) {{ $ad->route }}, @endif @if(isset($ad->street_number)) {{ $ad->street_number }} @endif </h4>
-                            @if(isset($ad->residential_area)&&$ad->residential_area) <p>{{ $ad->residential_area }}</p> @endif
+                            @if(isset($ad->residential_area)&&$ad->residential_area!='') <p>{{ $ad->residential_area }}</p> @endif
                             <p>{{ $ad->locality }}</p>
-                            <p> @if(isset($ad->admin_area_lvl2)&&$ad->admin_area_lvl2) {{ $ad->admin_area_lvl2 }}, @endif @if(isset($ad->admin_area_lvl1)&&$ad->admin_area_lvl1) {{ $ad->admin_area_lvl1 }} @endif </p>
+                            <p class="coma-separation"> @if(isset($ad->admin_area_lvl2)&&$ad->admin_area_lvl2!='') <span>{{ $ad->admin_area_lvl2 }}</span> @endif @if(isset($ad->admin_area_lvl1)&&$ad->admin_area_lvl1!='') <span>{{ $ad->admin_area_lvl1 }}</span> @endif </p>
                             <p><a href="https://www.google.es/maps/search/<?php foreach(preg_split('/[ \r\n]/',$ad->formatted_address) as $piece) { echo $piece.'+'; } ?>" target="_blank"><i class="fa fa-map-marker"></i> Ver localización en Google Maps</a></p>
                         @endif
 
                         @if($typology==8)
                             <h4>Ubicación y entorno</h4>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->is_out_town_center)&&$ad->is_out_town_center) <span>Fuera del casco urbano</span> @endif
                             @if(isset($ad->is_isolated)&&$ad->is_isolated) <span>Aislado</span> @endif
                             @if(isset($ad->distance_to_beach)&&$ad->distance_to_beach) <span>@if($ad->distance_to_beach>1000) {{ number_format((float) $ad->distance_to_beach/1000,1,',','.') }} km @else {{ number_format((float) $ad->distance_to_beach,0,',','.') }} m @endif a la playa</span> @endif
@@ -609,7 +642,7 @@
                             </p>
 
                             <h4>Actividades y atracciones</h4>
-                            <p>
+                            <p class="cap-first-only">
                             @if(isset($ad->has_bicycle_rental)&&$ad->has_bicycle_rental) <span>Alquiler de bicicleta</span> @endif
                             @if(isset($ad->has_car_rental)&&$ad->has_car_rental) <span>Alquiler de coche</span> @endif
                             @if(isset($ad->has_adventure_activities)&&$ad->has_adventure_activities) <span>Actividades multiaventura</span> @endif

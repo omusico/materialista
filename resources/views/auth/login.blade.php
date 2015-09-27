@@ -51,18 +51,17 @@
             border-width: 0;
         }
         .btn-warning {
-            background-color: #F26721;
-            border-color: #F26721;
+            background-color: #f08b4a;
+            border-color: #f08141;
         }
-
         .btn-warning:hover,
         .btn-warning:focus,
         .btn-warning.focus,
         .btn-warning:active,
         .btn-warning.active,
         .open > .dropdown-toggle.btn-warning {
-            background-color: #ca561c !important;
-            border-color: #ca561c !important;
+            background-color: #F26721 !important;
+            border-color: #F26721 !important;
         }
 
         @if(\App::environment() == 'local')

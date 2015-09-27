@@ -114,7 +114,7 @@
 
     <div class="page-footer">
         <div class="page-footer-inner">
-            2015-2016 &copy; @if(\App::environment() == 'local') Materialista. @else Valkiria. @endif Gestor de contenidos v0.1
+            @if(\App::environment() == 'local') Materialista @else Valkiria @endif &copy; 2015-2016. Gestor de contenidos v0.1
         </div>
         <div class="scroll-to-top">
             <i class="icon-arrow-up"></i>
