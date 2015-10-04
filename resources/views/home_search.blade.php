@@ -9,7 +9,7 @@
     <style>
         .list-group {
             border: 1px solid #a5a5a5;
-            height: 259px;
+            height: 323px;
             background-color: #FFF;
         }
         #list-admin_lvl_2, #list-locality {
@@ -17,7 +17,7 @@
         }
         .list-group-item.active, .list-group-item.active:focus,
         .list-group-item.active:hover {
-            text-shadow: 0px -1px 0px #F26721;
+            text-shadow: 0 -1px 0 #F26721;
             background-image: linear-gradient(to bottom, #F9A266 0px, #F26721 100%);
             background-repeat: repeat-x;
             border-color: #F26721;
@@ -132,6 +132,8 @@
             </div>
             <div class="col-xs-6 col-sm-3">
                 <ul class="list-group" id="list-typology">
+                    <a href="javascript:" data-value="8" data-txt="Fincas rústicas" class="list-group-item">Fincas rústicas</a>
+                    <a href="javascript:" data-value="9" data-txt="Fincas con proyecto ganadero" class="list-group-item">Fincas con proyecto ganadero</a>
                     <a href="javascript:" data-value="0" data-txt="Obra nueva" class="list-group-item">Obra nueva</a>
                     <a href="javascript:" data-value="1" data-txt="Vivienda" class="list-group-item active">Viviendas</a>
                     <a href="javascript:" data-value="2" data-txt="Vacacional" class="list-group-item disabled">Vacacional</a>
@@ -182,6 +184,8 @@
                 <div class="form-inline">
                     <div class="form-group col-xs-12 col-sm-3" style="padding:0 5px;vertical-align: top;">
                         <select name="typology" class="form-control" style="width:100%;" id="select-typology">
+                            <option value="8">Fincas rústicas</option>
+                            <option value="9">Fincas con proyecto ganadero</option>
                             <option value="0">Obra nueva</option>
                             <option value="1">Viviendas</option>
                             <option value="2">Vacacional</option>
@@ -403,7 +407,7 @@
                             break;
                     }
                 }
-                updateInProgress = true; //important to keep this AFTER the last else if !!!
+                updateInProgress = true; //keep this AFTER the last else if !!!
                 var operation = 0;
                 var typology = 1;
                 var adminLvl2 = '';

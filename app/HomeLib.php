@@ -59,6 +59,19 @@ class HomeLib
                             ->orderBy('admin_area_lvl2', 'ASC')
                             ->get();
                         break;
+                    case 8: //country houses (fincas rústicas)
+                        $list = \DB::table('sell_country_house')->select('admin_area_lvl2')
+                            ->groupBy('admin_area_lvl2')
+                            ->orderBy('admin_area_lvl2', 'ASC')
+                            ->get();
+                        break;
+                    case 9: //country houses with cattle project (fincas rústicas con proyecto ganadero)
+                        $list = \DB::table('sell_country_house')->select('admin_area_lvl2')
+                            ->groupBy('admin_area_lvl2')
+                            ->orderBy('admin_area_lvl2', 'ASC')
+                            ->where('has_cattle_project',true)
+                            ->get();
+                        break;
                 }
                 break;
             case 1: //rent
@@ -123,6 +136,19 @@ class HomeLib
                         $list = \DB::table('rent_land')->select('admin_area_lvl2')
                             ->groupBy('admin_area_lvl2')
                             ->orderBy('admin_area_lvl2', 'ASC')
+                            ->get();
+                        break;
+                    case 8: //country houses (fincas rústicas)
+                        $list = \DB::table('rent_country_house')->select('admin_area_lvl2')
+                            ->groupBy('admin_area_lvl2')
+                            ->orderBy('admin_area_lvl2', 'ASC')
+                            ->get();
+                        break;
+                    case 9: //country houses with cattle project (fincas rústicas con proyecto ganadero)
+                        $list = \DB::table('rent_country_house')->select('admin_area_lvl2')
+                            ->groupBy('admin_area_lvl2')
+                            ->orderBy('admin_area_lvl2', 'ASC')
+                            ->where('has_cattle_project',true)
                             ->get();
                         break;
                 }
@@ -198,6 +224,21 @@ class HomeLib
                             ->where('admin_area_lvl2',$adminLvl2)
                             ->get();
                         break;
+                    case 8: //country houses (fincas rústicas)
+                        $list = \DB::table('sell_country_house')->select('locality',\DB::raw('COUNT(*) as total'))
+                            ->groupBy('locality')
+                            ->orderBy('locality', 'ASC')
+                            ->where('admin_area_lvl2',$adminLvl2)
+                            ->get();
+                        break;
+                    case 9: //country houses with cattle project (fincas rústicas con proyecto ganadero)
+                        $list = \DB::table('sell_country_house')->select('locality',\DB::raw('COUNT(*) as total'))
+                            ->groupBy('locality')
+                            ->orderBy('locality', 'ASC')
+                            ->where('admin_area_lvl2',$adminLvl2)
+                            ->where('has_cattle_project',true)
+                            ->get();
+                        break;
                 }
                 break;
             case 1: //rent
@@ -268,6 +309,21 @@ class HomeLib
                             ->groupBy('locality')
                             ->orderBy('locality', 'ASC')
                             ->where('admin_area_lvl2',$adminLvl2)
+                            ->get();
+                        break;
+                    case 8: //country houses (fincas rústicas)
+                        $list = \DB::table('rent_country_house')->select('locality',\DB::raw('COUNT(*) as total'))
+                            ->groupBy('locality')
+                            ->orderBy('locality', 'ASC')
+                            ->where('admin_area_lvl2',$adminLvl2)
+                            ->get();
+                        break;
+                    case 9: //country houses with cattle project (fincas rústicas con proyecto ganadero)
+                        $list = \DB::table('rent_country_house')->select('locality',\DB::raw('COUNT(*) as total'))
+                            ->groupBy('locality')
+                            ->orderBy('locality', 'ASC')
+                            ->where('admin_area_lvl2',$adminLvl2)
+                            ->where('has_cattle_project',true)
                             ->get();
                         break;
                 }

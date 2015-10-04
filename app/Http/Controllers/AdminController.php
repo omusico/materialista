@@ -421,6 +421,7 @@ class AdminController extends Controller {
                         $old = SellCountryHouse::findOrFail($input['local_id']);
                         $old->price = $input['price'];
                         $old->community_cost = $input['community_cost'];
+                        $old->has_cattle_project = (isset($input['has_cattle_project'])&&$input['has_cattle_project']) ? true : false;
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
                         $old->is_state_subsidized = (isset($input['is_state_subsidized'])&&$input['is_state_subsidized']) ? true : false;
                         $old->is_new_development = (isset($input['is_new_development'])&&$input['is_new_development']) ? true : false;
@@ -734,6 +735,7 @@ class AdminController extends Controller {
                         $old = RentCountryHouse::findOrFail($input['local_id']);
                         $old->price = $input['price'];
                         $old->deposit = $input['deposit'];
+                        $old->has_cattle_project = (isset($input['has_cattle_project'])&&$input['has_cattle_project']) ? true : false;
                         $old->is_bank_agency = (isset($input['is_bank_agency'])&&$input['is_bank_agency']) ? true : false;
                         $old->is_state_subsidized = (isset($input['is_state_subsidized'])&&$input['is_state_subsidized']) ? true : false;
                         $old->is_new_development = (isset($input['is_new_development'])&&$input['is_new_development']) ? true : false;

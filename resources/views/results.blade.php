@@ -270,6 +270,8 @@
                         <div class="row">
                             <div class="col-xs-12" style="padding:0 1px;" id="select-typology-container">
                                 <select name="typology" class="form-control" title="Qué busca" id="select-typology">
+                                    <option value="8" @if($input['typology']=='8') selected="selected" @endif >Fincas rústicas</option>
+                                    <option value="9" @if($input['typology']=='9') selected="selected" @endif >Fincas con proyecto ganadero</option>
                                     <option value="0" @if($input['typology']=='0') selected="selected" @endif >Obra nueva</option>
                                     <option value="1" @if($input['typology']=='1') selected="selected" @endif >Viviendas</option>
                                     @if($input['operation']!='0')
@@ -372,7 +374,7 @@
                                 {{--Detalles importantes: tamaño, no. habitaciones, planta, si ascensor--}}
                                 <div class="row">
                                     <div class="col-xs-12 ad-details">
-                                    @if($input['typology']=='0'||$input['typology']=='1')
+                                    @if($input['typology']=='0'||$input['typology']=='1'||$input['typology']=='8'||$input['typology']=='9')
                                         <span>{{ $ad->rooms }} habs.</span>
                                         <span>{{ number_format((float) $ad->area,0,',','.') }} m&sup2;</span>
                                         @if(isset($ad->floor)&&$ad->floor) <span>{{ $ad->floor }} @if(isset($ad->has_elevator)&&$ad->has_elevator) con ascensor @endif</span> @endif

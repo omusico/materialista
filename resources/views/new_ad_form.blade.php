@@ -119,7 +119,7 @@
                                                         <option value="">Seleccione</option>
                                                         <option value="0" @if($typology=='0') selected="selected" @endif >Piso</option>
                                                         <option value="1" @if($typology=='1') selected="selected" @endif >Casa o chalet</option>
-                                                        <option value="2" @if($typology=='2') selected="selected" @endif >Casa r&uacute;stica o regional</option>
+                                                        <option value="2" @if($typology=='2') selected="selected" @endif >Finca r&uacute;stica o regional</option>
                                                         <option value="3" @if($typology=='3') selected="selected" @endif >Oficina</option>
                                                         <option value="4" @if($typology=='4') selected="selected" @endif >Local o nave</option>
                                                         <option value="5" @if($typology=='5') selected="selected" @endif >Plaza de garaje</option>
@@ -221,6 +221,10 @@
                                                 </label>
                                                 <div class="col-md-4" style="padding-top:5px;">
                                                     <div class="checkbox-list">
+                                                        @if($typology=='2')
+                                                        <label>
+                                                            <input type="checkbox" name="has_cattle_project" value="1" data-title="Con proyecto ganadero" @if(isset($ad->has_cattle_project)&&$ad->has_cattle_project) checked="checked" @endif /> Con proyecto ganadero</label>
+                                                        @endif
                                                         <label>
                                                             <input type="checkbox" name="is_bank_agency" value="1" data-title="Es de un banco o caja" @if(isset($ad->is_bank_agency)&&$ad->is_bank_agency) checked="checked" @endif /> Es de un banco o caja</label>
                                                         <label>
@@ -439,7 +443,7 @@
 
                                             @if($typology=='2')
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Tipo de casa r&uacute;stica
+                                                <label class="control-label col-md-3">Tipo de finca r&uacute;stica
                                                 </label>
                                                 <div class="col-md-4">
                                                     <select name="category_country_house_id" class="form-control">

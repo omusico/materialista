@@ -31,6 +31,7 @@ class TableSellCountryHouse extends Migration
             $table->boolean('is_new_development');
             $table->boolean('is_new_development_finished');
             $table->boolean('is_rent_to_own');
+            $table->boolean('has_cattle_project');
 
             //address
             $table->decimal('lat',9,7);

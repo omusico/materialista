@@ -119,6 +119,8 @@ class HomeController extends Controller {
          * 5 Business
          * 6 Garage
          * 7 Land
+         * 8 Country house
+         * 9 Country house with cattle project
          */
 
         //op=1,ty=3 (rent room) equals op=2,ty=1 (share house/country house/apartment)
@@ -200,6 +202,22 @@ class HomeController extends Controller {
                               FROM sell_land AS t1
                               LEFT JOIN category_land AS t2 ON t1.category_land_id = t2.id
                               WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
+                            "),[$input['locality'],$price_min,$price_max]);
+                            break;
+                        case '8': //country house
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id
+                              FROM sell_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.locality = ? AND t2.price >= ? AND t2.price <= ?
+                            "),[$input['locality'],$price_min,$price_max]);
+                            break;
+                        case '9': //country house with cattle project
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id
+                              FROM sell_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.has_cattle_project = 1 AND t2.locality = ? AND t2.price >= ? AND t2.price <= ?
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                     }
@@ -293,6 +311,22 @@ class HomeController extends Controller {
                               FROM rent_land AS t1
                               LEFT JOIN category_land AS t2 ON t1.category_land_id = t2.id
                               WHERE t1.locality = ? AND t1.price >= ? AND t1.price <= ?;
+                            "),[$input['locality'],$price_min,$price_max]);
+                            break;
+                        case '8': //country house
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id
+                              FROM rent_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.locality = ? AND t2.price >= ? AND t2.price <= ?
+                            "),[$input['locality'],$price_min,$price_max]);
+                            break;
+                        case '9': //country house with cattle project
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,'0' as has_elevator,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id
+                              FROM rent_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.has_cattle_project = 1 AND t2.locality = ? AND t2.price >= ? AND t2.price <= ?
                             "),[$input['locality'],$price_min,$price_max]);
                             break;
                     }
@@ -420,6 +454,28 @@ class HomeController extends Controller {
                               FROM sell_land AS t1
                               LEFT JOIN category_land AS t2 ON t1.category_land_id = t2.id
                               WHERE t1.lat >= ? AND t1.lat <= ? AND t1.lng >= ? AND t1.lng <= ? AND t1.price >= ? AND t1.price <= ?
+                              HAVING distance <= ?
+                              ORDER BY distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                            break;
+                        case '8': //country house
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
+                              FROM sell_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
+                              HAVING distance <= ?
+                              ORDER BY distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                            break;
+                        case '9': //country house with cattle project
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
+                              FROM sell_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.has_cattle_project = 1 AND t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
                               HAVING distance <= ?
                               ORDER BY distance ASC;
                             "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
@@ -555,6 +611,28 @@ class HomeController extends Controller {
                               ORDER BY distance ASC;
                             "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
                             break;
+                        case '8': //country house
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
+                              FROM rent_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
+                              HAVING distance <= ?
+                              ORDER BY distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                            break;
+                        case '9': //country house with cattle project
+                            $ads = \DB::select(\DB::raw("
+                              SELECT t2.n_bedrooms as rooms,'0' as floor,t2.locality,t2.route,t2.street_number,t2.price,t2.has_parking_space,t2.description,t2.area_constructed as area,t2.hide_address,t6.name as type,t2.ad_id,
+                              ({$R}*ACOS(SIN({$lat_r})*SIN(RADIANS(t2.lat))+COS({$lat_r})*COS(RADIANS(t2.lat))*COS(RADIANS(t2.lng)-{$lng_r}))) AS distance
+                              FROM rent_country_house AS t2
+                              LEFT JOIN category_country_house AS t6 ON t2.category_country_house_id = t6.id
+                              WHERE t2.has_cattle_project = 1 AND t2.lat >= ? AND t2.lat <= ? AND t2.lng >= ? AND t2.lng <= ? AND t2.price >= ? AND t2.price <= ?
+                              HAVING distance <= ?
+                              ORDER BY distance ASC;
+                            "),[$min_lat,$max_lat,$min_lng,$max_lng,$price_min,$price_max,$distance]);
+                            break;
                     }
                     break;
             }
@@ -584,6 +662,12 @@ class HomeController extends Controller {
                 break;
             case '7': //land
                 $typology = 'terrenos';
+                break;
+            case '8': //country house
+                $typology = 'fincas';
+                break;
+            case '9': //country house with cattle project
+                $typology = 'fincas con proyecto ganadero';
                 break;
         }
         $search_type = $input['search_type'];

@@ -235,7 +235,8 @@
                         @if($typology==0||$typology==1||$typology==2)
                         {{--common to house, apartment or country house--}}
                             <h4>Características básicas</h4>
-                            @if(isset($ad->type)&&$ad->type)<p>{{$ad->type}}</p>@endif
+                            @if(isset($ad->type)&&$ad->type) <p>{{$ad->type}}</p> @endif
+                            @if(isset($ad->has_cattle_project)&&$ad->has_cattle_project) <p>Con proyecto ganadero</p> @endif
                             @if(isset($ad->floor_number)&&$ad->floor_number) <p>{{$ad->floor_number}}</p> @endif
                             @if((isset($ad->area_constructed)&&$ad->area_constructed)||(isset($ad->area_usable)&&$ad->area_usable)) <p> @if(isset($ad->area_constructed)&&$ad->area_constructed) <span>{{$ad->area_constructed}} m&sup2; construidos</span> @endif @if(isset($ad->area_usable)&&$ad->area_usable) <span>{{$ad->area_usable}} m&sup2; útiles</span> @endif </p> @endif
                             @if(isset($ad->n_bedrooms)&&$ad->n_bedrooms) <p>{{$ad->n_bedrooms}} habitaciones</p> @endif
