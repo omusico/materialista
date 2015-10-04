@@ -52,7 +52,7 @@
                     @elseif($ad->local_table=='rent_business')
                         Local o nave en alquiler
                     @elseif($ad->local_table=='rent_country_house')
-                        Casa rural en alquiler
+                        Finca rústica en alquiler
                     @elseif($ad->local_table=='rent_garage')
                         Garaje en alquiler
                     @elseif($ad->local_table=='rent_house')
@@ -70,7 +70,7 @@
                     @elseif($ad->local_table=='sell_business')
                         Local o nave en venta
                     @elseif($ad->local_table=='sell_country_house')
-                        Casa rural en venta
+                        Finca rústica en venta
                     @elseif($ad->local_table=='sell_garage')
                         Garaje en venta
                     @elseif($ad->local_table=='sell_house')
