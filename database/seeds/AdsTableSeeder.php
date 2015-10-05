@@ -12,7 +12,7 @@ class AdsTableSeeder extends Seeder
      */
     public function run()
     {
-        define('THIS_MANY_ADS', '25');
+        define('THIS_MANY_ADS', \App\Constants::first()->n_ad_seeds);
 
         $faker = Faker\Factory::create('es_ES');
 

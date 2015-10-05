@@ -24,6 +24,22 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/layout.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/darkblue.css') }}" id="style_color"/>
 
+    @if(\App::environment() == 'local')
+    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
+    <style>
+        #logo {
+            text-decoration: none;
+            color: #FFF;
+        }
+        #logo > h2, h1 {
+            font-family: 'Dancing Script', cursive;
+        }
+        h1 {
+            font-size: 136px;
+        }
+    </style>
+    @endif
+
     @yield('css')
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
@@ -97,6 +113,13 @@
                             <i class="icon-pencil"></i>
                             <span class="title">Editar anuncios</span>
                             @if(Request::is('dashboard/editAd')) <span class="selected"></span> @endif
+                        </a>
+                    </li>
+                    <li class=" @if(Request::is('dashboard/config')) active open @endif ">
+                        <a href="{{ route('dashboard.config') }}">
+                            <i class="icon-wrench"></i>
+                            <span class="title">Configuración</span>
+                            @if(Request::is('dashboard/config')) <span class="selected"></span> @endif
                         </a>
                     </li>
                 </ul>

@@ -242,22 +242,22 @@
                                                 </label>
                                                 <div class="col-md-4">
                                                     <label class="control-label">Localidad</label>
-                                                    <input type="text" class="form-control" name="municipio" value="@if(isset($ad->locality)) {{ $ad->locality }} @endif"/>
+                                                    <input type="text" class="form-control" name="municipio" @if(isset($ad->locality)) value="{{ $ad->locality }}" @endif/>
                                                     <label class="control-label">Nombre de la v&iacute;a</label>
-                                                    <input type="text" class="form-control" name="via" value="@if(isset($ad->route)) {{ $ad->route }} @endif"/>
+                                                    <input type="text" class="form-control" name="via" @if(isset($ad->route)) value="{{ $ad->route }}" @endif/>
                                                     <label class="control-label">N&uacute;mero de la v&iacute;a @if($typology=='6') o Km @endif</label>
-                                                    <input type="text" class="form-control" name="via_num" value="@if(isset($ad->street_number)) {{ $ad->street_number }} @endif"/>
+                                                    <input type="text" class="form-control" name="via_num" @if(isset($ad->street_number)) value="{{ $ad->street_number }}" @endif/>
                                                     <input type="hidden" class="form-control" name="address_confirmed" value="0"/>
-                                                    <input type="hidden" class="form-control" name="lat" value="@if(isset($ad->lat)) {{ $ad->lat }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="lng" value="@if(isset($ad->lng)) {{ $ad->lng }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="formatted_address" value="@if(isset($ad->formatted_address)) {{ $ad->formatted_address }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="street_number" value="@if(isset($ad->street_number)) {{ $ad->street_number }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="route" value="@if(isset($ad->route)) {{ $ad->route }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="locality" value="@if(isset($ad->locality)) {{ $ad->locality }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="admin_area_lvl2" value="@if(isset($ad->admin_area_lvl2)) {{ $ad->admin_area_lvl2 }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="admin_area_lvl1" value="@if(isset($ad->admin_area_lvl1)) {{ $ad->admin_area_lvl1 }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="postal_code" value="@if(isset($ad->postal_code)) {{ $ad->postal_code }} @endif"/>
-                                                    <input type="hidden" class="form-control" name="country" value="@if(isset($ad->country)) {{ $ad->country }} @endif"/>
+                                                    <input type="hidden" class="form-control" name="lat" @if(isset($ad->lat)) value="{{ $ad->lat }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="lng" @if(isset($ad->lng)) value="{{ $ad->lng }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="formatted_address" @if(isset($ad->formatted_address)) value="{{ $ad->formatted_address }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="street_number" @if(isset($ad->street_number)) value="{{ $ad->street_number }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="route" @if(isset($ad->route)) value="{{ $ad->route }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="locality" @if(isset($ad->locality)) value="{{ $ad->locality }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="admin_area_lvl2" @if(isset($ad->admin_area_lvl2)) value="{{ $ad->admin_area_lvl2 }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="admin_area_lvl1" @if(isset($ad->admin_area_lvl1)) value="{{ $ad->admin_area_lvl1 }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="postal_code" @if(isset($ad->postal_code)) value="{{ $ad->postal_code }}" @endif/>
+                                                    <input type="hidden" class="form-control" name="country" @if(isset($ad->country)) value="{{ $ad->country }}" @endif/>
                                                     <a href="javascript:" id="check-address" class="btn btn-primary" style="margin-top:10px">Comprobar direcci&oacute;n</a>
                                                     <span><img id="check-in-progress" class="hidden" src="{{ asset('img/loading-spinner-grey.gif') }}"/></span>
                                                     <div id="check-address-success" class="alert alert-success hidden" style="margin-top:10px">

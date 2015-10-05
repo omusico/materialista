@@ -49,6 +49,10 @@ Route::post('new_ad', ['as'=>'new.ad','uses'=>'AdminController@doNewAd']);
 Route::post('edit_ad', ['as'=>'edit.ad','uses'=>'AdminController@doEditAd']);
 Route::post('upload_img',['as'=>'upload.img','uses'=>'AdminController@uploadImage']);
 Route::get('dashboard/editAd/{ad_id}', ['as'=>'dashboard.editAd.id','uses'=>'AdminController@editAd']);
+Route::get('dashboard/config', ['as'=>'dashboard.config','uses'=>'AdminController@config']);
+Route::post('update/dev-options', ['as'=>'update.dev.options','uses'=>'AdminController@updateDevOptions']);
+Route::post('update/web-images', ['as'=>'update.web.images','uses'=>'AdminController@updateWebImages']);
+Route::post('update/web-info', ['as'=>'update.web.info','uses'=>'AdminController@updateWebInfo']);
 
 //Development: view tables
 Route::get('table/{table_name}', ['as'=>'view.table','uses'=>'DeveloperController@showTable']);

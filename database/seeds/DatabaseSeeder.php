@@ -14,12 +14,13 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->call(ConstantsSeeder::class);
         $this->call(UserTableSeeder::class);
-//        $this->call(OptionsTableSeeder::class);
-//        $this->call(CategoriesTableSeeder::class);
+        $this->call(OptionsTableSeeder::class);
+        $this->call(CategoriesTableSeeder::class);
 
-        //if(\App::environment() == 'local')
-//            $this->call(AdsTableSeeder::class);
+        if(\App::environment() == 'local')
+            $this->call(AdsTableSeeder::class);
 
         Model::reguard();
     }

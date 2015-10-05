@@ -2,6 +2,7 @@
 
 use App\Ad;
 use App\AdPic;
+use App\Constants;
 use App\Lodging;
 use App\RentApartment;
 use App\RentBusiness;
@@ -1146,7 +1147,7 @@ class AdminController extends Controller {
     {
         $files = \Input::file('files');
         list($usec, $sec) = explode(" ", microtime());
-        $timeStamp = $sec . substr($usec,2,(strlen($usec)-4)); //get Unix time in microsecons, as a string
+        $timeStamp = $sec . substr($usec,2,(strlen($usec)-4)); //get Unix time in microsecons as a string
         $date = new \DateTime();
         $today = $date->format('d/m/Y');
         $thumbsPath = public_path() . '/ads/thumbnails/';
@@ -1188,6 +1189,78 @@ class AdminController extends Controller {
     public function dashboard()
     {
         return view('dashboard');
+    }
+
+    public function config()
+    {
+        $options = Constants::first();
+        return view('config', compact('options'));
+    }
+
+    public function updateDevOptions()
+    {
+        $input = \Input::all();
+
+        $options = Constants::first();
+        $options->n_ad_seeds = $input['n_ad_seeds'];
+        $options->starting_year = $input['starting_year'];
+        $options->dev_version = $input['dev_version'];
+        $options->dev_email = $input['dev_email'];
+
+        if($options->save())
+            return \Response::json('success',200);
+        return \Response::json('error',400);
+    }
+
+    public function updateWebImages()
+    {
+        $options = Constants::first();
+        if(\Input::hasFile('public_logo')) {
+            list($usec, $sec) = explode(" ", microtime());
+            $timeStamp = $sec . substr($usec,2,(strlen($usec)-4)); //get Unix time in microsecons as a string
+            $file = \Input::file('main-image');
+            $filename = $timeStamp . $file->getClientOriginalName();
+            $path = public_path().'/img/logos/';
+            $file->move($path, $filename);
+            $options->public_logo = $filename;
+        }
+        if(\Input::hasFile('dashboard_logo')) {
+            list($usec, $sec) = explode(" ", microtime());
+            $timeStamp = $sec . substr($usec,2,(strlen($usec)-4));
+            $file = \Input::file('dashboard-image');
+            $filename = $timeStamp . $file->getClientOriginalName();
+            $path = public_path().'/img/logos/';
+            $file->move($path, $filename);
+            $options->dashboard_logo = $filename;
+        }
+
+        if($options->save())
+            return \Response::json('success',200);
+        return \Response::json('error',400);
+    }
+
+    public function updateWebInfo()
+    {
+        $input = \Input::all();
+
+        $options = Constants::first();
+        $options->company_name = $input['company_name'];
+        $options->company_phone = $input['company_phone'];
+        $options->company_email = $input['company_email'];
+        $options->lat = $input['lat'];
+        $options->lng = $input['lng'];
+        $options->formatted_address = $input['formatted_address'];
+        $options->street_number = $input['street_number'];
+        $options->route = $input['route'];
+        $options->locality = $input['locality'];
+        $options->admin_area_lvl2 = $input['admin_area_lvl2'];
+        $options->admin_area_lvl1 = $input['admin_area_lvl1'];
+        $options->country = $input['country'];
+        $options->postal_code = $input['postal_code'];
+
+        if($options->save())
+            return \Response::json('success',200);
+        return \Response::json('error',400);
     }
 
 }
