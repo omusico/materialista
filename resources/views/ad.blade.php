@@ -100,6 +100,10 @@
         td > span:last-of-type:after {
             content: '';
         }
+        .contact-well > span {
+            color: #3b3b3b;
+            font-size: 14px;
+        }
     </style>
 @endsection
 
@@ -677,7 +681,7 @@
 
             {{--Contact column--}}
             <div class="hidden-xs hidden-sm col-md-4">
-                <div class="well">
+                <div class="well contact-well">
                     <h4>Pregúntenos</h4>
                     <form id="contact-form" class="form-horizontal" action="javascript:submitForm();">
                         <div class="form-group">
@@ -703,8 +707,14 @@
                             </div>
                         </div>
                     </form>
-
-                    <h4>969 969 969</h4>
+                    <br>
+                    <h4 style="margin:0;">{!! $options->company_phone !!}</h4>
+                    <span>Ref.: #{!! $ad->id !!}</span><br>
+                    <br>
+                    <h4 style="margin:0 0 3px 0;">Nuestras oficinas:</h4>
+                    <span>{!! $options->route !!}, {!! $options->street_number !!}</span><br>
+                    <span>{!! $options->locality !!}, {!! $options->postal_code !!}</span><br>
+                    <a href="https://maps.google.com?daddr=<?php foreach(preg_split('/[ \r\n]/',$options->formatted_address) as $piece) { echo $piece.'+'; } ?>" target="_blank">Cómo llegar</a>
                 </div>
             </div>
 

@@ -10,7 +10,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
-    <title>@if(\App::environment() == 'local') Materialista | Login @else Valkiria | Acceso @endif</title>
+    <title>@if(\App::environment() == 'local') Materialista | Login @else {!! $options->company_name !!} | Acceso @endif</title>
 
     @if(\App::environment() == 'local')
         <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
@@ -84,7 +84,7 @@
             @if(\App::environment() == 'local')
                 <h1>Materialista</h1>
             @else
-                <img width="100%" src="{{ asset('img/logo-valkiria.png') }}" alt=""/>
+                <img width="100%" src="{{ asset('img/logos') }}/{!! $options->public_logo !!}" alt="{!! $options->company_name !!}"/>
             @endif
             </a>
         </div>
@@ -139,7 +139,17 @@
         <!-- END FORGOT PASSWORD FORM -->
     </div>
     <div class="copyright">
-        2015-2016 © @if(\App::environment() == 'local') Materialista @else Valkiria @endif
+        @if(\App::environment() == 'local')
+            Materialista
+        @else
+            {!! $options->company_name !!}
+        @endif
+        &copy;
+        @if(\Carbon\Carbon::now()->format('Y') > $options->starting_year)
+            {!! $options->starting_year !!}-{!! \Carbon\Carbon::now()->format('Y') !!}
+        @else
+            {!! $options->starting_year !!}
+        @endif
     </div>
     <!--[if lt IE 9]>
     <script src="scripts3/respond.min.js"></script>

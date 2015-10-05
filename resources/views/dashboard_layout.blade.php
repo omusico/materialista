@@ -52,7 +52,7 @@
                     @if(\App::environment() == 'local')
                         <h2 style="margin:10px 0 0 0;padding:0;">Materialista</h2>
                     @else
-                        <img src="{{ asset('img/logo-valkiria-2.png') }}" height="35" alt="Valkiria" style="margin-top:5px;"/>
+                        <img src="{{ asset('img/logos') }}/{!! $options->dashboard_logo !!}" height="35" alt="{!! $options->company_name !!}" style="margin-top:5px;"/>
                     @endif
                 </a>
                 <div class="menu-toggler sidebar-toggler hide">
@@ -137,7 +137,14 @@
 
     <div class="page-footer">
         <div class="page-footer-inner">
-            @if(\App::environment() == 'local') Materialista @else Valkiria @endif &copy; 2015-2016. Gestor de contenidos v0.1
+            @if(\App::environment() == 'local') Materialista @else {!! $options->company_name !!} @endif
+                &copy;
+                @if(\Carbon\Carbon::now()->format('Y') > $options->starting_year)
+                    {!! $options->starting_year !!}-{!! \Carbon\Carbon::now()->format('Y') !!}
+                @else
+                    {!! $options->starting_year !!}
+                @endif
+                - Gestor de oferta inmobiliaria v{!! $options->dev_version !!}
         </div>
         <div class="scroll-to-top">
             <i class="icon-arrow-up"></i>

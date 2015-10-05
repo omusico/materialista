@@ -23,6 +23,7 @@ class TableGlobalCmsConstants extends Migration
 
             //company options
             $table->string('company_name')->default('Materialista');
+            $table->string('company_description')->default('Oferta inmobiliaria');
             $table->string('public_logo')->nullable();
             $table->string('dashboard_logo')->nullable();
             $table->string('company_phone')->default('+34 123 45 67');

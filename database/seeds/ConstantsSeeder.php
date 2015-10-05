@@ -14,15 +14,16 @@ class ConstantsSeeder extends Seeder
     {
         //commented/not set values will default to those set in the table migration file
         App\Constants::create([
-            'n_ad_seeds'          => 1,
+            'n_ad_seeds'          => 10,
             'starting_year'       => 2015,
             'dev_version'         => '0.2',
-//            'dev_email'           => 'dev@materialista.com',
-//            'company_name'        => Materialista,
-//            'public_logo'         => null,
-//            'dashboard_logo'      => null,
-//            'company_phone'       => '+34 123 45 67',
-//            'company_email'       => 'info@materialista.com',
+            'dev_email'           => 'dev@materialista.com',
+            'company_name'        => 'Valkiria',
+            'company_description' => 'Inmobiliaria y fincas rústicas',
+            'public_logo'         => 'logo-valkiria.png',
+            'dashboard_logo'      => 'logo-valkiria-2.png',
+            'company_phone'       => '+34 123 45 67',
+            'company_email'       => 'contact@valkiria.com',
 //            'lat'                 => 41.3935539,
 //            'lng'                 => 2.1434673,
 //            'formatted_address'   => 'Av. de Pau Casals, 1, 08021 Barcelona, Barcelona, España',

@@ -11,6 +11,15 @@
             margin-top: 2px;
             font-size: 15px;
         }
+        .fa {
+            vertical-align: middle;
+        }
+        .fa-check-circle {
+            color: #35AA47;;
+        }
+        .fa-times-circle {
+            color: #ff5d38;
+        }
     </style>
 @endsection
 
@@ -28,7 +37,6 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <input type="hidden" name="_token" value="{{ \Session::token() }}">
             @if(\App::environment() == 'local')
             <div class="portlet box blue">
                 <div class="portlet-title">
@@ -83,8 +91,8 @@
                                 <div class="col-md-offset-3 col-md-6">
                                     <a href="javascript:" id="save-dev-options" class="btn green">Guardar cambios</a>
                                     <span><img class="check-in-progress-0 hidden" src="{{ asset('img/loading-spinner-grey.gif') }}"/></span>
-                                    <span><img class="post-succeded-0 hidden" src="{{ asset('img/energy-cert-A.png') }}"/></span>
-                                    <span><img class="post-failed-0 hidden" src="{{ asset('img/energy-cert-G.png') }}"/></span>
+                                    <i class="post-succeded-0 hidden fa fa-2x fa-check-circle"></i>
+                                    <i class="post-failed-0 hidden fa fa-2x fa-times-circle"></i>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +112,8 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    <form action="{{ route('update.web.images') }}" class="form-horizontal form-row-seperated" enctype="multipart/form-data">
+                    <form id="form-update-web-images" action="{{ route('update.web.images') }}" class="form-horizontal form-row-seperated" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="{{ \Session::token() }}">
                         <div class="form-body">
                             <div class="form-group">
                                 <label class="control-label col-md-3">Logotipo principal</label>
@@ -133,8 +142,8 @@
                                 <div class="col-md-offset-3 col-md-6">
                                     <a href="javascript:" id="save-web-images" class="btn green">Guardar cambios</a>
                                     <span><img class="check-in-progress-1 hidden" src="{{ asset('img/loading-spinner-grey.gif') }}"/></span>
-                                    <span><img class="post-succeded-1 hidden" src="{{ asset('img/energy-cert-A.png') }}"/></span>
-                                    <span><img class="post-failed-1 hidden" src="{{ asset('img/energy-cert-G.png') }}"/></span>
+                                    <i class="post-succeded-1 hidden fa fa-2x fa-check-circle"></i>
+                                    <i class="post-failed-1 hidden fa fa-2x fa-times-circle"></i>
                                 </div>
                             </div>
                         </div>
@@ -161,6 +170,15 @@
                                 <div class="col-md-6">
                                     <input type="text" placeholder="" class="form-control" name="company_name" @if(isset($options->company_name)) value="{!! $options->company_name !!}" @endif />
                                     <span class="help-block">Introduzca el nombre de su empresa
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Descripción breve</label>
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="" class="form-control" name="company_description" @if(isset($options->company_description)) value="{!! $options->company_description !!}" @endif />
+                                    <span class="help-block">Describa en pocas palabras la actividad de su empresa. Por ej.: Inmobilaria especializada en fincas rústicas
                                     </span>
                                 </div>
                             </div>
@@ -240,8 +258,8 @@
                                 <div class="col-md-offset-3 col-md-6">
                                     <a href="javascript:" id="save-web-info" class="btn green">Guardar cambios</a>
                                     <span><img class="check-in-progress-2 hidden" src="{{ asset('img/loading-spinner-grey.gif') }}"/></span>
-                                    <span><img class="post-succeded-2 hidden" src="{{ asset('img/energy-cert-A.png') }}"/></span>
-                                    <span><img class="post-failed-2 hidden" src="{{ asset('img/energy-cert-G.png') }}"/></span>
+                                    <i class="post-succeded-2 hidden fa fa-2x fa-check-circle"></i>
+                                    <i class="post-failed-2 hidden fa fa-2x fa-times-circle"></i>
                                 </div>
                             </div>
                         </div>
@@ -345,14 +363,18 @@
 
             $('#save-web-images').click(function() {
                 $('.check-in-progress-1').removeClass('hidden');
-                $.post('/update/web-images', {
-                    _token: tokenVal,
-                    public_logo: $('input[name=public_logo]').val(),
-                    dashboard_logo: $('input[name=dashboard_logo]').val()
-                }, function(data) { //handle response
-                    $('.check-in-progress-1').addClass('hidden');
-                    $('.post-failed-1').addClass('hidden');
-                    $('.post-succeded-1').removeClass('hidden');
+                $.ajax({
+                    type: "POST",
+                    url: '/update/web-images',
+                    data: new FormData($("#form-update-web-images")[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        $('.check-in-progress-1').addClass('hidden');
+                        $('.post-failed-1').addClass('hidden');
+                        $('.post-succeded-1').removeClass('hidden');
+                    }
                 }).fail(function() {
                     $('.check-in-progress-1').addClass('hidden');
                     $('.post-succeded-1').addClass('hidden');
@@ -365,6 +387,7 @@
                 $.post('/update/web-info', {
                     _token: tokenVal,
                     company_name: $('input[name=company_name]').val(),
+                    company_description: $('input[name=company_description]').val(),
                     company_phone: $('input[name=company_phone]').val(),
                     company_email: $('input[name=company_email]').val(),
                     lat: $('input[name=lat]').val(),
@@ -387,9 +410,6 @@
                     $('.post-failed-2').removeClass('hidden');
                 });
             });
-
-
-
 
         });
     </script>

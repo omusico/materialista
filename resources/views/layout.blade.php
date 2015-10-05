@@ -7,7 +7,7 @@
     <meta name="author" content="" />
     <meta name="Description" content="" />
 
-    <title>@if(\App::environment() == 'local') Materialista @else Vakiria | Inmobiliaria y fincas rústicas @endif</title>
+    <title>@if(\App::environment() == 'local') Materialista @else {!! $options->company_name !!} | {!! $options->company_description !!} @endif</title>
 
     {{--Common CSS--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">

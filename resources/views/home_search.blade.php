@@ -164,7 +164,7 @@
         </div>
         <div class="row">
             <div class="hidden-xs col-sm-9" id="col-i-look-for-txt">
-                Busco <span class="txt-operation">Comprar</span> <span class="txt-typology">Vivienda</span> en <span class="txt-locality">{{ $firstLocality }}</span>
+                Busco <span class="txt-operation">Comprar</span> <span class="txt-typology">Vivienda</span> en <span class="txt-locality">@if(isset($firstLocality)) {{ $firstLocality }} @endif</span>
             </div>
             <div class="col-xs-12 col-sm-3 text-right" id="col-btn-search">
                 <a class="btn btn-primary btn-block" id="btn-search-by-locality" href="javascript:">Buscar</a>
@@ -237,8 +237,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-11" style="margin-top:35px;">
-                        <a href="mailto:contact@valkiria.com" class="hidden-xs btn btn-primary btn-contact-us">Contacte con nuestro equipo experto</a>
-                        <a href="mailto:contact@valkiria.com" class="hidden-sm hidden-md hidden-lg btn btn-primary btn-contact-us">Contáctenos</a>
+                        <a href="mailto:{!! $options->company_email !!}" class="hidden-xs btn btn-primary btn-contact-us">Contacte con nuestro equipo experto</a>
+                        <a href="mailto:{!! $options->company_email !!}" class="hidden-sm hidden-md hidden-lg btn btn-primary btn-contact-us">Contáctenos</a>
                     </div>
                 </div>
             </div>
@@ -278,8 +278,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12" style="margin-top:35px;">
-                        <a href="mailto:contact@valkiria.com" class="hidden-xs btn btn-primary btn-contact-us">Contacte con nuestro equipo experto</a>
-                        <a href="mailto:contact@valkiria.com" class="hidden-sm hidden-md hidden-lg btn btn-primary btn-contact-us">Contáctenos</a>
+                        <a href="mailto:{!! $options->company_email !!}" class="hidden-xs btn btn-primary btn-contact-us">Contacte con nuestro equipo experto</a>
+                        <a href="mailto:{!! $options->company_email !!}" class="hidden-sm hidden-md hidden-lg btn btn-primary btn-contact-us">Contáctenos</a>
                     </div>
                 </div>
             </div>

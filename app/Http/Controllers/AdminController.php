@@ -1218,8 +1218,8 @@ class AdminController extends Controller {
         if(\Input::hasFile('public_logo')) {
             list($usec, $sec) = explode(" ", microtime());
             $timeStamp = $sec . substr($usec,2,(strlen($usec)-4)); //get Unix time in microsecons as a string
-            $file = \Input::file('main-image');
-            $filename = $timeStamp . $file->getClientOriginalName();
+            $file = \Input::file('public_logo');
+            $filename = $timeStamp .'_'. \Input::file('public_logo')->getClientOriginalName();
             $path = public_path().'/img/logos/';
             $file->move($path, $filename);
             $options->public_logo = $filename;
@@ -1227,8 +1227,8 @@ class AdminController extends Controller {
         if(\Input::hasFile('dashboard_logo')) {
             list($usec, $sec) = explode(" ", microtime());
             $timeStamp = $sec . substr($usec,2,(strlen($usec)-4));
-            $file = \Input::file('dashboard-image');
-            $filename = $timeStamp . $file->getClientOriginalName();
+            $file = \Input::file('dashboard_logo');
+            $filename = $timeStamp .'_'. \Input::file('dashboard_logo')->getClientOriginalName();
             $path = public_path().'/img/logos/';
             $file->move($path, $filename);
             $options->dashboard_logo = $filename;
@@ -1245,6 +1245,7 @@ class AdminController extends Controller {
 
         $options = Constants::first();
         $options->company_name = $input['company_name'];
+        $options->company_description = $input['company_description'];
         $options->company_phone = $input['company_phone'];
         $options->company_email = $input['company_email'];
         $options->lat = $input['lat'];

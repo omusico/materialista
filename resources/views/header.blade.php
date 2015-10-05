@@ -13,7 +13,7 @@
                 <h1><a href="{{route('home')}}" style="text-decoration:none;color:#4A4A4A;">Materialista</a></h1>
             @else
                 <div style="display:inline-block;height:120px;width:258px;
-                        background-image: url('{{ asset('img/logo-valkiria.png') }}');
+                        background-image: url('{{ asset('img/logos') }}/{!! $options->public_logo !!}');
                         background-size: contain;position:relative;">
                     <a href="{{route('home')}}" style="text-decoration:none;position:absolute;width:100%;height:100%;">
                     </a>

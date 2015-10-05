@@ -4,9 +4,14 @@
             @if(\App::environment() == 'local')
                 <b>Materialista</b>
             @else
-                <b>Valkiria</b>
+                <b>{!! $options->company_name !!}</b>
             @endif
-            Copyright &copy; 2015
+            &copy;
+            @if(\Carbon\Carbon::now()->format('Y') > $options->starting_year)
+                {!! $options->starting_year !!}-{!! \Carbon\Carbon::now()->format('Y') !!}
+            @else
+                {!! $options->starting_year !!}
+            @endif
         </div>
     </div>
 </div>
