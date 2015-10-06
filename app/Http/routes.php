@@ -25,7 +25,7 @@ Route::get('auth/reset', ['as'=>'auth.reset','uses'=>'AuthController@reset']);
 Route::post('auth/reset', ['as'=>'auth.doReset','uses'=>'AuthController@doreset']);
 
 //Test home
-Route::get('/test', 'HomeController@showTesterIndex');
+//Route::get('/test', 'HomeController@showTesterIndex');
 
 //Home & Main search
 Route::get('/', ['as'=>'home','uses'=>'HomeController@index']);

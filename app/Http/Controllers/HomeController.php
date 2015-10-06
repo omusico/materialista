@@ -47,10 +47,10 @@ class HomeController extends Controller {
         //
     }
 
-    public function showTesterIndex()
-    {
-        return view('tester_index');
-    }
+//    public function showTesterIndex()
+//    {
+//        return view('tester_index');
+//    }
 
     public function index()
     {
@@ -79,29 +79,8 @@ class HomeController extends Controller {
 
     public function getResults()
     {
-        $input = \Input::all();
-
-        //set defaults
-        if(!isset($input['operation']))
-            $input['operation'] = '0';
-        if(!isset($input['typology']))
-            $input['typology'] = '1';
-        if(!isset($input['locality']))
-            $input['locality'] = 'Barcelona';
-        if(!isset($input['search_type']))
-            $input['search_type'] = '0';
-        if(!isset($input['address'])||$input['address']=='')
-            $input['address'] = $input['locality'];
-        if(!isset($input['price-min'])||$input['price-min']=='')
-            $input['price-min'] = 0;
-        if(!isset($input['price-max'])||$input['price-max']=='')
-            $input['price-max'] = 0;
-
-        $price_min = ($input['price-min']) ? $input['price-min'] : '-1';
-        $price_max = ($input['price-max']) ? $input['price-max'] : '999999999';
-
         /*
-         * possible search types from HOME/SEARCH:
+         * Possible search types from HOME/SEARCH:
          * 0 by locality (locality provided)
          * 1 by proximity (lat, lng calculated from provided address)
          *
@@ -121,12 +100,56 @@ class HomeController extends Controller {
          * 7 Land
          */
 
-        //op=1,ty=3 (rent room) equals op=2,ty=1 (share house/country house/apartment)
+        $input = \Input::all();
+
+        // Input validation
+        if($input['operation']=='0')
+            $allowed_price_values = '1000000,2000000,3000000,950000,900000,850000,750000,700000,650000,600000,550000,'.
+                '500000,450000,400000,380000,360000,340000,320000,300000,280000,260000,240000,220000,200000,180000,'.
+                '160000,140000,120000,100000,80000,60000';
+        else
+            $allowed_price_values = '3000,2700,2400,2100,2000,1900,1800,1700,1600,1500,1400,1300,1200,1100,1000,900,'.
+                '800,700,600,500,400,300,200,100';
+        $rules = array(
+            'operation'     => 'required|digits:1|in:0,1,2',
+            'typology'      => 'required|digits:1',
+            'search_type'   => 'required|digits:1|in:0,1',
+            'locality'      => 'sometimes|string|max:255',
+            'address'       => 'sometimes|string|max:510',
+            'price-min'     => 'sometimes|string|in:'.$allowed_price_values,
+            'price-max'     => 'sometimes|string|in:'.$allowed_price_values
+        );
+        $validator =  \Validator::make($input,$rules);
+        if($validator->fails())
+            return \Redirect::route('home');
+
+        // Set default values
+        if(!isset($input['operation']))
+            $input['operation'] = '0';
+        if(!isset($input['typology']))
+            $input['typology'] = '1';
+        if(!isset($input['locality']))
+            $input['locality'] = 'Barcelona';
+        if(!isset($input['search_type']))
+            $input['search_type'] = '0';
+        if(!isset($input['address'])||$input['address']=='')
+            $input['address'] = $input['locality'];
+        if(!isset($input['price-min'])||$input['price-min']=='')
+            $input['price-min'] = 0;
+        if(!isset($input['price-max'])||$input['price-max']=='')
+            $input['price-max'] = 0;
+
+        // Set minimum and maximum prices when no price range provided
+        $price_min = ($input['price-min']) ? (int) $input['price-min'] : -1;
+        $price_max = ($input['price-max']) ? (int) $input['price-max'] : 999999999;
+
+        // Share a house = Rent a room
         if($input['operation']=='2'&&$input['typology']=='1') {
             $input['operation']='1';
             $input['typology']='3';
         }
 
+        // Search queries
         if($input['search_type']=='0') {
             $locality = $input['locality'];
             switch ($input['operation']) {
@@ -298,14 +321,14 @@ class HomeController extends Controller {
                     }
                     break;
             }
-        } else {
-            //Geo-locate address
+        } else { // Geo-located search queries
+            // Geo-locate address
             $location = Geocode::geocodeAddress($input['address']);
             if(!$location)
                 return \Redirect::back();
             $locality = $location['locality'];
 
-            //Geo-distance calculations
+            // Geo-distance calculations
             $R = 6371.01; //radio de la tierra promedio (en km)
             $distance = 25; //todo: set this as a constant in config file
             $r = $distance/$R; //ángulo en radianes que equivale a recorrer $distance sobre un círculo de radio $R
@@ -317,6 +340,7 @@ class HomeController extends Controller {
             $min_lng = rad2deg($lng_r-$delta_lng); //en sexag
             $max_lng = rad2deg($lng_r+$delta_lng); //en sexag
 
+            // DB queries
             switch ($input['operation']) {
                 case '0': //buy
                     switch ($input['typology']) {
@@ -560,6 +584,7 @@ class HomeController extends Controller {
             }
         }
 
+        // Prepare a human readable typology string for the results view
         switch ($input['typology']) {
             case '0': //new development
                 $typology = 'promociones de obra nueva';
@@ -585,7 +610,12 @@ class HomeController extends Controller {
             case '7': //land
                 $typology = 'terrenos';
                 break;
+            default:
+                $typology = 'inmueble';
+                break;
         }
+
+        // Search type as a variable, to be sent to the results view
         $search_type = $input['search_type'];
 
         return view('results',compact('ads','typology','locality','search_type','input'));
