@@ -1217,12 +1217,15 @@ class AdminController extends Controller {
         $options = Constants::first();
         if(\Input::hasFile('public_logo')) {
             list($usec, $sec) = explode(" ", microtime());
-            $timeStamp = $sec . substr($usec,2,(strlen($usec)-4)); //get Unix time in microsecons as a string
+            $timeStamp = $sec . substr($usec,2,(strlen($usec)-4)); //get Unix time in microseconds as a string
             $file = \Input::file('public_logo');
             $filename = $timeStamp .'_'. \Input::file('public_logo')->getClientOriginalName();
             $path = public_path().'/img/logos/';
             $file->move($path, $filename);
+            list($width, $height) = getimagesize('img/logos/' . $filename);
             $options->public_logo = $filename;
+            $options->pl_height = $height;
+            $options->pl_width = $width;
         }
         if(\Input::hasFile('dashboard_logo')) {
             list($usec, $sec) = explode(" ", microtime());
@@ -1231,7 +1234,10 @@ class AdminController extends Controller {
             $filename = $timeStamp .'_'. \Input::file('dashboard_logo')->getClientOriginalName();
             $path = public_path().'/img/logos/';
             $file->move($path, $filename);
+            list($width, $height) = getimagesize('img/logos/' . $filename);
             $options->dashboard_logo = $filename;
+            $options->dl_height = $height;
+            $options->dl_width = $width;
         }
 
         if($options->save())

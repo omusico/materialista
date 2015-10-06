@@ -47,11 +47,6 @@ class HomeController extends Controller {
         //
     }
 
-//    public function showTesterIndex()
-//    {
-//        return view('tester_index');
-//    }
-
     public function index()
     {
         return view('home_search');
