@@ -53,3 +53,4 @@ _ide_helper.php
 # Materialista
 public/ads/pictures/*.jpg
 public/ads/thumbnails/*.jpg
+public/img/logos/*.jpg
