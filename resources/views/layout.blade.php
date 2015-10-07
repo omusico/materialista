@@ -7,9 +7,12 @@
     <meta name="author" content="" />
     <meta name="Description" content="" />
 
-    <title>@if(\App::environment() == 'local') Materialista @else {!! $options->company_name !!} | {!! $options->company_description !!} @endif</title>
+    <title>@if(!$options->company_name) Materialista @else {!! $options->company_name !!} @if($options->company_description) | {!! $options->company_description !!} @endif @endif</title>
 
     {{--Common CSS--}}
+    @if(!$options->public_logo)
+    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
+    @endif
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-theme.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
@@ -28,15 +31,6 @@
     {{--Page related CSS--}}
     @yield('css')
 
-    @if(\App::environment() == 'local')
-    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
-    <style>
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 50px;
-        }
-    </style>
-    @endif
 </head>
 <body>
     <div class="alert alert-dismissible alert-cookies" id="cookieBanner" role="alert">
@@ -50,25 +44,13 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-6">
-                @if(\App::environment() == 'local')
-                    <h1><a href="{{route('home')}}" style="text-decoration:none;color:#4A4A4A;">Materialista</a></h1>
-                @else
-                    @if($options->pl_height > $options->pl_width)
-                        <div style="display:inline-block;height:120px;width:{{ $options->pl_width * 120 / $options->pl_height }}px;
-                                background-image: url('{{ asset('img/logos') }}/{!! $options->public_logo !!}');
-                                background-size: contain;position:relative;">
-                            <a href="{{route('home')}}" style="text-decoration:none;position:absolute;width:100%;height:100%;">
-                            </a>
-                        </div>
-                    @else
-                        <div style="display:inline-block;height:{{ $options->pl_height * 258 / $options->pl_width }}px;width:258px;
-                                background-image: url('{{ asset('img/logos') }}/{!! $options->public_logo !!}');
-                                background-size: contain;position:relative;">
-                            <a href="{{route('home')}}" style="text-decoration:none;position:absolute;width:100%;height:100%;">
-                            </a>
-                        </div>
-                    @endif
-                @endif
+            @if($options->public_logo)
+                <a href="{{ route('home') }}" style="text-decoration:none;">
+                    <img src="{{ asset('img/logos') }}/fit_{!! $options->public_logo !!}" height="120" alt="{!! $options->company_name !!}" style="margin:3px 0 3px 0;"/>
+                </a>
+            @else
+                <h1><a href="{{route('home')}}" style="font-family:'Dancing Script',cursive;font-size:50px;text-decoration:none;color:#4A4A4A;">Materialista</a></h1>
+            @endif
             </div>
             <div class="col-xs-6 text-right">
                 {{--TODO: change language--}}
@@ -81,7 +63,7 @@
     <div class="container-fluid" id="footer">
         <div class="row">
             <div class="col-xs-12" style="padding-top:50px;padding-bottom:10px;">
-                @if(\App::environment() == 'local')
+                @if(!$options->company_name)
                     <b>Materialista</b>
                 @else
                     <b>{!! $options->company_name !!}</b>

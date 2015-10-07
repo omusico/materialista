@@ -50,6 +50,7 @@ Route::get('dashboard/config', ['as'=>'dashboard.config','uses'=>'AdminControlle
 Route::post('update/dev-options', ['as'=>'update.dev.options','uses'=>'AdminController@updateDevOptions']);
 Route::post('update/web-images', ['as'=>'update.web.images','uses'=>'AdminController@updateWebImages']);
 Route::post('update/web-info', ['as'=>'update.web.info','uses'=>'AdminController@updateWebInfo']);
+Route::post('update/search-options', ['as'=>'update.search.options','uses'=>'AdminController@updateSearchOptions']);
 
 //Development: view tables
 Route::get('table/{table_name}', ['as'=>'view.table','uses'=>'DeveloperController@showTable']);

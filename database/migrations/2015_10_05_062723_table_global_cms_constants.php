@@ -16,20 +16,19 @@ class TableGlobalCmsConstants extends Migration
             $table->increments('id');
 
             //cms options (DEV only)
-            $table->integer('n_ad_seeds',false,true)->default(0);
+            $table->integer('n_ad_seeds',false,true)->default(100);
             $table->integer('starting_year',false,true)->default(2015);
             $table->string('dev_version')->default('1.0');
             $table->string('dev_email')->default('dev@materialista.com');
 
-            //company options
+            //search options
+            $table->integer('search_distance',false,true)->default(25);
+
+            //company info
             $table->string('company_name')->default('Materialista');
             $table->string('company_description')->default('Oferta inmobiliaria');
             $table->string('public_logo')->nullable();
-            $table->integer('pl_height',false,true)->nullable();
-            $table->integer('pl_width',false,true)->nullable();
             $table->string('dashboard_logo')->nullable();
-            $table->integer('dl_height',false,true)->nullable();
-            $table->integer('dl_width',false,true)->nullable();
             $table->string('company_phone')->default('+34 123 45 67');
             $table->string('company_email')->default('info@materialista.com');
 

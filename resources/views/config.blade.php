@@ -101,6 +101,44 @@
             </div>
             @endif
 
+            <div class="portlet box yellow">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-search"></i>Opciones de búsqueda
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="{{ route('update.dev.options') }}" class="form-horizontal form-row-seperated">
+                        <div class="form-body">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Radio máximo de búsqueda (km)</label>
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="Por ejemplo: 25" class="form-control" name="search_distance" @if(isset($options->search_distance)) value="{!! $options->search_distance !!}" @endif />
+                                <span class="help-block">Radio máximo del área en la que se buscarán resultados cuando un usuario realice una b&uacute;squeda centrada en una direcci&oacute;n. Esta opción no tiene efecto sobre otros tipo de búsqueda.
+                                </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-6">
+                                    <a href="javascript:" id="save-search-options" class="btn green">Guardar cambios</a>
+                                    <span><img class="check-in-progress-3 hidden" src="{{ asset('img/loading-spinner-grey.gif') }}"/></span>
+                                    <i class="post-succeded-3 hidden fa fa-2x fa-check-circle"></i>
+                                    <i class="post-failed-3 hidden fa fa-2x fa-times-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
@@ -343,6 +381,8 @@
 
             var tokenVal = $('input[name=_token]').val();
             $('#save-dev-options').click(function() {
+                $('.post-succeded-0').addClass('hidden');
+                $('.post-failed-0').addClass('hidden');
                 $('.check-in-progress-0').removeClass('hidden');
                 $.post('/update/dev-options', {
                     _token: tokenVal,
@@ -362,6 +402,8 @@
             });
 
             $('#save-web-images').click(function() {
+                $('.post-succeded-1').addClass('hidden');
+                $('.post-failed-1').addClass('hidden');
                 $('.check-in-progress-1').removeClass('hidden');
                 $.ajax({
                     type: "POST",
@@ -383,6 +425,8 @@
             });
 
             $('#save-web-info').click(function() {
+                $('.post-succeded-2').addClass('hidden');
+                $('.post-failed-2').addClass('hidden');
                 $('.check-in-progress-2').removeClass('hidden');
                 $.post('/update/web-info', {
                     _token: tokenVal,
@@ -408,6 +452,24 @@
                     $('.check-in-progress-2').addClass('hidden');
                     $('.post-succeded-2').addClass('hidden');
                     $('.post-failed-2').removeClass('hidden');
+                });
+            });
+
+            $('#save-search-options').click(function() {
+                $('.post-succeded-3').addClass('hidden');
+                $('.post-failed-3').addClass('hidden');
+                $('.check-in-progress-3').removeClass('hidden');
+                $.post('/update/search-options', {
+                    _token: tokenVal,
+                    search_distance: $('input[name=search_distance]').val()
+                }, function(data) { //handle response
+                    $('.check-in-progress-3').addClass('hidden');
+                    $('.post-failed-3').addClass('hidden');
+                    $('.post-succeded-3').removeClass('hidden');
+                }).fail(function() {
+                    $('.check-in-progress-3').addClass('hidden');
+                    $('.post-succeded-3').addClass('hidden');
+                    $('.post-failed-3').removeClass('hidden');
                 });
             });
 

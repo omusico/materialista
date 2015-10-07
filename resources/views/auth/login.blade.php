@@ -10,10 +10,10 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
-    <title>@if(\App::environment() == 'local') Materialista | Login @else {!! $options->company_name !!} | Acceso @endif</title>
+    <title>@if(!$options->company_name) Materialista | Acceso @else {!! $options->company_name !!} | Acceso @endif</title>
 
-    @if(\App::environment() == 'local')
-        <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
+    @if(!$options->public_logo)
+    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
     @endif
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
@@ -63,8 +63,6 @@
             background-color: #F26721 !important;
             border-color: #F26721 !important;
         }
-
-        @if(\App::environment() == 'local')
         #logo {
             text-decoration:none;
         }
@@ -73,7 +71,6 @@
             font-size: 75px;
             color:#4A4A4A;
         }
-        @endif
     </style>
 </head>
 <body class="login">
@@ -81,7 +78,7 @@
     <div class="container">
         <div class="col-xs-offset-0 col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-4 col-md-4 text-center" style="margin-top:60px;">
             <a href="{{ route('home') }}" id="logo">
-            @if(\App::environment() == 'local')
+            @if(!$options->company_name)
                 <h1>Materialista</h1>
             @else
                 <img width="100%" src="{{ asset('img/logos') }}/{!! $options->public_logo !!}" alt="{!! $options->company_name !!}"/>
@@ -139,7 +136,7 @@
         <!-- END FORGOT PASSWORD FORM -->
     </div>
     <div class="copyright">
-        @if(\App::environment() == 'local')
+        @if(!$options->company_name)
             Materialista
         @else
             {!! $options->company_name !!}

@@ -1221,11 +1221,10 @@ class AdminController extends Controller {
             $file = \Input::file('public_logo');
             $filename = $timeStamp .'_'. \Input::file('public_logo')->getClientOriginalName();
             $path = public_path().'/img/logos/';
-            $file->move($path, $filename);
-            list($width, $height) = getimagesize('img/logos/' . $filename);
+            $file->move($path, $filename); //Save original image in public/img/logos
+            $img = \Image::make($path . $filename);
+            $img->heighten(120)->save($path . 'fit_' . $filename); //Fit original and save
             $options->public_logo = $filename;
-            $options->pl_height = $height;
-            $options->pl_width = $width;
         }
         if(\Input::hasFile('dashboard_logo')) {
             list($usec, $sec) = explode(" ", microtime());
@@ -1234,10 +1233,9 @@ class AdminController extends Controller {
             $filename = $timeStamp .'_'. \Input::file('dashboard_logo')->getClientOriginalName();
             $path = public_path().'/img/logos/';
             $file->move($path, $filename);
-            list($width, $height) = getimagesize('img/logos/' . $filename);
+            $img = \Image::make($path . $filename);
+            $img->heighten(35)->save($path . 'fit_' . $filename); //Fit original and save
             $options->dashboard_logo = $filename;
-            $options->dl_height = $height;
-            $options->dl_width = $width;
         }
 
         if($options->save())
@@ -1264,6 +1262,18 @@ class AdminController extends Controller {
         $options->admin_area_lvl1 = $input['admin_area_lvl1'];
         $options->country = $input['country'];
         $options->postal_code = $input['postal_code'];
+
+        if($options->save())
+            return \Response::json('success',200);
+        return \Response::json('error',400);
+    }
+
+    public function updateSearchOptions()
+    {
+        $input = \Input::all();
+
+        $options = Constants::first();
+        $options->search_distance = $input['seach_distance'];
 
         if($options->save())
             return \Response::json('success',200);

@@ -325,7 +325,7 @@ class HomeController extends Controller {
 
             // Geo-distance calculations
             $R = 6371.01; //radio de la tierra promedio (en km)
-            $distance = 25; //todo: set this as a constant in config file
+            $distance = \App\Constants::first()->search_distance;
             $r = $distance/$R; //ángulo en radianes que equivale a recorrer $distance sobre un círculo de radio $R
             $lat_r = deg2rad($location['lat']); //en rads
             $lng_r = deg2rad($location['lng']); //en rads

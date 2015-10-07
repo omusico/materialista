@@ -13,6 +13,9 @@
 
     @yield('title')
 
+    @if(!$options->dashboard_logo)
+    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
+    @endif
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/simple-line-icons.css') }}" />
@@ -24,22 +27,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/layout.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/darkblue.css') }}" id="style_color"/>
 
-    @if(\App::environment() == 'local')
-    <link href='http://fonts.googleapis.com/css?family=Dancing+Script' rel='stylesheet' type='text/css'>
-    <style>
-        #logo {
-            text-decoration: none;
-            color: #FFF;
-        }
-        #logo > h2, h1 {
-            font-family: 'Dancing Script', cursive;
-        }
-        h1 {
-            font-size: 136px;
-        }
-    </style>
-    @endif
-
     @yield('css')
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
@@ -48,12 +35,12 @@
     <div class="page-header navbar navbar-fixed-top">
         <div class="page-header-inner">
             <div class="page-logo">
-                <a id="logo" href="{{ route('home') }}" style="text-decoration:none;">
-                    @if(\App::environment() == 'local')
-                        <h2 style="margin:10px 0 0 0;padding:0;">Materialista</h2>
-                    @else
-                        <img src="{{ asset('img/logos') }}/{!! $options->dashboard_logo !!}" height="35" alt="{!! $options->company_name !!}" style="margin-top:5px;"/>
-                    @endif
+                <a id="logo" href="{{ route('home') }}" style="text-decoration:none;color: #FFF;">
+                @if(!$options->dashboard_logo)
+                    <h2 style="margin:10px 0 0 0;padding:0;font-family:'Dancing Script',cursive;">Materialista</h2>
+                @else
+                    <img src="{{ asset('img/logos') }}/fit_{!! $options->dashboard_logo !!}" height="35" alt="{!! $options->company_name !!}" style="margin-top:5px;"/>
+                @endif
                 </a>
                 <div class="menu-toggler sidebar-toggler hide">
                 </div>
@@ -129,7 +116,9 @@
         <!-- BEGIN CONTENT -->
         <div class="page-content-wrapper">
             <div class="page-content">
-            @yield('content')
+
+                @yield('content')
+
             </div>
         </div>
 
@@ -137,14 +126,13 @@
 
     <div class="page-footer">
         <div class="page-footer-inner">
-            @if(\App::environment() == 'local') Materialista @else {!! $options->company_name !!} @endif
-                &copy;
-                @if(\Carbon\Carbon::now()->format('Y') > $options->starting_year)
-                    {!! $options->starting_year !!}-{!! \Carbon\Carbon::now()->format('Y') !!}
-                @else
-                    {!! $options->starting_year !!}
-                @endif
-                - Gestor de oferta inmobiliaria v{!! $options->dev_version !!}
+            Verdesoft &copy;
+            @if(\Carbon\Carbon::now()->format('Y') > $options->starting_year)
+                {!! $options->starting_year !!}-{!! \Carbon\Carbon::now()->format('Y') !!}
+            @else
+                {!! $options->starting_year !!}
+            @endif
+            - Gestor de oferta inmobiliaria v{!! $options->dev_version !!}
         </div>
         <div class="scroll-to-top">
             <i class="icon-arrow-up"></i>
