@@ -34,6 +34,7 @@ Route::get('/resultados', ['as'=>'results','uses'=>'HomeController@getResults'])
 
 //Ad page
 Route::get('/anuncio/{id}', ['as'=>'ad.profile','uses'=>'HomeController@adProfile']);
+Route::post('/sendContactForm', ['as'=>'send.contact.form','uses'=>'HomeController@sendContactForm']);
 
 //Admin dashboard
 Route::get('/dashboard', ['as'=>'dashboard.home','uses'=>'AdminController@dashboard']);

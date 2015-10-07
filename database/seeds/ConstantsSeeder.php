@@ -14,7 +14,7 @@ class ConstantsSeeder extends Seeder
     {
         //commented or non-set values will default to those set in database/migrations
         App\Constants::create([
-            'n_ad_seeds'          => 0, //100
+            'n_ad_seeds'          => 10, //100
 //            'starting_year'       => , //2015
 //            'dev_version'         => '', //'1.0'
 //            'dev_email'           => '', //'dev@materialista.com'

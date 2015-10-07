@@ -108,7 +108,8 @@
 @endsection
 
 @section('content')
-    <label><input class="hidden" name="_token" value="{{ Session::token() }}"></label>
+    <input class="hidden" name="_token" value="{{ Session::token() }}">
+    <input class="hidden" name="ad_ref" value="{!! $ad->id !!}">
 
     {{--Title full row--}}
     <div class="container">
@@ -714,7 +715,7 @@
                     <h4 style="margin:0 0 3px 0;">Nuestras oficinas:</h4>
                     <span>{!! $options->route !!}, {!! $options->street_number !!}</span><br>
                     <span>{!! $options->locality !!}, {!! $options->postal_code !!}</span><br>
-                    <a href="https://maps.google.com?daddr=<?php foreach(preg_split('/[ \r\n]/',$options->formatted_address) as $piece) { echo $piece.'+'; } ?>" target="_blank">Cómo llegar</a>
+                    <a href="https://maps.google.com?daddr=<?php foreach(preg_split('/[ \r\n]/',$options->formatted_address) as $piece) { echo $piece.'+'; } ?>" style="font-weight:bold;" target="_blank">Cómo llegar</a>
                 </div>
             </div>
 
@@ -733,6 +734,7 @@
         var inputName = $('input[name=name]');
         var inputEmail = $('input[name=email]');
         var inputMessage = $('textarea[name=message]');
+        var ad_ref = $('input[name=ad_ref]').val();
         var submitForm = function() {
             //disable form
             inputName.prop('disabled', true);
@@ -742,12 +744,13 @@
             btnReset.prop('disabled', true);
             //show loading.gif
             ajaxLoader.removeClass('hidden');
-            $.post('/sendForm', {
+            $.post('/sendContactForm', {
                 '_token':       $('input[name=_token]').val(),
+                'ad_ref':       ad_ref,
                 contactName:    inputName.val(),
                 contactEmail:   inputEmail.val(),
                 contactMessage: inputMessage.val()
-            }).done(function(){
+            }).done(function(data){
                 //reset form
                 inputName.val('');
                 inputEmail.val('');

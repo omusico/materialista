@@ -759,4 +759,27 @@ class HomeController extends Controller {
 
         return view('ad',compact('ad','operation','typology'));
     }
+
+    public function sendContactForm()
+    {
+        $input = \Input::all();
+        $rules = [
+            'ad_ref' => 'required|numeric',
+            'contactName' => 'required|string|max:128',
+            'contactEmail' => 'required|email|max:512',
+            'contactMessage' => 'required|string|max:8192',
+        ];
+        $validator = \Validator::make($input, $rules);
+        if($validator->passes()) {
+            \Mail::queue('ad_contact', $input, function($message) use ($input) {
+                $options = \App\Constants::first();
+                $message->from($options->company_email,$options->company_name)
+                    ->replyTo($input['contactEmail'], $data['contactName'])
+                    ->to($options->company_email,$options->company_name)
+                    ->subject('Mensaje de '.$input['contactName'].' sobre anuncio #'.$input['ad_ref']);
+            });
+            return \Response::json('success',200);
+        }
+        return \Response::json('error',400);
+    }
 }

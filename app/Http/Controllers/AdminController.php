@@ -1273,7 +1273,7 @@ class AdminController extends Controller {
         $input = \Input::all();
 
         $options = Constants::first();
-        $options->search_distance = $input['seach_distance'];
+        $options->search_distance = $input['search_distance'];
 
         if($options->save())
             return \Response::json('success',200);
