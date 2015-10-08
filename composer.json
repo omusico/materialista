@@ -11,7 +11,8 @@
         "chd7well/bootstrap-wizard": "v0.0.3",
         "components/jquery": "2.1.4",
         "barryvdh/laravel-ide-helper": "v2.0.6",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "caffeinated/shinobi": "v1.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -764,10 +764,10 @@ class HomeController extends Controller {
     {
         $input = \Input::all();
         $rules = [
-            'ad_ref' => 'required|numeric',
-            'contactName' => 'required|string|max:128',
-            'contactEmail' => 'required|email|max:512',
-            'contactMessage' => 'required|string|max:8192',
+            'ad_ref'            => 'required|numeric',
+            'contactName'       => 'required|string|max:64',
+            'contactEmail'      => 'required|email|max:128',
+            'contactMessage'    => 'required|string|max:1024',
         ];
         $validator = \Validator::make($input, $rules);
         if($validator->passes()) {

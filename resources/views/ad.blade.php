@@ -687,17 +687,17 @@
                     <form id="contact-form" class="form-horizontal" action="javascript:submitForm();">
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" name="name" required="" type="text" placeholder="Su nombre">
+                                <input class="form-control" name="name" required="" type="text" placeholder="Su nombre" max="64">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" name="email" required="" type="email" placeholder="Su e-mail">
+                                <input class="form-control" name="email" required="" type="email" placeholder="Su e-mail" max="128">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <textarea class="form-control" name="message" rows="3" required="" placeholder="¿Tiene alguna duda? ¿Desea visitar el inmueble? ¿Desea realizar una oferta? ¡Pregúntenos!"></textarea>
+                                <textarea class="form-control" name="message" rows="3" required="" placeholder="¿Tiene alguna duda? ¿Desea visitar el inmueble? ¿Desea realizar una oferta? ¡Pregúntenos!" maxlength="1024"></textarea>
                             </div>
                         </div>
                         <div class="form-group">

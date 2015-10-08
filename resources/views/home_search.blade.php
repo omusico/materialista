@@ -59,7 +59,7 @@
         }
         .help-block {
             color: #676767;
-            margin: -1px 0 0 4px;
+            margin: 2px 0 0 4px;
             font-style: italic;
         }
         .form-inline > button,
